@@ -1,0 +1,15 @@
+[core]
+	editor = /usr/local/bin/emacs
+[user]
+	name = CrisFeo
+	email = cris@plaid.com
+[alias]
+	amend = commit --amend
+	forcepush = push origin HEAD --force
+	br = branch
+	co = checkout
+	st = status
+	ls = branch --list
+	log-fancy = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(cyan)<%an>%Creset' --abbrev-commit --date=relative
+[push]
+	default = simple
