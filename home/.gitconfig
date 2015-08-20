@@ -1,8 +1,9 @@
 [core]
 	editor = /usr/local/bin/emacs
+	excludesfile = ~/.gitignore_global
 [user]
 	name = CrisFeo
-	email = cris@plaid.com
+	email = cris.feo@gmail.com
 [alias]
 	amend = commit --amend
 	br = branch

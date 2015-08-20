@@ -1,3 +1,5 @@
+#! /bin/bash
+
 # Colors
 prompt-color-reset() {
     tput sgr0

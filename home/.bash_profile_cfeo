@@ -1,0 +1,18 @@
+#! /bin/bash
+
+# Env Vars
+export PATH=$PATH:~/bin
+
+export EDITOR=emacs
+
+# Utils
+source ~/.profile_scripts/utilities.sh
+
+# Sources
+source ~/.profile_scripts/git-completion.sh
+
+# Aliases
+source ~/.profile_scripts/aliases.sh
+
+# Prompt
+source ~/.profile_scripts/prompt.sh
