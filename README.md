@@ -2,6 +2,9 @@
 
 My personal dotfiles.
 
+![terminal](https://raw.github.com/CrisFeo/dotfiles/master/terminal.png)
+
+
 ## Instructions
 
 Run `./install.sh` to install all of the configs and required packages.
