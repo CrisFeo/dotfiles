@@ -112,8 +112,8 @@ function layoutMainMonitor() {
 S.on('screenConfigurationChanged' , layoutMainMonitor);
 
 S.bnda({
-  ']:ctrl,alt,cmd,shift'     : layoutMainMonitor,
-  'up:ctrl,alt,cmd,shift'    : desktopFull,
-  'left:ctrl,alt,cmd,shift'  : desktopLeft,
-  'right:ctrl,alt,cmd,shift' : desktopRight,
+  ']:ctrl,alt,cmd'     : layoutMainMonitor,
+  'up:ctrl,alt,cmd'    : desktopFull,
+  'left:ctrl,alt,cmd'  : desktopLeft,
+  'right:ctrl,alt,cmd' : desktopRight,
 });
