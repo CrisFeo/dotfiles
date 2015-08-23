@@ -1,5 +1,35 @@
-const TITLEBAR_HEIGHT = 20;
+// Slate Config
+// Find slate docs at:
+//  https://github.com/jigish/slate/wiki/JavaScript-Configs
 
+
+// Constants
+
+const PADDING_MONITOR = 60;
+const PADDING_LAPTOP = 20;
+const TITLEBAR_HEIGHT = 20;
+const MESSAGES_LIST_WIDTH = 89;
+const MESSAGES_WINDOW_WIDTH = 500;
+const MESSAGES_APPLICATION_NAME = 'Messages';
+const CHROME_APPLICATION_NAME = 'Google Chrome';
+const DIMENSIONS_LAPTOP = {
+  height: 900,
+  width: 1440
+};
+const DIMENSIONS_MONITOR = {
+  height: 1440,
+  width: 2560
+};
+
+
+// Helpers
+
+function extend(target, source) {
+  for (var property in source) {
+    target[property] = source[property];
+  }
+  return target;
+}
 
 function getMainScreen() {
   var mainScreen = null;
@@ -13,120 +43,168 @@ function getMainScreen() {
 
 function isLaptopScreen(window) {
   var rect = window.screen().rect();
-  return (rect.width  === 1440 &&
-          rect.height === 900);
+  return (rect.width  === DIMENSIONS_LAPTOP.width &&
+          rect.height === DIMENSIONS_LAPTOP.height);
 }
 
 function isMonitorScreen(window) {
   var rect = window.screen().rect();
-  return (rect.width  === 2560 &&
-          rect.height === 1440);
+  return (rect.width  === DIMENSIONS_MONITOR.width &&
+          rect.height === DIMENSIONS_MONITOR.height);
 }
 
 function getPadding(window) {
-  return isLaptopScreen(window) ? 20 : 80;
+  return isLaptopScreen(window) ? PADDING_LAPTOP : PADDING_MONITOR;
 }
+
+function getScreenRect(window) {
+  var screenRect = window.screen().rect();
+  return {
+    height: screenRect.height - TITLEBAR_HEIGHT,
+    width: screenRect.width,
+    x: screenRect.x,
+    y: screenRect.y
+  };
+}
+
+function moveWindow(window, options) {
+  var windowRect = window.rect(window);
+  var mergedOptions = extend({
+    x         : windowRect.x,
+    y         : windowRect.y,
+    width     : windowRect.width,
+    height    : windowRect.height
+  }, options);
+  window.doOperation('move', mergedOptions);
+}
+
+
+// Manipulation Functions
 
 var iMessageLeftRail = function(window) {
   var borderGap = getPadding(window);
-  var screenRect = window.screen().rect();
-  window.doOperation('move', {
+  var screenRect = getScreenRect(window);
+  moveWindow(window, {
     x         : borderGap,
     y         : borderGap + TITLEBAR_HEIGHT,
-    width     : '500',
-    height    : (screenRect.height - TITLEBAR_HEIGHT) - (borderGap * 2),
+    width     : MESSAGES_WINDOW_WIDTH,
+    height    : screenRect.height - (borderGap * 2),
     screen    : getMainScreen
   });
 };
 
 var mainContent = function(window) {
-  var msgListWidth = 89;
   var borderGap = getPadding(window);
-  var screenRect = window.screen().rect();
-  window.doOperation('move', {
-    x         : borderGap + msgListWidth,
+  var screenRect = getScreenRect(window);
+  moveWindow(window, {
+    x         : borderGap + MESSAGES_LIST_WIDTH,
     y         : borderGap + TITLEBAR_HEIGHT,
-    width     : screenRect.width - (borderGap * 2 + msgListWidth),
-    height    : (screenRect.height - TITLEBAR_HEIGHT) - (borderGap * 2),
+    width     : screenRect.width - (borderGap * 2 + MESSAGES_LIST_WIDTH),
+    height    : screenRect.height - (borderGap * 2),
     screen    : getMainScreen
   });
 };
 
 var desktopFull = function(window) {
   var borderGap = getPadding(window);
-  var screenRect = window.screen().rect();
-  window.doOperation('move', {
+  var screenRect = getScreenRect(window);
+  moveWindow(window, {
     x      : borderGap,
     y      : borderGap + TITLEBAR_HEIGHT,
     width  : screenRect.width - (borderGap * 2),
-    height : (screenRect.height - TITLEBAR_HEIGHT) - (borderGap * 2)
+    height : screenRect.height - (borderGap * 2)
+  });
+};
+
+var desktopLeftHalf = function(window) {
+  var borderGap = getPadding(window);
+  var screenRect = getScreenRect(window);
+  moveWindow(window, {
+    x      : borderGap,
+    y      : borderGap + TITLEBAR_HEIGHT,
+    width  : (screenRect.width / 2) - ((3/2) * borderGap),
+    height : screenRect.height - (borderGap * 2)
+  });
+};
+
+var desktopRightHalf = function(window) {
+  var borderGap = getPadding(window);
+  var screenRect = getScreenRect(window);
+  moveWindow(window, {
+    x      : (screenRect.width / 2) + (borderGap / 2),
+    y      : borderGap + TITLEBAR_HEIGHT,
+    width  : (screenRect.width / 2) - ((3/2) * borderGap),
+    height : screenRect.height - (borderGap * 2)
   });
 };
 
 var desktopLeft = function(window) {
   var borderGap = getPadding(window);
-  var screenRect = window.screen().rect();
-  window.doOperation('move', {
+  var screenRect = getScreenRect(window);
+  moveWindow(window, {
     x      : borderGap,
-    y      : borderGap + TITLEBAR_HEIGHT,
     width  : (screenRect.width / 2) - ((3/2) * borderGap),
-    height : (screenRect.height - TITLEBAR_HEIGHT) - (borderGap * 2)
   });
 };
 
 var desktopRight = function(window) {
   var borderGap = getPadding(window);
-  var screenRect = window.screen().rect();
-  window.doOperation('move', {
+  var screenRect = getScreenRect(window);
+  moveWindow(window, {
     x      : (screenRect.width / 2) + (borderGap / 2),
-    y      : borderGap + TITLEBAR_HEIGHT,
     width  : (screenRect.width / 2) - ((3/2) * borderGap),
-    height : (screenRect.height - TITLEBAR_HEIGHT) - (borderGap * 2)
   });
 };
 
 var desktopTop = function(window) {
   var borderGap = getPadding(window);
-  var screenRect = window.screen().rect();
+  var screenRect = getScreenRect(window);
   var windowRect = window.rect();
-  window.doOperation('move', {
-    x      : windowRect.x,
+  moveWindow(window, {
     y      : borderGap + TITLEBAR_HEIGHT,
-    width  : windowRect.width,
-    height : (screenRect.height / 2 - TITLEBAR_HEIGHT) - (borderGap / 2)
+    height : (screenRect.height / 2) - ((3/2) * borderGap)
   });
 };
 
 var desktopBottom = function(window) {
   var borderGap = getPadding(window);
-  var screenRect = window.screen().rect();
+  var screenRect = getScreenRect(window);
   var windowRect = window.rect();
-  window.doOperation('move', {
-    x      : windowRect.x,
+  moveWindow(window, {
     y      : (screenRect.height / 2 + TITLEBAR_HEIGHT) + (borderGap / 2),
-    width  : windowRect.width,
-    height : (screenRect.height / 2 - TITLEBAR_HEIGHT) - ((3/2) * borderGap)
+    height : (screenRect.height / 2) - ((3/2) * borderGap)
   });
 };
+
+
+// Layouts
 
 function layoutMainMonitor() {
   S.eachApp(function(app) {
     app.eachWindow(function(window) {
-      if (app.name() === 'Google Chrome') {
+      if (app.name() === CHROME_APPLICATION_NAME) {
         mainContent(window);
-      } else if (app.name() === 'Messages') {
+      } else if (app.name() === MESSAGES_APPLICATION_NAME) {
         iMessageLeftRail(window);
       }
     });
   });
 }
-S.on('screenConfigurationChanged' , layoutMainMonitor);
+
+// Events
+
+S.on('screenConfigurationChanged' , layoutMainMonitor); // Not working
+
+
+// Keys
 
 S.bnda({
-  ']:ctrl,alt,cmd'          : layoutMainMonitor,
-  'up:ctrl,alt,cmd'         : desktopFull,
-  'left:ctrl,alt,cmd'       : desktopLeft,
-  'right:ctrl,alt,cmd'      : desktopRight,
-  'up:ctrl,alt,cmd,shift'   : desktopTop,
-  'down:ctrl,alt,cmd,shift' : desktopBottom
+  ']:ctrl,alt,cmd'           : layoutMainMonitor,
+  'up:ctrl,alt,cmd'          : desktopFull,
+  'left:ctrl,alt,cmd'        : desktopLeftHalf,
+  'right:ctrl,alt,cmd'       : desktopRightHalf,
+  'left:ctrl,alt,cmd,shift'  : desktopLeft,
+  'right:ctrl,alt,cmd,shift' : desktopRight,
+  'up:ctrl,alt,cmd,shift'    : desktopTop,
+  'down:ctrl,alt,cmd,shift'  : desktopBottom
 });
