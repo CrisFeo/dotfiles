@@ -1,23 +1,5 @@
-S.configAll({
-  'gridBackgroundColor': '75;77;81;0.2',
-  'gridRoundedCornerSize': 1,
-  'gridCellRoundedCornerSize': 3
-});
+const TITLEBAR_HEIGHT = 20;
 
-var grid = S.op('grid', {
-    'grids': {
-	'2560x1440': {
-	    'width': 4,
-	    'height': 4
-	},
-	'1440x900': {
-	    'width': 4,
-	    'height': 4
-	}
-    },
-  'padding': 5
-});
-S.bind('1:ctrl,alt,cmd,shift', grid);
 
 function getMainScreen() {
   var mainScreen = null;
@@ -42,16 +24,17 @@ function isMonitorScreen(window) {
 }
 
 function getPadding(window) {
-  return isLaptopScreen(window) ? 20 : 90;
+  return isLaptopScreen(window) ? 20 : 80;
 }
 
 var iMessageLeftRail = function(window) {
   var borderGap = getPadding(window);
+  var screenRect = window.screen().rect();
   window.doOperation('move', {
     x         : borderGap,
-    y         : borderGap + 20,
+    y         : borderGap + TITLEBAR_HEIGHT,
     width     : '500',
-    height    : 'screenSizeY - ' + (borderGap * 2),
+    height    : (screenRect.height - TITLEBAR_HEIGHT) - (borderGap * 2),
     screen    : getMainScreen
   });
 };
@@ -59,42 +42,70 @@ var iMessageLeftRail = function(window) {
 var mainContent = function(window) {
   var msgListWidth = 89;
   var borderGap = getPadding(window);
+  var screenRect = window.screen().rect();
   window.doOperation('move', {
     x         : borderGap + msgListWidth,
-    y         : borderGap + 20,
-    width     : 'screenSizeX - ' + (borderGap * 2 + msgListWidth),
-    height    : 'screenSizeY - ' + (borderGap * 2),
+    y         : borderGap + TITLEBAR_HEIGHT,
+    width     : screenRect.width - (borderGap * 2 + msgListWidth),
+    height    : (screenRect.height - TITLEBAR_HEIGHT) - (borderGap * 2),
     screen    : getMainScreen
   });
 };
 
 var desktopFull = function(window) {
   var borderGap = getPadding(window);
+  var screenRect = window.screen().rect();
   window.doOperation('move', {
     x      : borderGap,
-    y      : borderGap + 20,
-    width  : 'screenSizeX - ' + (borderGap * 2),
-    height : 'screenSizeY - ' + (borderGap * 2)
+    y      : borderGap + TITLEBAR_HEIGHT,
+    width  : screenRect.width - (borderGap * 2),
+    height : (screenRect.height - TITLEBAR_HEIGHT) - (borderGap * 2)
   });
 };
 
 var desktopLeft = function(window) {
   var borderGap = getPadding(window);
+  var screenRect = window.screen().rect();
   window.doOperation('move', {
     x      : borderGap,
-    y      : borderGap + 20,
-    width  : '(screenSizeX / 2) - ' + ((3/2) * borderGap),
-    height : 'screenSizeY - ' + (borderGap * 2)
+    y      : borderGap + TITLEBAR_HEIGHT,
+    width  : (screenRect.width / 2) - ((3/2) * borderGap),
+    height : (screenRect.height - TITLEBAR_HEIGHT) - (borderGap * 2)
   });
 };
 
 var desktopRight = function(window) {
   var borderGap = getPadding(window);
+  var screenRect = window.screen().rect();
   window.doOperation('move', {
-    x      : '(screenSizeX / 2) + ' + (borderGap / 2),
-    y      : borderGap + 20,
-    width  : '(screenSizeX / 2) - ' + ((3/2) * borderGap),
-    height : 'screenSizeY - ' + (borderGap * 2)
+    x      : (screenRect.width / 2) + (borderGap / 2),
+    y      : borderGap + TITLEBAR_HEIGHT,
+    width  : (screenRect.width / 2) - ((3/2) * borderGap),
+    height : (screenRect.height - TITLEBAR_HEIGHT) - (borderGap * 2)
+  });
+};
+
+var desktopTop = function(window) {
+  var borderGap = getPadding(window);
+  var screenRect = window.screen().rect();
+  var windowRect = window.rect();
+  window.doOperation('move', {
+    x      : windowRect.x,
+    y      : borderGap + TITLEBAR_HEIGHT,
+    width  : windowRect.width,
+    height : (screenRect.height / 2 - TITLEBAR_HEIGHT) - (borderGap / 2)
+  });
+};
+
+var desktopBottom = function(window) {
+  var borderGap = getPadding(window);
+  var screenRect = window.screen().rect();
+  var windowRect = window.rect();
+  window.doOperation('move', {
+    x      : windowRect.x,
+    y      : (screenRect.height / 2 + TITLEBAR_HEIGHT) + (borderGap / 2),
+    width  : windowRect.width,
+    height : (screenRect.height / 2 - TITLEBAR_HEIGHT) - ((3/2) * borderGap)
   });
 };
 
@@ -112,8 +123,10 @@ function layoutMainMonitor() {
 S.on('screenConfigurationChanged' , layoutMainMonitor);
 
 S.bnda({
-  ']:ctrl,alt,cmd'     : layoutMainMonitor,
-  'up:ctrl,alt,cmd'    : desktopFull,
-  'left:ctrl,alt,cmd'  : desktopLeft,
-  'right:ctrl,alt,cmd' : desktopRight,
+  ']:ctrl,alt,cmd'          : layoutMainMonitor,
+  'up:ctrl,alt,cmd'         : desktopFull,
+  'left:ctrl,alt,cmd'       : desktopLeft,
+  'right:ctrl,alt,cmd'      : desktopRight,
+  'up:ctrl,alt,cmd,shift'   : desktopTop,
+  'down:ctrl,alt,cmd,shift' : desktopBottom
 });
