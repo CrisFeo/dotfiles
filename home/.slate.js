@@ -12,6 +12,7 @@ const MESSAGES_LIST_WIDTH = 89;
 const MESSAGES_WINDOW_WIDTH = 500;
 const MESSAGES_APPLICATION_NAME = 'Messages';
 const CHROME_APPLICATION_NAME = 'Google Chrome';
+const CHROME_HANGOUTS_WIDTH = 280;
 const DIMENSIONS_LAPTOP = {
   height: 900,
   width: 1440
@@ -183,7 +184,9 @@ function layoutMainMonitor() {
   S.eachApp(function(app) {
     app.eachWindow(function(window) {
       if (app.name() === CHROME_APPLICATION_NAME) {
-        mainContent(window);
+        if (window.rect().width !== CHROME_HANGOUTS_WIDTH){
+          mainContent(window);
+        }
       } else if (app.name() === MESSAGES_APPLICATION_NAME) {
         iMessageLeftRail(window);
       }
