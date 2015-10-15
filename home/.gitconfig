@@ -3,7 +3,7 @@
 	excludesfile = ~/.gitignore_global
 [user]
 	name = CrisFeo
-	email = cris.feo@gmail.com
+	email = feo.cris@gmail.com
 [alias]
 	amend = commit --amend
 	br = branch
@@ -15,5 +15,8 @@
 	push-head = push origin HEAD
 	force-push = push origin HEAD --force
 	log-fancy = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(cyan)<%an>%Creset' --abbrev-commit --date=relative
+	stage-file   = "!f() { t=${1-.}; git add $t; }; f"
+	unstage-file = "!f() { t=${1-.}; git reset HEAD -- $t; }; f"
+	undo         = "!f() { t=${1-.}; git checkout -- $t; }; f"
 [push]
 	default = simple

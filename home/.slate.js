@@ -72,10 +72,11 @@ function moveWindow(window, options) {
   var windowRect = window.rect(window);
   var mergedOptions = extend({
     x         : windowRect.x,
-    y         : windowRect.y,
+    y         : windowRect.y - TITLEBAR_HEIGHT,
     width     : windowRect.width,
     height    : windowRect.height
   }, options);
+  mergedOptions.y += TITLEBAR_HEIGHT;
   window.doOperation('move', mergedOptions);
 }
 
@@ -87,7 +88,7 @@ var iMessageLeftRail = function(window) {
   var screenRect = getScreenRect(window);
   moveWindow(window, {
     x         : borderGap,
-    y         : borderGap + TITLEBAR_HEIGHT,
+    y         : borderGap,
     width     : MESSAGES_WINDOW_WIDTH,
     height    : screenRect.height - (borderGap * 2),
     screen    : getMainScreen
@@ -99,7 +100,7 @@ var mainContent = function(window) {
   var screenRect = getScreenRect(window);
   moveWindow(window, {
     x         : borderGap + MESSAGES_LIST_WIDTH,
-    y         : borderGap + TITLEBAR_HEIGHT,
+    y         : borderGap,
     width     : screenRect.width - (borderGap * 2 + MESSAGES_LIST_WIDTH),
     height    : screenRect.height - (borderGap * 2),
     screen    : getMainScreen
@@ -111,9 +112,18 @@ var desktopFull = function(window) {
   var screenRect = getScreenRect(window);
   moveWindow(window, {
     x      : borderGap,
-    y      : borderGap + TITLEBAR_HEIGHT,
+    y      : borderGap,
     width  : screenRect.width - (borderGap * 2),
     height : screenRect.height - (borderGap * 2)
+  });
+};
+
+var desktopCenter = function(window) {
+  var screenRect = getScreenRect(window);
+  var windowRect = window.rect();
+  moveWindow(window, {
+    x      : (screenRect.width - windowRect.width) / 2,
+    y      : (screenRect.height - windowRect.height) / 2
   });
 };
 
@@ -122,7 +132,7 @@ var desktopLeftHalf = function(window) {
   var screenRect = getScreenRect(window);
   moveWindow(window, {
     x      : borderGap,
-    y      : borderGap + TITLEBAR_HEIGHT,
+    y      : borderGap,
     width  : (screenRect.width / 2) - ((3/2) * borderGap),
     height : screenRect.height - (borderGap * 2)
   });
@@ -133,7 +143,7 @@ var desktopRightHalf = function(window) {
   var screenRect = getScreenRect(window);
   moveWindow(window, {
     x      : (screenRect.width / 2) + (borderGap / 2),
-    y      : borderGap + TITLEBAR_HEIGHT,
+    y      : borderGap,
     width  : (screenRect.width / 2) - ((3/2) * borderGap),
     height : screenRect.height - (borderGap * 2)
   });
@@ -162,7 +172,7 @@ var desktopTop = function(window) {
   var screenRect = getScreenRect(window);
   var windowRect = window.rect();
   moveWindow(window, {
-    y      : borderGap + TITLEBAR_HEIGHT,
+    y      : borderGap,
     height : (screenRect.height / 2) - ((3/2) * borderGap)
   });
 };
@@ -172,7 +182,7 @@ var desktopBottom = function(window) {
   var screenRect = getScreenRect(window);
   var windowRect = window.rect();
   moveWindow(window, {
-    y      : (screenRect.height / 2 + TITLEBAR_HEIGHT) + (borderGap / 2),
+    y      : (screenRect.height / 2) + (borderGap / 2),
     height : (screenRect.height / 2) - ((3/2) * borderGap)
   });
 };
@@ -204,6 +214,7 @@ S.on('screenConfigurationChanged' , layoutMainMonitor); // Not working
 S.bnda({
   ']:ctrl,alt,cmd'           : layoutMainMonitor,
   'up:ctrl,alt,cmd'          : desktopFull,
+  'down:ctrl,alt,cmd'        : desktopCenter,
   'left:ctrl,alt,cmd'        : desktopLeftHalf,
   'right:ctrl,alt,cmd'       : desktopRightHalf,
   'left:ctrl,alt,cmd,shift'  : desktopLeft,
