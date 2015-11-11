@@ -15,14 +15,14 @@ prompt-color-git() {
     tput setaf 2
 }
 
+prompt-color-jobs() {
+    prompt-color-reset
+    tput setaf 5
+}
+
 prompt-color-cd() {
     prompt-color-reset
     tput setaf 3
-}
-
-prompt-color-success() {
-    prompt-color-reset
-    tput setaf 2
 }
 
 prompt-color-failure() {
@@ -37,6 +37,13 @@ prompt-segment-git() {
     if [ "$branch" != "" ]; then
 	echo "┤($(prompt-color-git)$(prompt-color-fg)) $(prompt-color-git)$branch$(prompt-color-fg) ├"
     fi
+}
+
+prompt-segment-jobs() {
+  jobs=`jobs | wc -l | cut -b 8`
+  if [ "$jobs" != "0" ]; then
+      echo "┤($(prompt-color-jobs)J$(prompt-color-fg)) $(prompt-color-jobs)$jobs$(prompt-color-fg) ├"
+  fi
 }
 
 prompt-segment-exit-code() {
@@ -54,4 +61,4 @@ prompt-command() {
 
 # The complete prompt
 PROMPT_COMMAND='prompt-command'
-PS1='$(prompt-color-fg)┌─$(prompt-segment-exit-code)$(prompt-segment-git)─┤($(prompt-color-cd)$(prompt-color-fg)) $(prompt-color-cd)\w\n\[$(prompt-color-fg)\]└─►\[$(prompt-color-reset)\] '
+PS1='$(prompt-color-fg)┌─$(prompt-segment-jobs)$(prompt-segment-exit-code)$(prompt-segment-git)─┤($(prompt-color-cd)$(prompt-color-fg)) $(prompt-color-cd)\w\n\[$(prompt-color-fg)\]└─►\[$(prompt-color-reset)\] '

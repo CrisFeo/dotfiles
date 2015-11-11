@@ -33,6 +33,7 @@
 *~
 *.sublime-project
 *.sublime-workspace
+tags
 
 # OS generated files #
 ######################

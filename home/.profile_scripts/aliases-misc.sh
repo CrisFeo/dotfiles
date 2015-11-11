@@ -27,6 +27,16 @@ function us-grep {
 }
 
 
+# Servers
+function start-server {
+  http-server -p "$1"
+}
+
+function start-server-ssl {
+  http-server -p "$1" -S -C "$HOME/.ssl/server.crt" -K "$HOME/.ssl/server.key"
+}
+
+
 # Utils
 alias reload-profile="source ~/.bash_profile_cfeo"
 alias ped='perl -p -e'

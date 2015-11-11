@@ -1,0 +1,1 @@
+:set prompt "\ESC[34m\STX%s \ESC[33m\STX─► \ESC[m\STX"
