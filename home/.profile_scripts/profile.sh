@@ -1,10 +1,16 @@
 #! /bin/bash
 
-## Global Env Vars
+## Global env vars
 export PATH=$PATH:$HOME/bin
 export EDITOR=emacs
 
 
+## Tmux-specific env vars
+if { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
+   export IGNOREEOF=1
+fi
+
+   
 ## Completions
 source "$HOME/.profile_scripts/completion-git.sh"
 

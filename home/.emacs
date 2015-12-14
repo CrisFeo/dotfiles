@@ -15,29 +15,32 @@
 (menu-bar-mode -1)
 (setq-default mode-line-format (list
 				"–––(▤) "
-				'(:eval (propertize "%b" 'face '(:background "yellow")))
+				'(:eval (propertize "%b" 'face '(:foreground "green")))
 				" ––––––––(⌥) "
-				'(:eval (propertize mode-name 'face '(:background "yellow")))
+				'(:eval (propertize mode-name 'face '(:foreground "red")))
 				" ––––––––(✜) "
-				'(:eval (propertize "%l:%c" 'face '(:background "yellow")))))
+				'(:eval (propertize "%l:%c" 'face '(:foreground "yellow")))))
 
 (set-background-color "black")
 (set-foreground-color "white")
-(set-cursor-color "white")
-(set-border-color "white")
-(set-mouse-color "white")
+(set-cursor-color "brightwhite")
+(set-border-color "brightwhite")
+(set-mouse-color "brightwhite")
 
 (set-face-background 'default "black")
 (set-face-foreground 'default "white")
 
-(set-face-background 'region "blue")
-(set-face-foreground 'region "white")
+(set-face-background 'region "green")
+(set-face-foreground 'region "brightblack")
 
-(set-face-background 'highlight "blue")
-(set-face-foreground 'highlight "white")
+(set-face-background 'highlight "green")
+(set-face-foreground 'highlight "brightblack")
 
-(set-face-background 'mode-line "blue")
-(set-face-foreground 'mode-line "black")
+(set-face-background 'mode-line "color-236")
+(set-face-foreground 'mode-line "color-250")
+
+(set-face-background 'mode-line-inactive "color-236")
+(set-face-foreground 'mode-line-inactive "color-250")
 
 ;; Modes
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))

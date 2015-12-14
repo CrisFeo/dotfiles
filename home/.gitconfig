@@ -1,5 +1,5 @@
 [core]
-	editor = /usr/local/bin/emacs
+	editor = env TERM="xterm-256color" /usr/local/bin/emacs
 	excludesfile = ~/.gitignore_global
 [user]
 	name = CrisFeo

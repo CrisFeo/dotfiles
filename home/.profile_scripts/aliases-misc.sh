@@ -38,10 +38,12 @@ function start-server-ssl {
 
 
 # Utils
-alias reload-profile="source ~/.bash_profile_cfeo"
+alias reload-profile="source ~/.bash_profile"
 alias ped='perl -p -e'
 alias hline='printf "%0.s─" $(seq 1 `tput cols`)'
 alias zzz='pmset sleepnow'
 alias us='underscore'
 alias fig='figlet -w `tput cols`'
 alias ip="ifconfig | grep 'inet '"
+alias emacs='TERM=xterm-256color emacs'
+alias node-repl="env NODE_NO_READLINE=1 rlwrap node --harmony"
