@@ -24,7 +24,7 @@ truncate_str()
 {
   char_count=`echo "$2" | wc -c`
   if [ "$char_count" -gt "$1" ]; then
-    printf '%s...' `cut -c -"$1" <<< "$2"`
+    printf '%s...' "`cut -c -"$1" <<< "$2"`"
   else
     printf '%s' "$2"
   fi
