@@ -17,7 +17,7 @@ from_msec()
   hour=$(($1/(60*60*1000)))
   min=$((($1%(60*60*1000))/(60*1000)))
   sec=$((($1%(60*1000))/1000))
-  printf '%i:%02i:%02i' $hour $min $sec | sed 's/^[0:]*//'
+  printf '%i:%02i:%02i' $hour $min $sec | sed -E 's/^0+:0?//'
 }
 
 truncate_str()
