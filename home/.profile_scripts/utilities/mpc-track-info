@@ -42,15 +42,19 @@ track_line2=`echo "$track_info" | tail -n +2 | head -n 1`
 
 track_title=`echo "$track_line1" | cut -d '~' -f 1`
 track_artist=`echo "$track_line1" | cut -d '~' -f 2`
+track_playing=`echo "$track_line2" | cut -d ' ' -f 1`
 track_time_elapsed=`echo "$track_line2" | cut -d ' ' -f 3 | cut -d '/' -f 1`
 track_time_total=`echo "$track_line2" | cut -d ' ' -f 3 | cut -d '/' -f 2`
+
+[[ "$track_playing" = '[playing]' ]] && play_status="▶ " || play_status="▌▌"
 
 elapsed=`to_msec "$track_time_elapsed"`
 total=`to_msec "$track_time_total"`
 remaining=$((total-elapsed))
 track_time_remaining=`from_msec $remaining`
 
-printf '%s │ %s │ %s'\
+printf ' %s %s │ %s │ %s'\
+       "$play_status"\
        "$track_time_remaining"\
        "`truncate_str 20 "$track_title"`"\
        "`truncate_str 20 "$track_artist"`"
