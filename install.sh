@@ -4,6 +4,7 @@
 # Homebrew Dependencies
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
+brew install ag
 brew install brew-cask
 brew install emacs
 brew install node
