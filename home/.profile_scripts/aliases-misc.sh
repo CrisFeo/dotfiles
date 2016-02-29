@@ -38,6 +38,7 @@ function start-server-ssl {
 
 
 # Utils
+alias mopidy-start='nohup mopidy > /dev/null 2>&1 &'
 alias reload-profile="source ~/.bash_profile"
 alias ped='perl -p -e'
 alias hline='printf "%0.s─" $(seq 1 `tput cols`)'
