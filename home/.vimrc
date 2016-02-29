@@ -8,6 +8,7 @@ syntax on
 
 " Basic Editing
 filetype plugin indent on
+set shortmess+=I
 set columns=80
 set tabstop=2
 set shiftwidth=2
