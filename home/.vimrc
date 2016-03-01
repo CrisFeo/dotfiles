@@ -10,7 +10,6 @@ syntax on
 " Basic Editing
 filetype plugin indent on
 set shortmess+=I
-set columns=80
 set tabstop=2
 set shiftwidth=2
 set expandtab
@@ -24,6 +23,10 @@ function! TrimWhiteSpace()
 endfunction
 autocmd BufWritePre * :call TrimWhiteSpace()
 match Todo /\s\+$/
+
+" Highlight lines that are too long
+highlight OverLength ctermbg=124 ctermfg=7
+match OverLength /\%81v.\+/
 
 " Fuzzy-finder
 so ~/.vim/scripts/fuzzy-finder.vim

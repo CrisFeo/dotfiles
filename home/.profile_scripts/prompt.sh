@@ -31,42 +31,69 @@ prompt-color-failure() {
 }
 
 
-# Settings
-prompt-width() {
-  tput cols
+# Prompt Segments
+
+render-segment() {
+  color=$1
+  icon=$2
+  value=$3
+  printf '┤(%s%s%s) %s%s%s ├─' "$($color)"          \
+                               "$icon"              \
+                               "$(prompt-color-fg)" \
+                               "$($color)"          \
+                               "$value"             \
+                               "$(prompt-color-fg)"
+
 }
 
-
-# Prompt Segments
 prompt-segment-git() {
   branch="$(git-current-branch)"
   if [ "$branch" != "" ]; then
-	  echo "┤($(prompt-color-git)$(prompt-color-fg)) $(prompt-color-git)$branch$(prompt-color-fg) ├"
+    render-segment "prompt-color-git" "" "$branch"
   fi
 }
 
 prompt-segment-jobs() {
-  jobs=$(jobs | wc -l | cut -b 8)
+  jobs="$(jobs | wc -l | cut -b 8)"
   if [ "$jobs" != "0" ]; then
-    echo "┤($(prompt-color-jobs)J$(prompt-color-fg)) $(prompt-color-jobs)$jobs$(prompt-color-fg) ├"
+    render-segment "prompt-color-jobs" "J" "$jobs"
   fi
 }
 
 prompt-segment-exit-code() {
   if [ "$EXIT_CODE" != 0 ]; then
-	  echo "┤($(prompt-color-failure)!$(prompt-color-fg)) $(prompt-color-failure)${EXIT_CODE}$(prompt-color-fg) ├─"
+    render-segment "prompt-color-failure" "!" "$EXIT_CODE"
   fi
+}
+
+prompt-segment-cd() {
+printf '┤(%s%s) %s%s%s' "$(prompt-color-cd)" \
+                         "$(prompt-color-fg)" \
+                         "$(prompt-color-cd)" \
+                         '\w' \
+                         "$(prompt-color-fg)"
 }
 
 
 # Prompts
 prompt-full() {
-  echo '$(prompt-color-fg)┌─$(prompt-segment-jobs)$(prompt-segment-exit-code)$(prompt-segment-git)─┤($(prompt-color-cd)$(prompt-color-fg)) $(prompt-color-cd)\w\n\[$(prompt-color-fg)\]└─►\[$(prompt-color-reset)\] '
+  segments="$(prompt-segment-jobs &&      \
+              prompt-segment-exit-code && \
+              prompt-segment-git &&       \
+              prompt-segment-cd)"
+  printf '%s┌─%s\n\[%s\]└─►\[%s\] '  "$(prompt-color-fg)"    \
+                                     "$segments"             \
+                                     "$(prompt-color-fg)"    \
+                                     "$(prompt-color-reset)"
 }
 
 
 prompt-small() {
-  echo '$(prompt-color-fg)┌╸$(prompt-color-cd)\w\n\[$(prompt-color-fg)\]└╸\[$(prompt-color-reset)\]'
+  printf '%s┌╸%s%s\n\[%s\]└╸\[%s\]' "$(prompt-color-fg)"    \
+                                    "$(prompt-color-cd)"    \
+                                    '\w'                    \
+                                    "$(prompt-color-fg)"    \
+                                    "$(prompt-color-reset)"
 }
 
 
@@ -74,9 +101,9 @@ prompt-small() {
 prompt-command() {
   export EXIT_CODE="$?"
   if [ "$(tput cols)" -lt '80' ]; then
-    PS1=$(prompt-small)
+    PS1="$(prompt-small)"
   else
-    PS1=$(prompt-full)
+    PS1="$(prompt-full)"
   fi
 }
 
