@@ -27,8 +27,8 @@ match Todo /\s\+$/
 
 " Fuzzy-finder
 so ~/.vim/scripts/fuzzy-finder.vim
-nmap <C-p> :call FufSetIgnore() <BAR> :FufFile **/<CR>
-nmap <S-p> :FufBuffer<CR>
+nmap <C-\> :call FufSetIgnore() <BAR> :FufFile **/<CR>
+nmap <Bar> :FufBuffer<CR>
 
 " Syntastic
 let g:syntastic_always_populate_loc_list = 1
@@ -36,7 +36,7 @@ let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_javascript_checkers = ['jsxhint']
-let syntastic_stl_format = " %E{%e error(s)} %W{%w warning(s)} "
+let g:syntastic_stl_format = " %E{%e error(s)} %W{%w warning(s)} "
 
 " Statusline
 set statusline=\ %f\ %m
@@ -56,3 +56,8 @@ endif
 " Set up an 'Ag' vim command
 command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 nmap \ :Ag<SPACE>
+
+" NERD Tree
+nmap <ESC>\ :NERDTreeToggle<CR>
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeIgnore=['\.DS_Store$']
