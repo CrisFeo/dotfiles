@@ -3,7 +3,8 @@ execute pathogen#infect()
 
 " Color Scheme
 set t_Co=256
-colo Wombat
+set background=dark
+colo Mustang
 syntax on
 
 " Basic Editing
