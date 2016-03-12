@@ -29,15 +29,16 @@ function us-grep {
 
 # Servers
 function start-server {
-  http-server -p "$1"
+  http-server -p "$@"
 }
 
 function start-server-ssl {
-  http-server -p "$1" -S -C "$HOME/.ssl/server.crt" -K "$HOME/.ssl/server.key"
+  http-server -p "$@" -S -C "$HOME/.ssl/server.crt" -K "$HOME/.ssl/server.key"
 }
 
 
 # Utils
+alias mopidy-start='nohup mopidy > /dev/null 2>&1 &'
 alias reload-profile="source ~/.bash_profile"
 alias ped='perl -p -e'
 alias hline='printf "%0.s─" $(seq 1 `tput cols`)'

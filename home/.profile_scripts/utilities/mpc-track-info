@@ -46,7 +46,7 @@ track_playing=`echo "$track_line2" | cut -d ' ' -f 1`
 track_time_elapsed=`echo "$track_line2" | cut -d ' ' -f 3 | cut -d '/' -f 1`
 track_time_total=`echo "$track_line2" | cut -d ' ' -f 3 | cut -d '/' -f 2`
 
-[[ "$track_playing" = '[playing]' ]] && play_status="▶ " || play_status="▌▌"
+[[ "$track_playing" = '[playing]' ]] && play_status="▶ " || play_status="❚❚"
 
 elapsed=`to_msec "$track_time_elapsed"`
 total=`to_msec "$track_time_total"`
