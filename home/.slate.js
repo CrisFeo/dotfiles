@@ -8,11 +8,13 @@
 const PADDING_MONITOR = 60;
 const PADDING_LAPTOP = 20;
 const TITLEBAR_HEIGHT = 20;
+const MESSAGES_APPLICATION_NAME = 'Messages';
 const MESSAGES_LIST_WIDTH = 89;
 const MESSAGES_WINDOW_WIDTH = 500;
-const MESSAGES_APPLICATION_NAME = 'Messages';
 const CHROME_APPLICATION_NAME = 'Google Chrome';
 const CHROME_HANGOUTS_WIDTH = 280;
+const ATOM_APPLICATION_NAME = 'Atom';
+const ATOM_WINDOW_WIDTH = 750;
 const DIMENSIONS_LAPTOP = {
   height: 900,
   width: 1440
@@ -80,6 +82,16 @@ function moveWindow(window, options) {
   window.doOperation('move', mergedOptions);
 }
 
+function getAllWindows() {
+  var windows = [];
+  S.eachApp(function(app) {
+    app.eachWindow(function(window) {
+      windows.push(window);
+    });
+  });
+  return windows;
+}
+
 
 // Manipulation Functions
 
@@ -94,6 +106,17 @@ var iMessageLeftRail = function(window) {
     screen    : getMainScreen
   });
 };
+
+var atomSoloWindow = function(window) {
+  var borderGap = getPadding(window);
+  var screenRect = getScreenRect(window);
+  moveWindow(window, {
+    x      : (screenRect.width - ATOM_WINDOW_WIDTH) / 2,
+    y      : borderGap,
+    width  : ATOM_WINDOW_WIDTH,
+    height : screenRect.height - (borderGap * 2)
+  });
+}
 
 var mainContent = function(window) {
   var borderGap = getPadding(window);
@@ -191,16 +214,18 @@ var desktopBottom = function(window) {
 // Layouts
 
 function layoutMainMonitor() {
-  S.eachApp(function(app) {
-    app.eachWindow(function(window) {
-      if (app.name() === CHROME_APPLICATION_NAME) {
+  var allWindows = getAllWindows();
+  allWindows.forEach(function(window) {
+    var app = window.app();
+    switch(app.name()) {
+      case CHROME_APPLICATION_NAME:
         if (window.rect().width !== CHROME_HANGOUTS_WIDTH){
           mainContent(window);
         }
-      } else if (app.name() === MESSAGES_APPLICATION_NAME) {
-        iMessageLeftRail(window);
-      }
-    });
+      break;
+      case MESSAGES_APPLICATION_NAME: iMessageLeftRail(window); break;
+      case ATOM_APPLICATION_NAME: atomSoloWindow(window); break;
+    }
   });
 }
 

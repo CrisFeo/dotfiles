@@ -45,6 +45,3 @@ tags
 ehthumbs.db
 Thumbs.db
 
-# Environment files #
-#####################
-.jshintrc
