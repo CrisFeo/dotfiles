@@ -1,7 +1,7 @@
 #! /bin/bash
 
 ## Global env vars
-export PATH=$PATH:$HOME/bin
+export PATH=$PATH:$HOME/bin:$HOME/.cabal/bin
 export EDITOR=vim
 export FZF_DEFAULT_COMMAND='ag -l -f --hidden'
 

@@ -13,6 +13,9 @@ brew install node
 brew install reattach-to-user-namespace
 brew install tmux
 brew install watch
+brew install mopidy
+brew install mpc
+brew install ncmpcpp
 
 brew cask install "mattr-slate"
 brew cask install "iterm2"

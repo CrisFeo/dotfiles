@@ -1,5 +1,6 @@
 (require 'package)
-(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -10,16 +11,17 @@
     (("gnu" . "http://elpa.gnu.org/packages/")
      ("melpa-stable" . "http://stable.melpa.org/packages/")))))
 
+
 ;; UI
 
 (menu-bar-mode -1)
 (setq-default mode-line-format (list
-				"–––(▤) "
-				'(:eval (propertize "%b" 'face '(:foreground "green")))
-				" ––––––––(⌥) "
-				'(:eval (propertize mode-name 'face '(:foreground "red")))
-				" ––––––––(✜) "
-				'(:eval (propertize "%l:%c" 'face '(:foreground "yellow")))))
+                                "–––(▤) "
+                                '(:eval (propertize "%b" 'face '(:foreground "green")))
+                                " ––––––––(⌥) "
+                                '(:eval (propertize mode-name 'face '(:foreground "red")))
+                                " ––––––––(✜) "
+                                '(:eval (propertize "%l:%c" 'face '(:foreground "yellow")))))
 
 (set-background-color "black")
 (set-foreground-color "white")
@@ -42,8 +44,14 @@
 (set-face-background 'mode-line-inactive "color-236")
 (set-face-foreground 'mode-line-inactive "color-250")
 
-;; Modes
+;; Modes hooks
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+(add-hook 'text-mode-hook' (lambda ()
+  (setq indent-tabs-mode nil)
+  (setq tab-width 2)
+  (setq indent-line-function (quote insert-tab))))
+(add-hook 'before-save-hook 'whitespace-cleanup)
 
 ;; Indents
 (setq-default indent-tabs-mode nil)
@@ -51,9 +59,3 @@
 (setq c-basic-offset 2)
 (setq sh-basic-offset 2)
 (setq cperl-indent-level 2)
-
-;; Mode Hooks
-(add-hook 'text-mode-hook'(lambda ()
-  (setq indent-tabs-mode nil)
-  (setq tab-width 2)
-  (setq indent-line-function (quote insert-tab))))
