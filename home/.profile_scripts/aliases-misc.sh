@@ -17,6 +17,14 @@ function mx-workspace {
 }
 
 
+# Formatting
+function crop-text {
+  lines="$(tput lines)"
+  cols="$( tput cols)"
+  echo -n "$1" | fold -s -w "$cols" | head -n "$lines"
+}
+
+
 # Underscore-cli
 function us-sed {
   underscore --infmt=text --outfmt=text map "value.replace($1, '$2')"
@@ -34,6 +42,45 @@ function start-server {
 
 function start-server-ssl {
   http-server -p "$@" -S -C "$HOME/.ssl/server.crt" -K "$HOME/.ssl/server.key"
+}
+
+
+# Watching
+watch-command() {
+  interval="$1"
+  cmd="$2"
+  last=""
+  while true; do
+    output=$(eval "$cmd" 2>&1 || :)
+    if [ "$output" != "$last" ]; then
+      results="$(crop-text "$output")"
+      clear
+      echo -n "$results"
+    fi
+    last="$output"
+    sleep "$interval"
+  done
+}
+
+
+# Calendars
+agenda() {
+  calendar="$1"
+  if [ "$calendar" == '' ]; then
+    gcalcli list
+  else
+    today="$(date '+%m/%d/%Y')"
+    tomorrow="$(date -v+1d '+%m/%d/%Y')"
+    gcalcli --calendar "$calendar" agenda "$today" "$tomorrow"
+  fi
+}
+
+agenda-cris() {
+  agenda cris@plaid.com
+}
+
+agenda-plaid() {
+  agenda Team
 }
 
 

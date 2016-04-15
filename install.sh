@@ -7,14 +7,15 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 brew install ag
 brew install brew-cask
 brew install emacs
+breq install fzf
 brew install macvim
 brew install node
 brew install reattach-to-user-namespace
 brew install tmux
 brew install watch
 
-brew-cask install atom
-brew-cask install "mattr-slate"
+brew cask install "mattr-slate"
+brew cask install "iterm2"
 
 
 # NPM Dependencies

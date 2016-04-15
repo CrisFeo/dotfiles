@@ -1,4 +1,5 @@
 " Plugin Bundles
+let g:pathogen_disabled = []
 execute pathogen#infect()
 
 " Color Scheme
@@ -7,8 +8,13 @@ set background=dark
 colo Mustang
 syntax on
 
+" Shell
+set shell=/bin/bash\ -l
+
 " Basic Editing
 filetype plugin indent on
+set timeoutlen=100
+set synmaxcol=120
 set shortmess+=I
 set tabstop=2
 set shiftwidth=2
@@ -17,37 +23,31 @@ set autoindent
 set number
 set autoread
 set hidden
-au CursorHold * checktime
 function! TrimWhiteSpace()
   %s/\s\+$//e
 endfunction
 autocmd BufWritePre * :call TrimWhiteSpace()
 match Todo /\s\+$/
 
-" Highlight lines that are too long
-highlight OverLength ctermbg=124 ctermfg=7
-match OverLength /\%81v.\+/
+" Highlight cursor line
+highlight CursorLine ctermbg=236 cterm=NONE
+highlight CursorColumn guibg=#3c414c ctermbg=236
+set cursorline
 
-" Fuzzy-finder
-so ~/.vim/scripts/fuzzy-finder.vim
-nmap <C-\> :call FufSetIgnore() <BAR> :FufFile **/<CR>
-nmap <Bar> :FufBuffer<CR>
-
-" Syntastic
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-let g:syntastic_javascript_checkers = ['jsxhint']
-let g:syntastic_stl_format = " %E{%e error(s)} %W{%w warning(s)} "
+" Fzf (Fuzzy Finder)
+set rtp+=/usr/local/opt/fzf
+let g:fzf_layout = { 'top': '~100%', 'options': '--reverse --color=16,bg+:-1' }
+nmap \ :call fzf#vim#ag({},{'options': '--exact --reverse --color=16,bg+:-1'})<CR>
+nmap <C-\> :Files<CR>
+nmap <Bar> :Buffers<CR>
 
 " Statusline
-set statusline=\ %f\ %m
+set statusline=•\ %f\ %m
 set statusline+=%=
 set statusline+=%#StatusLineErr#
-set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-set statusline+=\ %l:%c\
+set statusline+=\ %l:%c\ •
 
 " Use ag instead of grep
 if executable('ag')
@@ -55,10 +55,6 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
   let g:ctrlp_use_caching = 0
 endif
-
-" Set up an 'Ag' vim command
-command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-nmap \ :Ag<SPACE>
 
 " NERD Tree
 nmap <ESC>\ :NERDTreeToggle<CR>

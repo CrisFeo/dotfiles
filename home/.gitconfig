@@ -1,5 +1,5 @@
 [core]
-	editor = env TERM="xterm-256color" /usr/local/bin/emacs
+	editor = vim
 	excludesfile = ~/.gitignore_global
 [user]
 	name = CrisFeo
@@ -15,6 +15,7 @@
 	push-head = push origin HEAD
 	force-push = push origin HEAD --force
 	log-fancy = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(cyan)<%an>%Creset' --abbrev-commit --date=relative
+  diff-words = diff --color-words=.
 	stage-file   = "!f() { t=${1-.}; git add $t; }; f"
 	unstage-file = "!f() { t=${1-.}; git reset HEAD -- $t; }; f"
 	undo         = "!f() { t=${1-.}; git checkout -- $t; }; f"

@@ -56,18 +56,18 @@ prompt-segment-git() {
 prompt-segment-jobs() {
   jobs="$(jobs | wc -l | cut -b 8)"
   if [ "$jobs" != "0" ]; then
-    render-segment "prompt-color-jobs" "J" "$jobs"
+    render-segment "prompt-color-jobs" "" "$jobs"
   fi
 }
 
 prompt-segment-exit-code() {
   if [ "$EXIT_CODE" != 0 ]; then
-    render-segment "prompt-color-failure" "!" "$EXIT_CODE"
+    render-segment "prompt-color-failure" "" "$EXIT_CODE"
   fi
 }
 
 prompt-segment-cd() {
-printf '┤(%s%s) %s%s%s' "$(prompt-color-cd)" \
+printf '┤(%s%s) %s%s%s' "$(prompt-color-cd)" \
                          "$(prompt-color-fg)" \
                          "$(prompt-color-cd)" \
                          '\w' \
