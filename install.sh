@@ -7,7 +7,7 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 brew install ag
 brew install brew-cask
 brew install emacs
-breq install fzf
+brew install fzf
 brew install macvim
 brew install node
 brew install reattach-to-user-namespace
