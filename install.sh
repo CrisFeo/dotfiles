@@ -8,7 +8,8 @@ brew install ag
 brew install brew-cask
 brew install emacs
 brew install fzf
-brew install macvim
+brew install git
+brew install nvim
 brew install node
 brew install reattach-to-user-namespace
 brew install tmux

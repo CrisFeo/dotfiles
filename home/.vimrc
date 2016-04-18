@@ -9,7 +9,7 @@ colo Mustang
 syntax on
 
 " Shell
-set shell=/bin/bash\ -l
+"set shell=/bin/bash\ -l
 
 " Basic Editing
 filetype plugin indent on
@@ -36,18 +36,31 @@ set cursorline
 
 " Fzf (Fuzzy Finder)
 set rtp+=/usr/local/opt/fzf
-let g:fzf_layout = { 'top': '~100%', 'options': '--reverse --color=16,bg+:-1' }
-nmap \ :call fzf#vim#ag({},{'options': '--exact --reverse --color=16,bg+:-1'})<CR>
-nmap <C-\> :Files<CR>
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore ".git/" -l'
+let g:fzf_layout = { 'down': '~50%', 'options': '--color=16,bg+:-1' }
+nmap \ :call fzf#vim#ag({},{'options': '--exact --color=16,bg+:-1'})<CR>
+nmap <C-\> :call fzf#vim#files('.', {'top': '100%','options': '--color=16,bg+:-1' })<CR>
 nmap <Bar> :Buffers<CR>
 
+" Neomake
+let g:neomake_verbose = 0
+let g:neomake_warning_sign = {
+  \ 'text': '',
+  \ 'texthl': 'WarningMsg',
+  \ }
+let g:neomake_error_sign = {
+  \ 'text': '',
+  \ 'texthl': 'ErrorMsg',
+  \ }
+autocmd! BufWritePost,BufEnter * Neomake
+
+
 " Statusline
-set statusline=•\ %f\ %m
+set statusline=%f\ %m
 set statusline+=%=
 set statusline+=%#StatusLineErr#
-"set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-set statusline+=\ %l:%c\ •
+set statusline+=\ %l:%c
 
 " Use ag instead of grep
 if executable('ag')
@@ -57,6 +70,6 @@ if executable('ag')
 endif
 
 " NERD Tree
-nmap <ESC>\ :NERDTreeToggle<CR>
+nmap <M-\> :NERDTreeToggle<CR>
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeIgnore=['\.DS_Store$']

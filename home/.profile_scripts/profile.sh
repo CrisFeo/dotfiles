@@ -2,12 +2,13 @@
 
 ## Global env vars
 export PATH=$PATH:$HOME/bin:$HOME/.cabal/bin
-export EDITOR=vim
+export EDITOR=nvim
 export FZF_DEFAULT_COMMAND='ag -l -f --hidden'
 
 ## Tmux-specific env vars
 if { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
-   export IGNOREEOF=1
+  export TERM=xterm-256color
+  export IGNOREEOF=1
 fi
 
 

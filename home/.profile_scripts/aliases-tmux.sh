@@ -13,4 +13,6 @@ function layout-ide {
 
   tmux select-pane -t 2
   tmux select-pane -t 1
+
+  tmux rename-window "$(pwd | sed -E 's;^/Users/[^/]+/;;')"
 }
