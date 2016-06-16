@@ -23,9 +23,10 @@ endif
 
 " General colors
 hi Cursor 		guifg=NONE    guibg=#626262 gui=none ctermbg=241
-hi Normal 		guifg=#e2e2e5 guibg=#202020 gui=none ctermfg=253 ctermbg=234
-hi NonText 		guifg=#808080 guibg=#303030 gui=none ctermfg=244 ctermbg=235
+hi Normal 		guifg=#e2e2e5 guibg=#202020 gui=none ctermfg=253 ctermbg=233
+hi NonText 		guifg=#808080 guibg=#303030 gui=none ctermfg=244 ctermbg=233
 hi LineNr 		guifg=#808080 guibg=#000000 gui=none ctermfg=244 ctermbg=232
+hi Search     guibg=#e6ea50 ctermfg=233
 hi StatusLine 	guifg=#d3d3d5 guibg=#444444 gui=italic ctermfg=253 ctermbg=238 cterm=italic
 hi StatusLineNC guifg=#939395 guibg=#444444 gui=none ctermfg=246 ctermbg=238
 hi VertSplit 	guifg=#444444 guibg=#444444 gui=none ctermfg=238 ctermbg=238
@@ -48,7 +49,7 @@ hi Constant 	guifg=#ff9800 gui=none  ctermfg=208
 hi Number		guifg=#ff9800 gui=none ctermfg=208
 hi Special		guifg=#ff9800 gui=none ctermfg=208
 hi PreProc 		guifg=#faf4c6 gui=none ctermfg=230
-hi Todo         guifg=#000000 guibg=#e6ea50 gui=italic
+hi Todo         guifg=#000000 guibg=#e6ea50 ctermfg=233 gui=italic
 
 " Code-specific colors
 hi pythonOperator guifg=#7e8aa2 gui=none ctermfg=103

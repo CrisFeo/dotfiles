@@ -35,7 +35,7 @@ function git-graph {
       --abbrev-commit \
       --all \
       --decorate \
-      --format=format:'%C(blue)%h - %C(green)`(%ar)%C(yellow)%d%C(white)%n%w(76,10,10)%s'
+      --format=format:'%C(blue)%h - %C(green)(%ar)%C(yellow)%d%C(white)%n%w(76,10,10)%s'
 }
 
 function git-sync-origin {

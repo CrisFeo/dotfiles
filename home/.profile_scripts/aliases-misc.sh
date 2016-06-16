@@ -1,21 +1,15 @@
 #! /bin/bash
 
 
+FZF_COLORS='fg:230,bg:235,hl:106,fg+:230,bg+:235,hl+:106,info:106,prompt:106,spinner:230,pointer:106,marker:166'
+
 # Editors
-function tmux-workspace {
-  tmux new \; \
-       split-window 'bash -lc "git-watch-status" && bash -il' \; \
-       split-window 'bash -lc "git-watch-graph" && bash -il'  \; \
-       select-layout 'fc0f,178x39,0,0{99x39,0,0,215,78x39,100,0[78x24,100,0,216,78x14,100,25,217]}' \; \
-       select-pane -L
+function vim-open {
+  (cd "${1:-.}"                                                  && \
+  CHOSEN_FILES=$(ag --nocolor --hidden --ignore "./.git" -g "" |    \
+                 fzf --color=$FZF_COLORS --multi --cycle)        && \
+  xargs nvim <<< "$CHOSEN_FILES")
 }
-
-function mx-workspace {
-  echo -n -e "\033]0;${PWD##*/}\007" && \
-      tmux-workspace && \
-      echo -n -e "\033]0;\007"
-}
-
 
 # Formatting
 function crop-text {
@@ -47,9 +41,11 @@ function start-server-ssl {
 
 # Watching
 watch-command() {
+  (
   interval="$1"
   cmd="$2"
   last=""
+  trap 'clear; exit' 2 3
   while true; do
     output=$(eval "$cmd" 2>&1 || :)
     if [ "$output" != "$last" ]; then
@@ -60,6 +56,7 @@ watch-command() {
     last="$output"
     sleep "$interval"
   done
+  )
 }
 
 
@@ -95,3 +92,5 @@ alias fig='figlet -w `tput cols`'
 alias ip="ifconfig | grep 'inet '"
 alias emacs='TERM=xterm-256color emacs'
 alias node-repl="env NODE_NO_READLINE=1 rlwrap node --harmony"
+alias v='nvim'
+alias v-o='vim-open'

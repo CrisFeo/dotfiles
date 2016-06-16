@@ -2,13 +2,13 @@
 
 to_msec()
 {
-  read -r a b c <<< $(echo $1 | tr ':' ' ' )
+  read -r a b c <<< "$(echo "$1" | sed -E 's/:0+/:/' | tr ':' ' ' )"
   if [ -z "$b" ] && [ -z "$c" ]; then
-     printf $(($a*1000))
+     printf '%s' "$((a*1000))"
   elif [ -z "$c" ]; then
-    printf $((($a*60*1000)+($b*1000)))
+    printf '%s' "$(((a*60*1000)+(b*1000)))"
   else
-    printf $((($a*60*60*1000)+($b*60*1000)+($c*1000)))
+    printf '%s' "$(((a*60*60*1000)+(b*60*1000)+(c*1000)))"
   fi
 }
 
@@ -22,39 +22,37 @@ from_msec()
 
 truncate_str()
 {
-  char_count=`echo "$2" | wc -c`
-  if [ "$char_count" -gt "$1" ]; then
-    printf '%s...' "`cut -c -"$1" <<< "$2"`"
+  if [ "${#2}" -gt "$1" ]; then
+    printf '%s...' "$(cut -c -"$1" <<< "$2")"
   else
     printf '%s' "$2"
   fi
 }
 
 
-track_info=`mpc status -f '%title%~%artist%' | sed -E 's/ +/ /g'`
-track_info_lines=`echo "$track_info" | wc -l | sed 's/ //g'`
+track_info="$(mpc status -f '%title%~%artist%' | sed -E 's/ +/ /g')"
+track_info_lines="$(echo "$track_info" | wc -l | sed 's/ //g')"
 if [ "$track_info_lines" -eq "1" ] ;then
     exit
 fi
 
-track_line1=`echo "$track_info" | head -n 1`
-track_line2=`echo "$track_info" | tail -n +2 | head -n 1`
+track_line1="$(echo "$track_info" | head -n 1)"
+track_line2="$(echo "$track_info" | tail -n +2 | head -n 1)"
 
-track_title=`echo "$track_line1" | cut -d '~' -f 1`
-track_artist=`echo "$track_line1" | cut -d '~' -f 2`
-track_playing=`echo "$track_line2" | cut -d ' ' -f 1`
-track_time_elapsed=`echo "$track_line2" | cut -d ' ' -f 3 | cut -d '/' -f 1`
-track_time_total=`echo "$track_line2" | cut -d ' ' -f 3 | cut -d '/' -f 2`
+track_title="$(echo "$track_line1" | cut -d '~' -f 1)"
+track_artist="$(echo "$track_line1" | cut -d '~' -f 2)"
+track_playing="$(echo "$track_line2" | cut -d ' ' -f 1)"
+track_time_elapsed="$(echo "$track_line2" | cut -d ' ' -f 3 | cut -d '/' -f 1)"
+track_time_total="$(echo "$track_line2" | cut -d ' ' -f 3 | cut -d '/' -f 2)"
 
 [[ "$track_playing" = '[playing]' ]] && play_status="▶ " || play_status="❚❚"
 
-elapsed=`to_msec "$track_time_elapsed"`
-total=`to_msec "$track_time_total"`
-remaining=$((total-elapsed))
-track_time_remaining=`from_msec $remaining`
+elapsed="$(to_msec "$track_time_elapsed")"
+total="$(to_msec "$track_time_total")"
+remaining="$((total-elapsed))"
+track_time_remaining="$(from_msec $remaining)"
 
-printf ' %s %s │ %s │ %s'\
-       "$play_status"\
-       "$track_time_remaining"\
-       "`truncate_str 20 "$track_title"`"\
-       "`truncate_str 20 "$track_artist"`"
+printf ' %s %s │ %s │ %s' "$play_status" \
+                          "$track_time_remaining" \
+                          "$(truncate_str 20 "$track_title")" \
+                          "$(truncate_str 20 "$track_artist")"
