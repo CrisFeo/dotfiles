@@ -7,13 +7,10 @@ brewAdd() {
   brew install "$1" || brew upgrade "$1"
 }
 
-brewAddCask() {
-  brew cask install "$1" || brew cask upgrade "$1"
-}
-
-
 # Homebrew dependencies
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || :
+
+brew update
 
 brewAdd ag
 brewAdd brew-cask
@@ -23,21 +20,24 @@ brewAdd go
 brewAdd mopidy
 brewAdd mpc
 brewAdd ncmpcpp
-brewAdd node
-brewAdd nvim
+brewAdd neovim
+brewAdd nvm
 brewAdd reattach-to-user-namespace
 brewAdd tmux
 brewAdd watch
 
 brew tap caskroom/versions
 
-brewAddCask "karabiner"
-brewAddCask "iterm2-nightly"
-brewAddCask "mattr-slate"
-brewAddCask "seil"
+brew cask install "karabiner"
+brew cask install "iterm2-nightly"
+brew cask install "mattr-slate"
+brew cask install "seil"
 
 
-# NPM dependencies
+# Node dependencies
+# shellcheck source=/dev/null
+source "$HOME/.nvm/nvm.sh"
+nvm install node
 npm install -g http-server
 npm install -g underscore-cli
 
@@ -46,13 +46,12 @@ npm install -g underscore-cli
 pip install neovim
 
 
-# Install $HOME Dotfiles
-# Warning: this will delete existing files!
+# Install user Home dotfiles
 FILES_SOURCE=$(find "$PWD/home" -depth 1)
 FILES_DEST=${FILES_SOURCE//$PWD\/home/$HOME}
 cd "$HOME" || exit
-xargs -n 1 rm -r <<<"$FILES_DEST"
-xargs -n 1 ln -s <<<"$FILES_SOURCE"
+xargs -n 1 rm -r <<< "$FILES_DEST"
+xargs -n 1 ln -s <<< "$FILES_SOURCE"
 cd - || exit
 
 
@@ -64,9 +63,9 @@ ln -sf ./karabiner/private.xml "$DIR_PRIVATE_XML"
 
 
 # Neovim
-mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
-ln -sf ~/.vim $XDG_CONFIG_HOME/nvim
-cd $HOME/.vim || exit
+mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"
+ln -sf "$HOME/.vim" "$XDG_CONFIG_HOME/nvim"
+cd "$HOME/.vim" || exit
 ln -sf ../.vimrc ./init.vim
 cd - || exit
 
