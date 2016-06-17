@@ -1,1 +1,1 @@
-/Users/cfeo/.vimrc
+../.vimrc

@@ -3,6 +3,7 @@ let g:pathogen_disabled = []
 execute pathogen#infect()
 
 " Neovim options
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " Color scheme
@@ -91,7 +92,7 @@ endfunc
 autocmd! BufWritePost,BufEnter * :call SetEnabledMakers()
 
 
-" Pretty 'mode' function
+" Pretty statusline
 function! Mode()
   redraw
   let l:mode = mode()
