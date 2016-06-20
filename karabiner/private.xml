@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<root>
+  <item>
+    <name>Remap F19 to Hyper</name>
+    <appendix>
+      OS X doesn't have a Hyper. This maps F19 to Control + Option + Command.
+    </appendix>
+    <identifier>usercustom.f19_to_hyper</identifier>
+    <autogen>
+        --KeyToKey--
+        KeyCode::F19,
+
+        KeyCode::COMMAND_R,
+        ModifierFlag::OPTION_R | ModifierFlag::CONTROL_R
+    </autogen>
+  </item>
+  <item>
+    <name>Remap Fn + Control_L to Caps Lock</name>
+    <identifier>usercustom.fn_control_to_caps</identifier>
+    <autogen>
+        --KeyToKey--
+        KeyCode::CONTROL_L,
+        ModifierFlag::FN,
+
+        KeyCode::CAPSLOCK
+    </autogen>
+  </item>
+  <item>
+    <name>Change Option + / to ✓</name>
+    <identifier>private.option_slash_to_unicode_check</identifier>
+    <autogen>
+      __KeyToKey__
+      KeyCode::SLASH, ModifierFlag::OPTION_L,
+      KeyCode::VK_CHANGE_INPUTSOURCE_UNICODEHEXINPUT,
+      KeyCode::VK_WAIT_100MS,
+      KeyCode::KEY_2, ModifierFlag::OPTION_L,
+      KeyCode::KEY_7, ModifierFlag::OPTION_L,
+      KeyCode::KEY_1, ModifierFlag::OPTION_L,
+      KeyCode::KEY_3, ModifierFlag::OPTION_L,
+      KeyCode::VK_CHANGE_INPUTSOURCE_US,
+      Option::NOREPEAT
+    </autogen>
+  </item>
+  <item>
+    <name>Change Option + x to ✕</name>
+    <identifier>private.option_x_to_unicode_x</identifier>
+    <autogen>
+      __KeyToKey__
+      KeyCode::X, ModifierFlag::OPTION_L,
+      KeyCode::VK_CHANGE_INPUTSOURCE_UNICODEHEXINPUT,
+      KeyCode::VK_WAIT_100MS,
+      KeyCode::KEY_2, ModifierFlag::OPTION_L,
+      KeyCode::KEY_7, ModifierFlag::OPTION_L,
+      KeyCode::KEY_1, ModifierFlag::OPTION_L,
+      KeyCode::KEY_5, ModifierFlag::OPTION_L,
+      KeyCode::VK_CHANGE_INPUTSOURCE_US,
+      Option::NOREPEAT
+    </autogen>
+  </item>
+  <item>
+    <name>Disable parentheses</name>
+    <identifier>private.disable_parens</identifier>
+    <autogen>
+      __KeyToKey__
+      KeyCode::KEY_9, ModifierFlag::SHIFT_R,
+      KeyCode::Q, ModifierFlag::COMMAND_L
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::KEY_9, ModifierFlag::SHIFT_L,
+      KeyCode::Q, ModifierFlag::COMMAND_L
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::KEY_0, ModifierFlag::SHIFT_R,
+      KeyCode::Q, ModifierFlag::COMMAND_L
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::KEY_0, ModifierFlag::SHIFT_L,
+      KeyCode::Q, ModifierFlag::COMMAND_L
+    </autogen>
+  </item>
+  <item>
+    <name>Vim Mode On F</name>
+    <item>
+      <name>Vim Mode On F</name>
+      <identifier vk_config="true">notsave.vim_on_f</identifier>
+      <autogen>__KeyToKey__ KeyCode::H, KeyCode::CURSOR_LEFT</autogen>
+      <autogen>__KeyToKey__ KeyCode::J, KeyCode::CURSOR_DOWN</autogen>
+      <autogen>__KeyToKey__ KeyCode::K, KeyCode::CURSOR_UP</autogen>
+      <autogen>__KeyToKey__ KeyCode::L, KeyCode::CURSOR_RIGHT</autogen>
+    </item>
+    <item>
+      <name>Hold F to use vim arrow keys.</name>
+      <identifier>private.vim_on_f</identifier>
+      <autogen>
+        __KeyOverlaidModifier__ KeyCode::F,
+        KeyCode::VK_CONFIG_SYNC_KEYDOWNUP_notsave_vim_on_f,
+        KeyCode::F
+      </autogen>
+    </item>
+  </item>
+</root>

@@ -7,6 +7,7 @@ brewAdd() {
   brew install "$1" || brew upgrade "$1"
 }
 
+
 # Homebrew dependencies
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || :
 
