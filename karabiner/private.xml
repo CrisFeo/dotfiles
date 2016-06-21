@@ -82,22 +82,22 @@
     </autogen>
   </item>
   <item>
-    <name>Vim Mode On F</name>
+    <name>Vim Mode On Fn</name>
     <item>
-      <name>Vim Mode On F</name>
-      <identifier vk_config="true">notsave.vim_on_f</identifier>
+      <name>Vim Mode On Fn</name>
+      <identifier vk_config="true">notsave.vim_on_fn</identifier>
       <autogen>__KeyToKey__ KeyCode::H, KeyCode::CURSOR_LEFT</autogen>
       <autogen>__KeyToKey__ KeyCode::J, KeyCode::CURSOR_DOWN</autogen>
       <autogen>__KeyToKey__ KeyCode::K, KeyCode::CURSOR_UP</autogen>
       <autogen>__KeyToKey__ KeyCode::L, KeyCode::CURSOR_RIGHT</autogen>
     </item>
     <item>
-      <name>Hold F to use vim arrow keys.</name>
-      <identifier>private.vim_on_f</identifier>
+      <name>Hold Fn to use vim arrow keys.</name>
+      <identifier>private.vim_on_fn</identifier>
       <autogen>
-        __KeyOverlaidModifier__ KeyCode::F,
-        KeyCode::VK_CONFIG_SYNC_KEYDOWNUP_notsave_vim_on_f,
-        KeyCode::F
+        __KeyOverlaidModifier__ KeyCode::FN,
+        KeyCode::VK_CONFIG_SYNC_KEYDOWNUP_notsave_vim_on_fn,
+        KeyCode::FN
       </autogen>
     </item>
   </item>

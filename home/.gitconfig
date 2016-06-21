@@ -21,3 +21,7 @@
 	undo         = "!f() { t=${1-.}; git checkout -- $t; }; f"
 [push]
 	default = simple
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+[url "ssh://git@github.plaid.com/"]
+	insteadOf = https://github.plaid.com/

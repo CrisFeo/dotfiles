@@ -57,9 +57,9 @@ cd - || exit
 
 
 # Karabiner
-DIR_PRIVATE_XML="$HOME/Library/Application\ Support/Karabiner/private.xml"
+DIR_PRIVATE_XML="$HOME/Library/Application Support/Karabiner/private.xml"
 mkdir -p "$DIR_PRIVATE_XML"
-ln -sf ./karabiner/private.xml "$DIR_PRIVATE_XML"
+cp -f ./karabiner/private.xml "$DIR_PRIVATE_XML"
 ./karabiner/import.sh
 
 

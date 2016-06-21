@@ -12,7 +12,7 @@ $cli set private.option_slash_to_unicode_check 1
 /bin/echo -n .
 $cli set private.option_x_to_unicode_x 1
 /bin/echo -n .
-$cli set private.vim_on_f 1
+$cli set private.vim_on_fn 1
 /bin/echo -n .
 $cli set remap.engelbart_escape 1
 /bin/echo -n .
