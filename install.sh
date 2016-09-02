@@ -21,7 +21,7 @@ brewAdd go
 brewAdd gotags
 brewAdd mopidy
 brewAdd mpc
-brewAdd ncmpcpp
+brewAdd ncmpc
 brewAdd neovim
 brewAdd nvm
 brewAdd reattach-to-user-namespace

@@ -4,6 +4,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
 Plug 'L9'
 Plug 'easymotion/vim-easymotion'
+Plug 'tpope/vim-dispatch'
 " Utilities
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -18,6 +19,7 @@ Plug 'neomake/neomake'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'fatih/vim-go'
+Plug 'OmniSharp/omnisharp-vim'
 call plug#end()
 
 " Neovim options
