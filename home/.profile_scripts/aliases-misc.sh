@@ -82,6 +82,8 @@ agenda-plaid() {
 
 
 # Utils
+alias format-json='~/.profile_scripts/utilities/format-json'
+alias generate-tags-go='gotags $(find . -name "*.go" -not -path "./vendor/*") > tags'
 alias mopidy-start='nohup mopidy > /dev/null 2>&1 &'
 alias reload-profile="source ~/.bash_profile"
 alias ped='perl -p -e'

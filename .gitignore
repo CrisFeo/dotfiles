@@ -4,5 +4,7 @@
 # session
 Session.vim
 # temporary
-.netrwhist
+home/.vim/.netrwhist
 *~
+# plugins
+home/.vim/plugged

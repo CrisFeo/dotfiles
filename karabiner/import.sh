@@ -14,8 +14,6 @@ $cli set private.option_x_to_unicode_x 1
 /bin/echo -n .
 $cli set private.vim_on_fn 1
 /bin/echo -n .
-$cli set remap.engelbart_escape 1
-/bin/echo -n .
 $cli set remap.pointing_button4_to_command_bracket_left 1
 /bin/echo -n .
 $cli set remap.pointing_button5_to_command_bracket_right 1
@@ -33,5 +31,7 @@ $cli set usercustom.f18_to_l_control 1
 $cli set usercustom.f19_to_hyper 1
 /bin/echo -n .
 $cli set usercustom.fn_control_to_caps 1
+/bin/echo -n .
+$cli set usercustom.w_a_to_escape 1
 /bin/echo -n .
 /bin/echo

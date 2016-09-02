@@ -60,7 +60,7 @@ function git-quick-amend {
   else
     echo "Amending last commit..."
     git stage-file && \
-    git commit --amend --no-edit && \
+    git commit --amend --no-edit "$@" && \
     git push origin HEAD --force
   fi
 }

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+while read -r line; do
+  formatted=$(underscore -d "$line" pretty 2> /dev/null)
+  if [ $? -eq 0 ]; then
+    echo "$formatted"
+  else
+    echo "$line"
+  fi
+done

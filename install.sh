@@ -18,6 +18,7 @@ brewAdd brew-cask
 brewAdd fzf
 brewAdd git
 brewAdd go
+brewAdd gotags
 brewAdd mopidy
 brewAdd mpc
 brewAdd ncmpcpp

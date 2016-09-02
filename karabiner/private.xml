@@ -101,4 +101,9 @@
       </autogen>
     </item>
   </item>
+  <item>
+    <name>Remap W + A to Escape</name>
+    <identifier>usercustom.w_a_to_escape</identifier>
+    <autogen>__SimultaneousKeyPresses__ KeyCode::W, KeyCode::A, KeyCode::ESCAPE</autogen>
+  </item>
 </root>

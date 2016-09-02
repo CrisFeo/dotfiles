@@ -1,5 +1,8 @@
 #! /bin/bash
 
+## Set command mode to vi
+set -o vi
+
 ## Global env vars
 export CLICOLOR=1
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
