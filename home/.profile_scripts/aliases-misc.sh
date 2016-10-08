@@ -82,6 +82,7 @@ agenda-plaid() {
 
 
 # Utils
+alias cd-full='cd "$(pwd -P)"'
 alias format-json='~/.profile_scripts/utilities/format-json'
 alias generate-tags-go='gotags $(find . -name "*.go" -not -path "./vendor/*") > tags'
 alias mopidy-start='nohup mopidy > /dev/null 2>&1 &'

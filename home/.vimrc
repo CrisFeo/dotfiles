@@ -3,8 +3,10 @@ call plug#begin('~/.vim/plugged')
 " Basic
 Plug 'tpope/vim-sensible'
 Plug 'L9'
-Plug 'easymotion/vim-easymotion'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-dispatch'
+Plug 'easymotion/vim-easymotion'
+Plug 'tpope/vim-surround'
 " Utilities
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -16,6 +18,7 @@ Plug 'morhetz/gruvbox'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --gocode-completer --tern-completer --omnisharp-completer' }
 Plug 'neomake/neomake'
 " Syntax/Language support
+Plug 'tpope/vim-markdown'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'fatih/vim-go'
@@ -169,3 +172,10 @@ nmap s <Plug>(easymotion-overwin-f)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 
+" vim-markdown
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+let g:markdown_fenced_languages = ['json', 'js=javascript', 'bash=sh']
+
+" You Complete Me
+let g:ycm_complete_in_comments = 1
+let g:ycm_autoclose_preview_window_after_completion = 1

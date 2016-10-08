@@ -1,0 +1,35 @@
+view_max_width  = 81
+view_max_height = 71
+
+auto_butcher           = true
+confirm_butcher        = never
+auto_drop_chunks       = rotten
+auto_eat_chunks        = true
+easy_eat_chunks        = true
+easy_eat_gourmand      = true
+easy_eat_contaminated  = true
+runrest_stop_message += corpse
+
+autofight_stop = 50
+auto_sacrifice = true
+rest_wait_both = true
+
+default_manual_training = true
+equip_unequip           = true
+messages_at_top         = false
+
+explore_stop -= stairs
+
+friend_brand       = hi:green
+neutral_brand      = hi:lightgrey
+stab_brand         = hi:blue
+may_stab_brand     = hi:yellow
+heap_brand         = reverse
+feature_item_brand = reverse
+
+autopickup               = $?!+"/%
+autopickup_starting_ammo = true
+
+ae := autopickup_exceptions
+ae += <curare-tipped needle
+ae += <rocks

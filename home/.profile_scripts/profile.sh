@@ -1,8 +1,5 @@
 #! /bin/bash
 
-## Set command mode to vi
-set -o vi
-
 ## Global env vars
 export CLICOLOR=1
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
@@ -16,6 +13,13 @@ if { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
   export IGNOREEOF=1
 fi
 
+## Bash history
+export HISTCONTROL=ignoreboth # ignores dups and whitespace
+export HISTIGNORE=clear:ls
+export HISTSIZE=1000000
+export HISTFILESIZE=1000000
+export HISTTIMEFORMAT="%F %T " # show times next to history items
+shopt -s histappend
 
 ## Completions
 source "$HOME/.profile_scripts/completion-git.sh"
