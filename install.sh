@@ -14,7 +14,6 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 brew update
 
 brewAdd ag
-brewAdd brew-cask
 brewAdd fzf
 brewAdd git
 brewAdd go
@@ -44,8 +43,12 @@ npm install -g http-server
 npm install -g underscore-cli
 
 
-#Python dependencies
+# Neovim dependencies
+unset PYTHONPATH # Just in case to make sure install doesn't fail
+brewAdd python3
 pip install neovim
+pip3 install neovim
+sudo gem install neovim
 
 
 # Install user Home dotfiles
@@ -58,7 +61,7 @@ cd - || exit
 
 
 # Karabiner
-DIR_PRIVATE_XML="$HOME/Library/Application Support/Karabiner/private.xml"
+DIR_PRIVATE_XML="$HOME/Library/Application Support/Karabiner"
 mkdir -p "$DIR_PRIVATE_XML"
 cp -f ./karabiner/private.xml "$DIR_PRIVATE_XML"
 ./karabiner/import.sh
