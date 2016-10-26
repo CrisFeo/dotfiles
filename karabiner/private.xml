@@ -92,11 +92,11 @@
       <autogen>__KeyToKey__ KeyCode::L, KeyCode::CURSOR_RIGHT</autogen>
     </item>
     <item>
-      <name>Enable vi directional keys by holding W + E.</name>
-      <identifier>private.vi_directional_keys_on_we</identifier>
+      <name>Enable vi directional keys by holding W + Q.</name>
+      <identifier>private.vi_directional_keys_on_wq</identifier>
       <autogen>
         __SimultaneousKeyPresses__
-        KeyCode::W, KeyCode::E,
+        KeyCode::W, KeyCode::Q,
         KeyCode::VK_CONFIG_SYNC_KEYDOWNUP_notsave_vi_directional_keys,
       </autogen>
     </item>
@@ -118,11 +118,11 @@
       <autogen>__KeyToKey__ KeyCode::I, KeyCode::KEYPAD_9</autogen>
     </item>
     <item>
-      <name>Enable keyboard numpad keys by holding W + Q.</name>
-      <identifier>private.keyboard_numpad_keys_on_wq</identifier>
+      <name>Enable keyboard numpad keys by holding W + E.</name>
+      <identifier>private.keyboard_numpad_keys_on_we</identifier>
       <autogen>
         __SimultaneousKeyPresses__
-        KeyCode::W, KeyCode::Q,
+        KeyCode::W, KeyCode::E,
         KeyCode::VK_CONFIG_SYNC_KEYDOWNUP_notsave_keyboard_numpad_keys,
       </autogen>
     </item>
