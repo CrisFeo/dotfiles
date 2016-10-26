@@ -2,10 +2,6 @@
 "\e[A":history-search-backward
 "\e[B":history-search-forward
 
-# macro example:
-# alt-w will add "# macro" to end of line
-#"\ew":"\C-e # macro"
-
 # man bash; seach for "readline variables"
 set editing-mode vi
 set show-all-if-ambiguous on
@@ -13,3 +9,9 @@ set completion-ignore-case on
 set completion-query-items 10000
 set completion-map-case on
 set echo-control-characters off # prevent "^C" from appearing
+
+# Allow clearing the screen with C-l in both vi modes
+set keymap vi-command
+Control-l: clear-screen
+set keymap vi-insert
+Control-l: clear-screen

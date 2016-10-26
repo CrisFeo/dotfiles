@@ -80,6 +80,23 @@ agenda-plaid() {
   agenda Team
 }
 
+node-repl() {
+  IMPORTS='const R = require("ramda"); const S = require("sanctuary");'
+  (cd ~/personal/functional-playground/javascript || exit 1;\
+   env NODE_NO_READLINE=1 \
+   RLWRAP_EDITOR='nvim --cmd "let simple_config = 1"' \
+   rlwrap -m'
+' -M '.js' -P "$IMPORTS" node)
+}
+
+ls-less() {
+  if [ -d "${@: -1}" ]; then
+    ls "$@"
+  else
+    less "$@"
+  fi
+}
+
 
 # Utils
 alias cd-full='cd "$(pwd -P)"'
@@ -92,8 +109,7 @@ alias hline='printf "%0.s─" $(seq 1 `tput cols`)'
 alias zzz='pmset sleepnow'
 alias us='underscore'
 alias fig='figlet -w `tput cols`'
-alias ip="ifconfig | grep 'inet '"
-alias emacs='TERM=xterm-256color emacs'
-alias node-repl="env NODE_NO_READLINE=1 rlwrap node --harmony"
+alias ip="ifconfig | grep 'inet ' | grep -v 127.0.0.1"
 alias v='nvim'
 alias v-o='vim-open'
+alias l='ls-less'

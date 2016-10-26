@@ -1,1 +1,1 @@
-/Users/CrisFeo/.vim
+/Users/cfeo/.vim

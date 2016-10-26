@@ -1,28 +1,31 @@
 " Plugins
 call plug#begin('~/.vim/plugged')
-" Basic
-Plug 'tpope/vim-sensible'
-Plug 'L9'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-dispatch'
-Plug 'easymotion/vim-easymotion'
-Plug 'tpope/vim-surround'
-" Utilities
-Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-" Themes
-Plug 'morhetz/gruvbox'
-" Tooling
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --gocode-completer --tern-completer --omnisharp-completer' }
-Plug 'neomake/neomake'
-" Syntax/Language support
-Plug 'tpope/vim-markdown'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'fatih/vim-go'
-Plug 'OmniSharp/omnisharp-vim'
+  " Basic
+  Plug 'tpope/vim-sensible'
+  Plug 'L9'
+  Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-dispatch'
+  Plug 'easymotion/vim-easymotion'
+  Plug 'tpope/vim-surround'
+  " Themes
+  Plug 'morhetz/gruvbox'
+  " Syntax/Language support
+  Plug 'tpope/vim-markdown'
+  Plug 'pangloss/vim-javascript'
+if !exists('simple_config')
+  " Utilities
+  Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'
+  Plug 'airblade/vim-gitgutter'
+  " Tooling
+  Plug 'Valloric/YouCompleteMe', { 'do': './install.py --gocode-completer --tern-completer --omnisharp-completer' }
+  Plug 'neomake/neomake'
+  " Syntax/Language support
+  Plug 'mxw/vim-jsx'
+  Plug 'fatih/vim-go'
+  Plug 'OmniSharp/omnisharp-vim'
+endif
 call plug#end()
 
 " Neovim options
@@ -127,45 +130,6 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-" Fzf (Fuzzy Finder)
-set rtp+=/usr/local/opt/fzf
-let $FZF_DEFAULT_COMMAND = 'ag --nocolor --hidden --ignore ".git/" -l'
-let g:FZF_OPTIONS = '--color fg:230,bg:235,hl:106,fg+:230,bg+:235,hl+:106,'
-                  \.'info:106,prompt:106,spinner:230,pointer:106,marker:166'
-let g:fzf_layout = { 'down': '~50%', 'options': g:FZF_OPTIONS }
-nmap \ :Ag<CR>
-nmap <C-\> :Files<CR>
-nmap <Bar> :Buffers<CR>
-
-" Neomake
-let g:neomake_verbose = 0
-let g:neomake_warning_sign = { 'text': '﹖', 'texthl': 'WarningMsg' }
-let g:neomake_error_sign = { 'text': '﹗', 'texthl': 'ErrorMsg' }
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_jsx_enabled_makers = ['eslint']
-function! SetEnabledMakers()
-  let g:neomake_javascript_enabled_makers = []
-  if findfile('.eslintrc', getcwd()) !=# ''
-    let g:neomake_javascript_enabled_makers = add(g:neomake_javascript_enabled_makers, 'eslint')
-  endif
-  if findfile('.jshintrc', getcwd()) !=# ''
-    let g:neomake_javascript_enabled_makers = add(g:neomake_javascript_enabled_makers, 'jshint')
-  endif
-  if g:neomake_javascript_enabled_makers ==# []
-    let g:neomake_javascript_enabled_makers = ['eslint']
-  endif
-  Neomake
-endfunc
-autocmd! BufWritePost,BufEnter * :call SetEnabledMakers()
-
-" NERD Tree
-nmap <M-\> :NERDTreeToggle<CR>
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeIgnore=['\.DS_Store$']
-
-" vim-go
-let g:go_fmt_command = "goimports"
-
 " vim-easymotion
 let g:EasyMotion_do_mapping = 0
 map <Leader> <Plug>(easymotion-prefix)
@@ -177,6 +141,47 @@ map <Leader>k <Plug>(easymotion-k)
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 let g:markdown_fenced_languages = ['json', 'js=javascript', 'bash=sh']
 
-" You Complete Me
-let g:ycm_complete_in_comments = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
+if !exists('simple_config')
+  " Fzf (Fuzzy Finder)
+  set rtp+=/usr/local/opt/fzf
+  let $FZF_DEFAULT_COMMAND = 'ag --nocolor --hidden --ignore ".git/" -l'
+  let g:FZF_OPTIONS = '--color fg:230,bg:235,hl:106,fg+:230,bg+:235,hl+:106,'
+        \.'info:106,prompt:106,spinner:230,pointer:106,marker:166'
+  let g:fzf_layout = { 'down': '~50%', 'options': g:FZF_OPTIONS }
+  nmap \ :Ag<CR>
+  nmap <C-\> :Files<CR>
+  nmap <Bar> :Buffers<CR>
+
+  " Neomake
+  let g:neomake_verbose = 0
+  let g:neomake_warning_sign = { 'text': '﹖', 'texthl': 'WarningMsg' }
+  let g:neomake_error_sign = { 'text': '﹗', 'texthl': 'ErrorMsg' }
+  let g:neomake_javascript_enabled_makers = ['eslint']
+  let g:neomake_jsx_enabled_makers = ['eslint']
+  function! SetEnabledMakers()
+    let g:neomake_javascript_enabled_makers = []
+    if findfile('.eslintrc', getcwd()) !=# ''
+      let g:neomake_javascript_enabled_makers = add(g:neomake_javascript_enabled_makers, 'eslint')
+    endif
+    if findfile('.jshintrc', getcwd()) !=# ''
+      let g:neomake_javascript_enabled_makers = add(g:neomake_javascript_enabled_makers, 'jshint')
+    endif
+    if g:neomake_javascript_enabled_makers ==# []
+      let g:neomake_javascript_enabled_makers = ['eslint']
+    endif
+    Neomake
+  endfunc
+  autocmd! BufWritePost,BufEnter * :call SetEnabledMakers()
+
+  " NERD Tree
+  nmap <M-\> :NERDTreeToggle<CR>
+  let g:NERDTreeMinimalUI = 1
+  let g:NERDTreeIgnore=['\.DS_Store$']
+
+  " vim-go
+  let g:go_fmt_command = "goimports"
+
+  " You Complete Me
+  let g:ycm_complete_in_comments = 1
+  let g:ycm_autoclose_preview_window_after_completion = 1
+endif
