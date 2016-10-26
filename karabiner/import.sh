@@ -6,11 +6,21 @@ $cli set parameter.keytokey_delayed_action_timeout 50
 /bin/echo -n .
 $cli set private.disable_parens 1
 /bin/echo -n .
+$cli set private.keyboard_numpad_keys_on_wq 1
+/bin/echo -n .
+$cli set private.layer_2_on_wq 1
+/bin/echo -n .
+$cli set private.numpad_on_fn 1
+/bin/echo -n .
 $cli set private.option_slash_to_check 1
 /bin/echo -n .
 $cli set private.option_slash_to_unicode_check 1
 /bin/echo -n .
 $cli set private.option_x_to_unicode_x 1
+/bin/echo -n .
+$cli set private.vi_directional_keys_on_we 1
+/bin/echo -n .
+$cli set private.vim_directional_keys_on_fn 1
 /bin/echo -n .
 $cli set private.vim_on_fn 1
 /bin/echo -n .
