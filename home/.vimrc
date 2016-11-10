@@ -55,6 +55,9 @@ set number
 set relativenumber
 set autoread
 set hidden
+set foldmethod=syntax
+set foldnestmax=1
+set foldlevelstart=99
 
 " Default leader
 let mapleader = ','
@@ -145,9 +148,22 @@ if !exists('simple_config')
   " Fzf (Fuzzy Finder)
   set rtp+=/usr/local/opt/fzf
   let $FZF_DEFAULT_COMMAND = 'ag --nocolor --hidden --ignore ".git/" -l'
-  let g:FZF_OPTIONS = '--color fg:230,bg:235,hl:106,fg+:230,bg+:235,hl+:106,'
-        \.'info:106,prompt:106,spinner:230,pointer:106,marker:166'
-  let g:fzf_layout = { 'down': '~50%', 'options': g:FZF_OPTIONS }
+  let g:fzf_layout = { 'down': '~50%' }
+  let g:fzf_colors =
+  \ { 'fg':      ['fg', '#FF0000'],
+    \ 'bg':      ['bg', '235'],
+    \ 'hl':      ['fg', '106'],
+    \ 'fg+':     ['fg', '230'],
+    \ 'bg+':     ['bg', '235'],
+    \ 'hl+':     ['fg', '106'],
+    \ 'info':    ['fg', '106'],
+    \ 'prompt':  ['fg', '106'],
+    \ 'pointer': ['fg', '106'],
+    \ 'marker':  ['fg', '166'],
+    \ 'spinner': ['fg', '230'],
+    \ 'header':  ['fg', '106'] }
+  autocmd VimEnter * command! -nargs=* Ag
+      \ call fzf#vim#ag(<q-args>, '--color-path "33;1"', fzf#vim#default_layout)
   nmap \ :Ag<CR>
   nmap <C-\> :Files<CR>
   nmap <Bar> :Buffers<CR>
