@@ -18,10 +18,13 @@ if !exists('simple_config')
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
   Plug 'airblade/vim-gitgutter'
+  Plug 'shougo/vimproc.vim', {'do' : 'make'}
   " Tooling
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py --gocode-completer --tern-completer --omnisharp-completer' }
   Plug 'neomake/neomake'
   " Syntax/Language support
+  Plug 'eagletmt/ghcmod-vim'
+  Plug 'eagletmt/neco-ghc'
   Plug 'mxw/vim-jsx'
   Plug 'fatih/vim-go'
   Plug 'OmniSharp/omnisharp-vim'
@@ -200,4 +203,9 @@ if !exists('simple_config')
   " You Complete Me
   let g:ycm_complete_in_comments = 1
   let g:ycm_autoclose_preview_window_after_completion = 1
+
+  " neco-ghc
+  let g:haskellmode_completion_ghc = 0
+  autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+  let g:ycm_semantic_triggers = {'haskell' : ['.']}
 endif
