@@ -48,7 +48,7 @@ set fillchars=vert:\ ,fold:-
 " Basic editing
 filetype plugin indent on
 set timeoutlen=100
-set synmaxcol=120
+set synmaxcol=200
 set shortmess+=I
 set tabstop=2
 set shiftwidth=2
