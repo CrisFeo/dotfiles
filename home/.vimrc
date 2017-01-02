@@ -27,6 +27,8 @@ if !exists('simple_config')
   " Syntax/Language support
   Plug 'eagletmt/ghcmod-vim'
   Plug 'eagletmt/neco-ghc'
+  Plug 'itchyny/vim-haskell-indent'
+  Plug 'nbouscal/vim-stylish-haskell'
   Plug 'mxw/vim-jsx'
   Plug 'fatih/vim-go'
   Plug 'OmniSharp/omnisharp-vim'
@@ -93,6 +95,14 @@ nmap <Leader>. :set hlsearch! hlsearch?<CR>
 " Quickly macro playback for register 'q'
 nmap <Space> @q
 
+" More convenient section switching
+nmap H b
+nmap L e
+nmap ) $
+nmap ( ^
+vmap ) $
+vmap ( ^
+
 " Pretty statusline
 function! Mode()
   redraw
@@ -142,6 +152,11 @@ map <Leader>k <Plug>(easymotion-k)
 " vim-markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 let g:markdown_fenced_languages = ['json', 'js=javascript', 'bash=sh']
+
+" vim haskell syntax highlighting
+let g:hs_highlight_boolean = 1
+let g:hs_highlight_delimiters = 1
+let g:hs_highlight_types = 1
 
 if !exists('simple_config')
   " Fzf (Fuzzy Finder)
@@ -200,8 +215,16 @@ if !exists('simple_config')
   let g:ycm_complete_in_comments = 1
   let g:ycm_autoclose_preview_window_after_completion = 1
 
+  " ghcmod-vim
+
+  map <silent> tw :GhcModTypeInsert<CR>
+  map <silent> ts :GhcModSplitFunCase<CR>
+  map <silent> tq :GhcModType<CR>
+  map <silent> te :GhcModTypeClear<CR>
+
   " neco-ghc
   let g:haskellmode_completion_ghc = 0
   autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
   let g:ycm_semantic_triggers = {'haskell' : ['.']}
+
 endif

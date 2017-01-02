@@ -3,7 +3,7 @@
 ## Global env vars
 export CLICOLOR=1
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
-export PATH=$PATH:$HOME/bin:$HOME/.cabal/bin
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin
 export EDITOR=nvim
 export FZF_DEFAULT_COMMAND='ag -l -f --hidden'
 
