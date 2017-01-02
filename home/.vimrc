@@ -10,8 +10,10 @@ call plug#begin('~/.vim/plugged')
   " Themes
   Plug 'morhetz/gruvbox'
   " Syntax/Language support
+  Plug 'reedes/vim-pencil'
   Plug 'tpope/vim-markdown'
   Plug 'pangloss/vim-javascript'
+  Plug 'raichoo/purescript-vim'
 if !exists('simple_config')
   " Utilities
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -90,12 +92,6 @@ nmap <Leader>. :set hlsearch! hlsearch?<CR>
 
 " Quickly macro playback for register 'q'
 nmap <Space> @q
-
-" More convenient section switching
-nmap J }
-nmap K {
-nmap ) }
-nmap ( {
 
 " Pretty statusline
 function! Mode()

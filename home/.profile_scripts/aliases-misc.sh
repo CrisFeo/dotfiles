@@ -11,6 +11,13 @@ function vim-open {
   xargs nvim <<< "$CHOSEN_FILES")
 }
 
+function notepad {
+  nvim -c ':set background=light' \
+       -c ':PencilHard' \
+       -c ':set nonumber' \
+       -c ':set norelativenumber'
+}
+
 # Formatting
 function crop-text {
   lines="$(tput lines)"

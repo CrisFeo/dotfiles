@@ -18,6 +18,7 @@ if [ "$1" != '--skip-install' ]; then
   brewAdd git
   brewAdd go
   brewAdd gotags
+  brewAdd jq
   brewAdd mopidy
   brewAdd mpc
   brewAdd ncmpc
