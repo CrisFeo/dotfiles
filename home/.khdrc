@@ -1,0 +1,38 @@
+# remap f17 and f18 to "(" and ")" to circumvent missing features in
+# karabiner-elements.
+- f17 : khd -p "shift - 9"
+- f18 : khd -p "shift - 0"
+
+# remap right-control h/j/k/l -> arrow keys
+rctrl - h         ![HyperTerm,Terminal,iTerm2]      :   khd -p "- left"
+rctrl - j         ![HyperTerm,Terminal,iTerm2]      :   khd -p "- down"
+rctrl - k         ![HyperTerm,Terminal,iTerm2]      :   khd -p "- up"
+rctrl - l         ![HyperTerm,Terminal,iTerm2]      :   khd -p "- right"
+
+shift + rctrl - h ![HyperTerm,Terminal,iTerm2]      :   khd -p "shift - left"
+shift + rctrl - j ![HyperTerm,Terminal,iTerm2]      :   khd -p "shift - down"
+shift + rctrl - k ![HyperTerm,Terminal,iTerm2]      :   khd -p "shift - up"
+shift + rctrl - l ![HyperTerm,Terminal,iTerm2]      :   khd -p "shift - right"
+
+# remap right-control g / G   -> start / end of text
+rctrl - g         ![HyperTerm,Terminal,iTerm2]      :   khd -p "cmd - up"
+rctrl + shift - g ![HyperTerm,Terminal,iTerm2]      :   khd -p "cmd - down"
+
+# remap right-control b / w   -> start / end of word
+rctrl - b         ![HyperTerm,Terminal,iTerm2]      :   khd -p "alt - left"
+rctrl - w         ![HyperTerm,Terminal,iTerm2]      :   khd -p "alt - right"
+
+shift + rctrl - b ![HyperTerm,Terminal,iTerm2]      :   khd -p "shift + alt - left"
+shift + rctrl - w ![HyperTerm,Terminal,iTerm2]      :   khd -p "shift + alt - right"
+
+# Numpad on keyboard
+rctrl +  lcmd - 0x2b : khd -p "- 0x52"
+rctrl +  lcmd - b    : khd -p "- 0x53"
+rctrl +  lcmd - n    : khd -p "- 0x54"
+rctrl +  lcmd - m    : khd -p "- 0x55"
+rctrl +  lcmd - h    : khd -p "- 0x56"
+rctrl +  lcmd - j    : khd -p "- 0x57"
+rctrl +  lcmd - k    : khd -p "- 0x58"
+rctrl +  lcmd - y    : khd -p "- 0x59"
+rctrl +  lcmd - u    : khd -p "- 0x5b"
+rctrl +  lcmd - i    : khd -p "- 0x5c"

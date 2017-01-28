@@ -9,7 +9,8 @@ export FZF_DEFAULT_COMMAND='ag -l -f --hidden'
 
 ## Tmux-specific env vars
 if { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
-  export TERM=xterm-256color
+  # This should be set by the terminal emulator, not here...
+  # export TERM=xterm-256color
   export IGNOREEOF=1
 fi
 

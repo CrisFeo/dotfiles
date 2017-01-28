@@ -6,21 +6,17 @@
 
 // Constants
 
-const PADDING_MONITOR = 60;
-const PADDING_LAPTOP = 20;
-const TITLEBAR_HEIGHT = 20;
-const MESSAGES_APPLICATION_NAME = 'Messages';
-const MESSAGES_LIST_WIDTH = 89;
-const MESSAGES_WINDOW_WIDTH = 500;
-const CHROME_APPLICATION_NAME = 'Google Chrome';
-const CHROME_HANGOUTS_WIDTH = 280;
-const ATOM_APPLICATION_NAME = 'Atom';
-const ATOM_WINDOW_WIDTH = 750;
-const DIMENSIONS_LAPTOP = {
-  height: 900,
-  width: 1440
-};
-const DIMENSIONS_MONITOR = {
+var PADDING_MONITOR = 60;
+var PADDING_LAPTOP = 20;
+var TITLEBAR_HEIGHT = 20;
+var MESSAGES_APPLICATION_NAME = 'Messages';
+var MESSAGES_LIST_WIDTH = 89;
+var MESSAGES_WINDOW_WIDTH = 500;
+var CHROME_APPLICATION_NAME = 'Google Chrome';
+var CHROME_HANGOUTS_WIDTH = 280;
+var ATOM_APPLICATION_NAME = 'Atom';
+var ATOM_WINDOW_WIDTH = 750;
+var DIMENSIONS_MONITOR = {
   height: 1440,
   width: 2560
 };
@@ -44,24 +40,18 @@ function getMainScreen() {
   return mainScreen;
 }
 
-function isLaptopScreen(window) {
-  const rect = window.screen().rect();
-  return (rect.width  === DIMENSIONS_LAPTOP.width &&
-          rect.height === DIMENSIONS_LAPTOP.height);
-}
-
 function isMonitorScreen(window) {
-  const rect = window.screen().rect();
+  var rect = window.screen().rect();
   return (rect.width  === DIMENSIONS_MONITOR.width &&
           rect.height === DIMENSIONS_MONITOR.height);
 }
 
 function getPadding(window) {
-  return isLaptopScreen(window) ? PADDING_LAPTOP : PADDING_MONITOR;
+  return isMonitorScreen(window) ? PADDING_MONITOR : PADDING_LAPTOP;
 }
 
 function getScreenRect(window) {
-  const screenRect = window.screen().rect();
+  var screenRect = window.screen().rect();
   return {
     height: screenRect.height - TITLEBAR_HEIGHT,
     width: screenRect.width,
@@ -71,8 +61,8 @@ function getScreenRect(window) {
 }
 
 function moveWindow(window, options) {
-  const windowRect = window.rect(window);
-  const mergedOptions = extend({
+  var windowRect = window.rect(window);
+  var mergedOptions = extend({
     x         : windowRect.x,
     y         : windowRect.y - TITLEBAR_HEIGHT,
     width     : windowRect.width,
@@ -83,7 +73,7 @@ function moveWindow(window, options) {
 }
 
 function getAllWindows() {
-  const windows = [];
+  var windows = [];
   S.eachApp(function(app) {
     app.eachWindow(function(window) {
       windows.push(window);
@@ -94,9 +84,9 @@ function getAllWindows() {
 
 // Manipulation Functions
 
-const iMessageLeftRail = function(window) {
-  const borderGap = getPadding(window);
-  const screenRect = getScreenRect(window);
+var iMessageLeftRail = function(window) {
+  var borderGap = getPadding(window);
+  var screenRect = getScreenRect(window);
   moveWindow(window, {
     x         : borderGap,
     y         : borderGap,
@@ -106,9 +96,9 @@ const iMessageLeftRail = function(window) {
   });
 };
 
-const mainContent = function(window) {
-  const borderGap = getPadding(window);
-  const screenRect = getScreenRect(window);
+var mainContent = function(window) {
+  var borderGap = getPadding(window);
+  var screenRect = getScreenRect(window);
   moveWindow(window, {
     x         : borderGap + MESSAGES_LIST_WIDTH,
     y         : borderGap,
@@ -118,9 +108,9 @@ const mainContent = function(window) {
   });
 };
 
-const desktopFull = function(window) {
-  const borderGap = getPadding(window);
-  const screenRect = getScreenRect(window);
+var desktopFull = function(window) {
+  var borderGap = getPadding(window);
+  var screenRect = getScreenRect(window);
   moveWindow(window, {
     x      : borderGap,
     y      : borderGap,
@@ -129,8 +119,8 @@ const desktopFull = function(window) {
   });
 };
 
-const desktopCenterWithResize = function(window, width, height) {
-  const screenRect = getScreenRect(window);
+var desktopCenterWithResize = function(window, width, height) {
+  var screenRect = getScreenRect(window);
   moveWindow(window, {
     x      : (screenRect.width - width) / 2,
     y      : (screenRect.height - height) / 2,
@@ -139,14 +129,14 @@ const desktopCenterWithResize = function(window, width, height) {
   });
 };
 
-const desktopCenter = function(window) {
-  const windowRect = window.rect();
+var desktopCenter = function(window) {
+  var windowRect = window.rect();
   desktopCenterWithResize(window, windowRect.width, windowRect.height);
 };
 
-const desktopLeftHalf = function(window) {
-  const borderGap = getPadding(window);
-  const screenRect = getScreenRect(window);
+var desktopLeftHalf = function(window) {
+  var borderGap = getPadding(window);
+  var screenRect = getScreenRect(window);
   moveWindow(window, {
     x      : borderGap,
     y      : borderGap,
@@ -155,9 +145,9 @@ const desktopLeftHalf = function(window) {
   });
 };
 
-const desktopRightHalf = function(window) {
-  const borderGap = getPadding(window);
-  const screenRect = getScreenRect(window);
+var desktopRightHalf = function(window) {
+  var borderGap = getPadding(window);
+  var screenRect = getScreenRect(window);
   moveWindow(window, {
     x      : (screenRect.width / 2) + (borderGap / 2),
     y      : borderGap,
@@ -166,38 +156,38 @@ const desktopRightHalf = function(window) {
   });
 };
 
-const desktopLeft = function(window) {
-  const borderGap = getPadding(window);
-  const screenRect = getScreenRect(window);
+var desktopLeft = function(window) {
+  var borderGap = getPadding(window);
+  var screenRect = getScreenRect(window);
   moveWindow(window, {
     x      : borderGap,
     width  : (screenRect.width / 2) - ((3/2) * borderGap),
   });
 };
 
-const desktopRight = function(window) {
-  const borderGap = getPadding(window);
-  const screenRect = getScreenRect(window);
+var desktopRight = function(window) {
+  var borderGap = getPadding(window);
+  var screenRect = getScreenRect(window);
   moveWindow(window, {
     x      : (screenRect.width / 2) + (borderGap / 2),
     width  : (screenRect.width / 2) - ((3/2) * borderGap),
   });
 };
 
-const desktopTop = function(window) {
-  const borderGap = getPadding(window);
-  const screenRect = getScreenRect(window);
-  const windowRect = window.rect();
+var desktopTop = function(window) {
+  var borderGap = getPadding(window);
+  var screenRect = getScreenRect(window);
+  var windowRect = window.rect();
   moveWindow(window, {
     y      : borderGap,
     height : (screenRect.height / 2) - ((3/2) * borderGap)
   });
 };
 
-const desktopBottom = function(window) {
-  const borderGap = getPadding(window);
-  const screenRect = getScreenRect(window);
-  const windowRect = window.rect();
+var desktopBottom = function(window) {
+  var borderGap = getPadding(window);
+  var screenRect = getScreenRect(window);
+  var windowRect = window.rect();
   moveWindow(window, {
     y      : (screenRect.height / 2) + (borderGap / 2),
     height : (screenRect.height / 2) - ((3/2) * borderGap)
@@ -206,10 +196,10 @@ const desktopBottom = function(window) {
 
 // Layouts
 
-const layoutMainMonitor = function() {
-  const allWindows = getAllWindows();
+var layoutMainMonitor = function() {
+  var allWindows = getAllWindows();
   allWindows.forEach(function(window) {
-    const app = window.app();
+    var app = window.app();
     switch(app.name()) {
       case CHROME_APPLICATION_NAME:
         if (window.rect().width !== CHROME_HANGOUTS_WIDTH){
@@ -222,9 +212,9 @@ const layoutMainMonitor = function() {
   });
 }
 
-const layoutStack = function() {
-  const size = S.window().size();
-  const allWindows = getAllWindows();
+var layoutStack = function() {
+  var size = S.window().size();
+  var allWindows = getAllWindows();
   allWindows.forEach(function(window) {
     desktopCenterWithResize(window, size.width, size.height);
   });

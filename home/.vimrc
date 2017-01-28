@@ -98,6 +98,8 @@ nmap <Space> @q
 " More convenient section switching
 nmap H b
 nmap L e
+nmap J }
+nmap K {
 nmap ) $
 nmap ( ^
 vmap ) $
@@ -109,7 +111,10 @@ function! Mode()
   let l:mode = mode()
   if     mode ==# 'n'  | exec 'hi! User1 guibg=#7c6f64 guifg=#1d2021'  | return '  NORMAL  '
   elseif mode ==# 'i'  | exec 'hi! User1 guibg=#fabd2f guifg=black'    | return '  INSERT  '
+  elseif mode ==# 'R'  | exec 'hi! User1 guibg=#fabd2f guifg=black'    | return ' REPLACE  '
   elseif mode ==# 'v'  | exec 'hi! User1 guibg=#83a598 guifg=white'    | return '  VISUAL  '
+  elseif mode ==# 'V'  | exec 'hi! User1 guibg=#83a598 guifg=white'    | return ' VISUAL L '
+  elseif mode ==# '' | exec 'hi! User1 guibg=#83a598 guifg=white'    | return ' VISUAL B '
   elseif mode ==# 't'  | exec 'hi! User1 guibg=#b8bb26 guifg=black'    | return ' TERMINAL '
   else                 | exec 'hi! User1 guibg=#d3869b guifg=black'    | return '     '.mode.'    '
   endif

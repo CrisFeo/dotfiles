@@ -61,7 +61,7 @@ function git-quick-amend {
     echo "Amending last commit..."
     git stage-file && \
     git commit --amend --no-edit "$@" && \
-    git push origin HEAD --force
+    git push origin HEAD --force-with-lease
   fi
 }
 
@@ -78,7 +78,7 @@ alias g-s="git st"
 alias g-c="git commit"
 alias g-c-a="git commit --amend"
 alias g-p="git push origin HEAD"
-alias g-p-f="git push origin HEAD --force"
+alias g-p-f="git push origin HEAD --force-with-lease"
 alias g-g="git-graph"
 alias g-w-g="git-watch-graph"
 alias g-w-s="git-watch-status"
