@@ -22,9 +22,3 @@ source ~/.bash_profile_cfeo
 
 To merge remote changes to your machine's config, simple run `./install.sh`
 again. If any new fonts were added to `./fonts`, install them as well.
-
-## Save
-
-Most settings are symlinked so changes are automatically reflected in this
-repo. Several applications do not play well with symlinks however so any
-changes to their config files can be copied in using `./save.sh`.

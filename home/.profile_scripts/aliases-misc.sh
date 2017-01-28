@@ -26,26 +26,6 @@ function crop-text {
 }
 
 
-# Underscore-cli
-function us-sed {
-  underscore --infmt=text --outfmt=text map "value.replace($1, '$2')"
-}
-
-function us-grep {
-  underscore --infmt=text --outfmt=text filter "value.match(/$1/)"
-}
-
-
-# Servers
-function start-server {
-  http-server -p "$@"
-}
-
-function start-server-ssl {
-  http-server -p "$@" -S -C "$HOME/.ssl/server.crt" -K "$HOME/.ssl/server.key"
-}
-
-
 # Watching
 watch-command() {
   (
@@ -121,7 +101,6 @@ alias reload-profile="source ~/.bash_profile"
 alias ped='perl -p -e'
 alias hline='printf "%0.s─" $(seq 1 `tput cols`)'
 alias zzz='pmset sleepnow'
-alias us='underscore'
 alias fig='figlet -w `tput cols`'
 alias ip="ifconfig | grep 'inet ' | grep -v 127.0.0.1"
 alias v='nvim'

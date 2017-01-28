@@ -2,14 +2,21 @@
 set -e
 
 if [ "$1" != '--skip-install' ]; then
-  # Install helpers
+  # Homebrew dependencies
+
   brewAdd() {
-    brew install "$1" || brew upgrade "$1"
+    brew ls | grep "$1" > /dev/null
+    if [[ $? == 0 ]]; then
+      brew install "$1"
+    else
+      brew upgrade "$1"
+    fi
   }
 
-
-  # Homebrew dependencies
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || :
+  which brew > /dev/null
+  if [[ $? != 0 ]]; then
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || :
+  fi
 
   brew update
 
@@ -19,6 +26,7 @@ if [ "$1" != '--skip-install' ]; then
   brewAdd go
   brewAdd gotags
   brewAdd jq
+  brewAdd khd
   brewAdd mopidy
   brewAdd mpc
   brewAdd ncmpc
@@ -30,18 +38,19 @@ if [ "$1" != '--skip-install' ]; then
 
   brew tap caskroom/versions
 
-  brew cask install "karabiner"
+  # Don't install karabiner-elements with brew cask until this PR is
+  # merged/resolved: https://github.com/tekezo/Karabiner-Elements/pull/247
+  # Until then, install the fork releases from here manually:
+  # https://github.com/wwwjfy/Karabiner-Elements/releases
+  #brew cask install "karabiner-elements"
   brew cask install "iterm2-nightly"
   brew cask install "mattr-slate"
-  brew cask install "seil"
 
 
   # Node dependencies
   # shellcheck source=/dev/null
   source "$HOME/.nvm/nvm.sh"
   nvm install node
-  npm install -g http-server
-  npm install -g underscore-cli
 
 
   # Neovim dependencies
@@ -60,14 +69,6 @@ cd "$HOME" || exit
 xargs -n 1 rm -rf <<< "$FILES_DEST"
 xargs -n 1 ln -s <<< "$FILES_SOURCE"
 cd - || exit
-
-
-# Karabiner
-DIR_PRIVATE_XML="$HOME/Library/Application Support/Karabiner"
-mkdir -p "$DIR_PRIVATE_XML"
-cp -f ./karabiner/private.xml "$DIR_PRIVATE_XML"
-./karabiner/import.sh
-
 
 # Neovim
 mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"
