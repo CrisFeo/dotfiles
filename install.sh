@@ -1,24 +1,37 @@
 #! /bin/bash
 set -e
 
-if [ "$1" != '--skip-install' ]; then
-  # Homebrew dependencies
+rm -f install.log && touch install.log
 
-  brewAdd() {
-    brew ls | grep "$1" > /dev/null
-    if [[ $? == 0 ]]; then
-      brew install "$1"
-    else
-      brew upgrade "$1"
-    fi
-  }
-
-  which brew > /dev/null
-  if [[ $? != 0 ]]; then
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || :
+brewInstall() {
+  ret=0; (which brew > /dev/null) || ret=$?
+  if [[ $ret != 0 ]]; then
+    echo 'Installing homebrew...'
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || : >> install.log 2>&1
+    echo 'Complete!'
   fi
+}
 
-  brew update
+brewAdd() {
+  ret=0; (brew ls | grep "$1" > /dev/null) || ret=$?
+  if [[ $ret != 0 ]]; then
+    echo "Installing $1..."
+    brew install "$1" >> install.log 2>&1
+    echo 'Complete!'
+  fi
+}
+
+if [ "$1" != '--skip-install' ]; then
+  # Homebrew
+  brewInstall
+
+  echo 'Update homebrew package list...'
+  brew update >> install.log 2>&1
+  echo 'Complete!'
+
+  echo 'Upgrading installed homebrew packages...'
+  brew upgrade >> install.log 2>&1
+  echo 'Complete!'
 
   brewAdd ag
   brewAdd fzf
@@ -26,7 +39,7 @@ if [ "$1" != '--skip-install' ]; then
   brewAdd go
   brewAdd gotags
   brewAdd jq
-  brewAdd khd
+  brewAdd koekeishiya/formulae/khd
   brewAdd mopidy
   brewAdd mpc
   brewAdd ncmpc
@@ -36,47 +49,71 @@ if [ "$1" != '--skip-install' ]; then
   brewAdd tmux
   brewAdd watch
 
-  brew tap caskroom/versions
-
-  # Don't install karabiner-elements with brew cask until this PR is
-  # merged/resolved: https://github.com/tekezo/Karabiner-Elements/pull/247
-  # Until then, install the fork releases from here manually:
-  # https://github.com/wwwjfy/Karabiner-Elements/releases
-  #brew cask install "karabiner-elements"
-  brew cask install "iterm2-nightly"
-  brew cask install "mattr-slate"
+  echo 'Installing brew casks...'
+  {
+    brew tap caskroom/versions
+    # Don't install karabiner-elements with brew cask until this PR is
+    # merged/resolved: https://github.com/tekezo/Karabiner-Elements/pull/247
+    # Until then, install the fork releases from here manually:
+    # https://github.com/wwwjfy/Karabiner-Elements/releases
+    #brew cask install 'karabiner-elements'
+    brew cask install 'iterm2-nightly'
+    brew cask install 'mattr-slate'
+  } >> install.log 2>&1
+  echo 'Complete!'
 
 
   # Node dependencies
-  # shellcheck source=/dev/null
-  source "$HOME/.nvm/nvm.sh"
-  nvm install node
+  echo 'Installing node dependencies...'
+  {
+    # shellcheck source=/dev/null
+    source "$HOME/.nvm/nvm.sh"
+    nvm install node
+  } >> install.log 2>&1
+  echo 'Complete!'
 
 
   # Neovim dependencies
-  unset PYTHONPATH # Just in case to make sure install doesn't fail
-  brewAdd python3
-  pip install neovim
-  pip3 install neovim
-  sudo gem install neovim
+  echo 'Installing neovim dependencies...'
+  {
+    unset PYTHONPATH # Just in case to make sure install doesn't fail
+    brewAdd python3
+    pip install neovim
+    pip3 install neovim
+    sudo gem install neovim
+  } >> install.log 2>&1
+  echo 'Complete!'
 fi
 
 
 # Install user Home dotfiles
-FILES_SOURCE=$(find "$PWD/home" -depth 1)
-FILES_DEST=${FILES_SOURCE//$PWD\/home/$HOME}
-cd "$HOME" || exit
-xargs -n 1 rm -rf <<< "$FILES_DEST"
-xargs -n 1 ln -s <<< "$FILES_SOURCE"
-cd - || exit
+echo 'Symlinking dotfiles into user home...'
+{
+  FILES_SOURCE=$(find "$PWD/home" -depth 1)
+  FILES_DEST=${FILES_SOURCE//$PWD\/home/$HOME}
+  echo "Files: $FILES_SOURCE"
+  cd "$HOME" || exit
+  xargs -n 1 rm -rf <<< "$FILES_DEST"
+  xargs -n 1 ln -s <<< "$FILES_SOURCE"
+  cd - || exit
+} >> install.log 2>&1
+echo 'Complete!'
 
 # Neovim
-mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"
-ln -sf "$HOME/.vim" "$XDG_CONFIG_HOME/nvim"
-cd "$HOME/.vim" || exit
-ln -sf ../.vimrc ./init.vim
-cd - || exit
+echo 'Symlinking neovim configs to vim configs...'
+{
+  mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"
+  ln -sf "$HOME/.vim" "$XDG_CONFIG_HOME/nvim"
+  cd "$HOME/.vim" || exit
+  ln -sf ../.vimrc ./init.vim
+  cd - || exit
+} >> install.log 2>&1
+echo 'Complete!'
 
 
-# shellcheck disable=SC1091
-source './home/.profile_scripts/profile.sh'
+echo 'Sourcing profile...'
+{
+  # shellcheck disable=SC1091
+  source './home/.profile_scripts/profile.sh'
+} >> install.log 2>&1
+echo 'Complete!'
