@@ -10,6 +10,11 @@ set completion-query-items 10000
 set completion-map-case on
 set echo-control-characters off # prevent "^C" from appearing
 
+# Show custom vi mode next to the prompt line
+set show-mode-in-prompt on
+set vi-cmd-mode-string "⌘ "
+set vi-ins-mode-string "⌨ "
+
 # Allow clearing the screen with C-l in both vi modes
 set keymap vi-command
 Control-l: clear-screen

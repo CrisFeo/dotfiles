@@ -16,9 +16,9 @@ function git-branch-status {
   pos="$(git status -sb | sed -En 's|^## .*\[(.+) .*\]$|\1|p')"
   num="$( git status -sb | sed -En 's|^## .*\[[^ ]+ (.+)\]$|\1|p')"
   if [ -z "$pos" ]; then
-    printf ' \033[0;33m%s\e[0m\n' "$branch"
+    printf '«\033[0;33m%s\e[0m»\n' "$branch"
   else
-    printf ' \033[0;33m%s\e[0m [%s \033[0;34m%s\e[0m]\n' "$branch" "$pos" "$num"
+    printf '«\033[0;33m%s\e[0m [%s \033[0;34m%s\e[0m]»\n' "$branch" "$pos" "$num"
   fi
 }
 
@@ -63,11 +63,6 @@ function git-quick-amend {
     git commit --amend --no-edit "$@" && \
     git push origin HEAD --force-with-lease
   fi
-}
-
-function git-new-feature {
-  git-sync-origin
-  git br-co "cf-$1"
 }
 
 # Shortened Forms
