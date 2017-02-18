@@ -204,7 +204,10 @@ if !exists('simple_config')
     if g:neomake_javascript_enabled_makers ==# []
       let g:neomake_javascript_enabled_makers = ['eslint']
     endif
-    Neomake
+    let l:mode = mode()
+    if mode !=# 't'
+      Neomake
+    endif
   endfunc
   autocmd! BufWritePost,BufEnter * :call SetEnabledMakers()
 
