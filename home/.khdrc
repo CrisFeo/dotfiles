@@ -1,38 +1,47 @@
-# remap f17 and f18 to "(" and ")" to circumvent missing features in
-# karabiner-elements.
-- f17 : khd -p "shift - 9"
-- f18 : khd -p "shift - 0"
+# set the maximum delay for a held modifier to trigger a modifer-only keybind.
+khd mod_trigger_timeout 0.15
 
-# remap right-control h/j/k/l -> arrow keys
-rctrl - h         ![HyperTerm,Terminal,iTerm2]      :   khd -p "- left"
-rctrl - j         ![HyperTerm,Terminal,iTerm2]      :   khd -p "- down"
-rctrl - k         ![HyperTerm,Terminal,iTerm2]      :   khd -p "- up"
-rctrl - l         ![HyperTerm,Terminal,iTerm2]      :   khd -p "- right"
+# remap right-control h/j/k/l -> arrow keys.
+rctrl - h         ![Terminal,iTerm2] : khd -p "- left"
+rctrl - j         ![Terminal,iTerm2] : khd -p "- down"
+rctrl - k         ![Terminal,iTerm2] : khd -p "- up"
+rctrl - l         ![Terminal,iTerm2] : khd -p "- right"
 
-shift + rctrl - h ![HyperTerm,Terminal,iTerm2]      :   khd -p "shift - left"
-shift + rctrl - j ![HyperTerm,Terminal,iTerm2]      :   khd -p "shift - down"
-shift + rctrl - k ![HyperTerm,Terminal,iTerm2]      :   khd -p "shift - up"
-shift + rctrl - l ![HyperTerm,Terminal,iTerm2]      :   khd -p "shift - right"
+# remap right-control b / w   -> start / end of word.
+rctrl - b         ![Terminal,iTerm2] : khd -p "alt - left"
+rctrl - w         ![Terminal,iTerm2] : khd -p "alt - right"
 
-# remap right-control g / G   -> start / end of text
-rctrl - g         ![HyperTerm,Terminal,iTerm2]      :   khd -p "cmd - up"
-rctrl + shift - g ![HyperTerm,Terminal,iTerm2]      :   khd -p "cmd - down"
+# remap a single press of the right control key to escape
+rctrl : khd -p "- 0x35"
 
-# remap right-control b / w   -> start / end of word
-rctrl - b         ![HyperTerm,Terminal,iTerm2]      :   khd -p "alt - left"
-rctrl - w         ![HyperTerm,Terminal,iTerm2]      :   khd -p "alt - right"
-
-shift + rctrl - b ![HyperTerm,Terminal,iTerm2]      :   khd -p "shift + alt - left"
-shift + rctrl - w ![HyperTerm,Terminal,iTerm2]      :   khd -p "shift + alt - right"
+# remap single-presses of shift keys to the corresponding parentheses
+lshift : khd -p "shift - 9"
+rshift : khd -p "shift - 0"
 
 # Numpad on keyboard
-rctrl +  lcmd - 0x2b : khd -p "- 0x52"
-rctrl +  lcmd - b    : khd -p "- 0x53"
-rctrl +  lcmd - n    : khd -p "- 0x54"
-rctrl +  lcmd - m    : khd -p "- 0x55"
-rctrl +  lcmd - h    : khd -p "- 0x56"
-rctrl +  lcmd - j    : khd -p "- 0x57"
-rctrl +  lcmd - k    : khd -p "- 0x58"
-rctrl +  lcmd - y    : khd -p "- 0x59"
-rctrl +  lcmd - u    : khd -p "- 0x5b"
-rctrl +  lcmd - i    : khd -p "- 0x5c"
+lctrl - 0x2b : khd -p "- 0x52"
+lctrl - b    : khd -p "- 0x53"
+lctrl - n    : khd -p "- 0x54"
+lctrl - m    : khd -p "- 0x55"
+lctrl - h    : khd -p "- 0x56"
+lctrl - j    : khd -p "- 0x57"
+lctrl - k    : khd -p "- 0x58"
+lctrl - y    : khd -p "- 0x59"
+lctrl - u    : khd -p "- 0x5b"
+lctrl - i    : khd -p "- 0x5c"
+
+# Resizing window movement
+lctrl - up    : open -g "hammerspoon://fullscreen"
+lctrl - down  : open -g "hammerspoon://center"
+lctrl - left  : open -g "hammerspoon://fullscreen" && \
+                open -g "hammerspoon://left"
+lctrl - right : open -g "hammerspoon://fullscreen" && \
+                open -g "hammerspoon://right"
+lctrl - 0x21  : open -g "hammerspoon://center" && \
+                open -g "hammerspoon://stack"
+
+# Directional window movement
+lctrl + shift - up    : open -g "hammerspoon://top"
+lctrl + shift - down  : open -g "hammerspoon://bottom"
+lctrl + shift - left  : open -g "hammerspoon://left"
+lctrl + shift - right : open -g "hammerspoon://right"

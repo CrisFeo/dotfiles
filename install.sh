@@ -34,6 +34,7 @@ if [ "$1" != '--skip-install' ]; then
   echo 'Complete!'
 
   brewAdd ag
+  brewAdd bash
   brewAdd fzf
   brewAdd git
   brewAdd go
@@ -52,13 +53,9 @@ if [ "$1" != '--skip-install' ]; then
   echo 'Installing brew casks...'
   {
     brew tap caskroom/versions
-    # Don't install karabiner-elements with brew cask until this PR is
-    # merged/resolved: https://github.com/tekezo/Karabiner-Elements/pull/247
-    # Until then, install the fork releases from here manually:
-    # https://github.com/wwwjfy/Karabiner-Elements/releases
-    #brew cask install 'karabiner-elements'
+    brew cask install 'karabiner-elements'
     brew cask install 'iterm2-nightly'
-    brew cask install 'mattr-slate'
+    brew cask install 'hammerspoon'
   } >> install.log 2>&1
   echo 'Complete!'
 
