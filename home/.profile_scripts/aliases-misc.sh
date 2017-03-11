@@ -26,7 +26,7 @@ notepad() {
 crop-text() {
   lines="$(tput lines)"
   cols="$( tput cols)"
-  echo -n "$1" | fold -s -w "$cols" | head -n "$lines"
+  printf '%s' "$1" | fold -s -w "$cols" | head -n "$lines"
 }
 
 to-msec() {
@@ -62,16 +62,21 @@ watch-command() {
   (
   interval="$1"
   cmd="$2"
-  last=""
+  lastColumns=""
+  lastOutput=""
   trap 'clear; exit' 2 3
   while true; do
+    columns=$(tput cols)
     output=$(eval "$cmd" 2>&1 || :)
-    if [ "$output" != "$last" ]; then
+    if [ ! "$columns" -eq "$lastColumns" ] || \
+       [ "$output" != "$lastOutput" ]
+    then
       results="$(crop-text "$output")"
       clear
-      echo -n "$results"
+      printf "%s" "$results"
     fi
-    last="$output"
+    lastOutput="$output"
+    lastColumns="$columns"
     sleep "$interval"
   done
   )
