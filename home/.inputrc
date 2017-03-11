@@ -18,15 +18,15 @@ set completion-query-items 10000
 # prevent "^C" etc. from appearing
 set echo-control-characters off
 
-# Use vi mode, switching the cursor type when in insert vs. command mode
-# For other cursors, change the number after \e[ to one of the following:
-# 0 -> blinking block
-# 1 -> blinking block (default)
-# 2 -> steady block
-# 3 -> blinking underline
-# 4 -> steady underline
-# 5 -> blinking bar (xterm-only)
-# 6 -> steady bar (xterm-only)
+# Use vi mode, switching the cursor type when in insert vs. command mode For
+# other cursors, change the number after the escape to one of the following:
+# 0 -> block     (blinking)
+# 1 -> block     (blinking)
+# 2 -> block     (steady)
+# 3 -> underline (blinking)
+# 4 -> underline (steady)
+# 5 -> bar       (blinking) (xterm-only)
+# 6 -> bar       (steady)   (xterm-only)
 set editing-mode vi
 set show-mode-in-prompt on
 set vi-ins-mode-string "\1\e[6 q\2"

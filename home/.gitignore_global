@@ -46,4 +46,5 @@ ehthumbs.db
 Thumbs.db
 
 # Local configuration #
+#######################
 .env

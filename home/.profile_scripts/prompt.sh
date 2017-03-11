@@ -1,6 +1,8 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
-# Colors
+## Colors
+####################
+
 prompt-color-reset() {
   tput sgr0
 }
@@ -30,7 +32,9 @@ prompt-color-fg() {
 }
 
 
-# Rendering
+## Rendering
+####################
+
 prompt-render-bubble() {
   prompt-color-fg
   if [ "$(jobs | grep -v 'Done')" == "" ]; then
@@ -57,7 +61,9 @@ prompt-render-cd() {
 }
 
 
-# Prompt command
+## Prompt command
+####################
+
 prompt-command() {
   export EXIT_CODE="$?"
   prompt-render-bubble

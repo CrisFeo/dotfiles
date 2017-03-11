@@ -1,17 +1,12 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
-
-function git-current-branch {
-  showDetached=$1
-  branch="$(git symbolic-ref HEAD 2>/dev/null)"
-  if [ $? -eq 0 ]; then
+git-current-branch() {
+  if branch="$(git symbolic-ref HEAD 2>/dev/null)"; then
     sed 's|refs/heads/||' <<< "$branch"
-  elif [ -n "$showDetached" ]; then
-    printf '\033[0;31mDETACHED\n'
   fi
 }
 
-function git-branch-status {
+git-branch-status() {
   branch="$(git status -sb | sed -En 's|^## ([^.]+).*$|\1|p')"
   pos="$(git status -sb | sed -En 's|^## .*\[(.+) .*\]$|\1|p')"
   num="$( git status -sb | sed -En 's|^## .*\[[^ ]+ (.+)\]$|\1|p')"
@@ -22,14 +17,14 @@ function git-branch-status {
   fi
 }
 
-function git-clean-branches {
+git-clean-branches() {
   git co master > /dev/null  && git br --merged          | \
                                 grep -v '\*'             | \
                                 xargs -n 1 git branch -d ; \
                                 git co - > /dev/null
 }
 
-function git-graph {
+git-graph() {
   git log \
       --graph \
       --abbrev-commit \
@@ -38,7 +33,7 @@ function git-graph {
       --format=format:'%C(blue)%h - %C(green)(%ar)%C(yellow)%d%C(white)%n%w(76,10,10)%s'
 }
 
-function git-sync-origin {
+git-sync-origin() {
   git fetch --all && \
   git co master && \
   git pull && \
@@ -46,15 +41,15 @@ function git-sync-origin {
   git remote prune origin
 }
 
-function git-watch-status {
+git-watch-status() {
   watch-command 1 'git-branch-status && git -c color.status=always status -s'
 }
 
-function git-watch-graph {
+git-watch-graph() {
   watch-command 1 'git-graph'
 }
 
-function git-quick-amend {
+git-quick-amend() {
   if [ "$(git-current-branch)" == "master" ]; then
     echo "You can't amend on master"
   else
@@ -65,7 +60,9 @@ function git-quick-amend {
   fi
 }
 
-# Shortened Forms
+## Short aliases
+####################
+
 alias g-a="git stage-file"
 alias g-r="git unstage-file"
 alias g-u="git undo"

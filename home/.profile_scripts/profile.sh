@@ -1,20 +1,25 @@
-#! /bin/bash
+#!/usr/bin/env bash
+# shellcheck disable=SC1090
 
 ## Global env vars
-export CLICOLOR=1
-export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+####################
+
 export PATH=$PATH:$HOME/bin:$HOME/.local/bin
 export EDITOR=nvim
+export CLICOLOR=1
+export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 export FZF_DEFAULT_COMMAND='ag -l -f --hidden'
 
-## Tmux-specific env vars
+## Tmux env vars
+####################
+
 if { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
-  # This should be set by the terminal emulator, not here...
-  # export TERM=xterm-256color
   export IGNOREEOF=1
 fi
 
 ## Bash history
+####################
+
 export HISTCONTROL=ignoreboth # ignores dups and whitespace
 export HISTIGNORE=clear:ls
 export HISTSIZE=1000000
@@ -23,15 +28,18 @@ export HISTTIMEFORMAT="%F %T " # show times next to history items
 shopt -s histappend
 
 ## Completions
-source "$HOME/.profile_scripts/completion-git.sh"
-source "$HOME/.profile_scripts/completion-misc.sh"
+####################
 
+. "$HOME/.profile_scripts/completion-git.sh"
+. "$HOME/.profile_scripts/completion-misc.sh"
 
 ## Aliases
-source "$HOME/.profile_scripts/aliases-git.sh"
-source "$HOME/.profile_scripts/aliases-misc.sh"
-source "$HOME/.profile_scripts/aliases-tmux.sh"
+####################
 
+. "$HOME/.profile_scripts/aliases-git.sh"
+. "$HOME/.profile_scripts/aliases-misc.sh"
 
 ## Prompt
-source "$HOME/.profile_scripts/prompt.sh"
+####################
+
+. "$HOME/.profile_scripts/prompt.sh"

@@ -17,26 +17,12 @@
 	force-push = push origin HEAD --force
 	log-fancy = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(cyan)<%an>%Creset' --abbrev-commit --date=relative
   diff-words = diff --color-words=.
-	stage-file   = "!f() { t=${1-.}; git add $t; }; f"
-	unstage-file = "!f() { t=${1-.}; git reset HEAD -- $t; }; f"
-	undo         = "!f() { t=${1-.}; git checkout -- $t; }; f"
+	stage-file   = "!f() { t=${@-.}; git add $t; }; f"
+	unstage-file = "!f() { t=${@-.}; git reset HEAD -- $t; }; f"
+	undo         = "!f() { t=${@-.}; git checkout -- $t; }; f"
 [push]
 	default = simple
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
 [url "ssh://git@github.plaid.com/"]
 	insteadOf = https://github.plaid.com/
-[merge]
-	tool = diffconflicts
-[mergetool]
-	path = nvim
-	keepBackup = false
-[mergetool "vimdiff3"]
-	path = nvim
-[mergetool "vimdiff"]
-	path = nvim
-[mergetool "vimdiff2"]
-	path = nvim
-[mergetool "diffconflicts"]
-	cmd = diffconflicts nvim $BASE $LOCAL $REMOTE $MERGED
-	trustExitCode = true

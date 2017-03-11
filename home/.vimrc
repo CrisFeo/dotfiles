@@ -182,7 +182,7 @@ if !exists('simple_config')
     \ 'spinner': ['fg', '230'],
     \ 'header':  ['fg', '106'] }
   autocmd VimEnter * command! -nargs=* Ag
-      \ call fzf#vim#ag(<q-args>, '--color-path "33;1"', fzf#vim#default_layout)
+      \ call fzf#vim#ag(<q-args>, '--hidden --ignore ".git/" --color-path "33;1"', fzf#vim#default_layout)
   nmap \ :Ag<CR>
   nmap <C-\> :Files<CR>
   nmap <Bar> :Buffers<CR>

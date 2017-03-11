@@ -1,7 +1,6 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
-mpc_is_playing=`mpc -f '' | grep 'playing'`
-if [ ! -z "$mpc_is_playing" ]; then
+if mpc -f '' | grep 'playing'; then
   mpc pause
 else
  mpc play

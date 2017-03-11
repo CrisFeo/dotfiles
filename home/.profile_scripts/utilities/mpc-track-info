@@ -1,34 +1,4 @@
-#! /bin/bash
-
-to_msec()
-{
-  read -r a b c <<< "$(echo "$1" | sed -E 's/:0+/:/' | tr ':' ' ' )"
-  if [ -z "$b" ] && [ -z "$c" ]; then
-     printf '%s' "$((a*1000))"
-  elif [ -z "$c" ]; then
-    printf '%s' "$(((a*60*1000)+(b*1000)))"
-  else
-    printf '%s' "$(((a*60*60*1000)+(b*60*1000)+(c*1000)))"
-  fi
-}
-
-from_msec()
-{
-  hour=$(($1/(60*60*1000)))
-  min=$((($1%(60*60*1000))/(60*1000)))
-  sec=$((($1%(60*1000))/1000))
-  printf '%i:%02i:%02i' $hour $min $sec | sed -E 's/^0+:0?//'
-}
-
-truncate_str()
-{
-  if [ "${#2}" -gt "$1" ]; then
-    printf '%s...' "$(cut -c -"$1" <<< "$2")"
-  else
-    printf '%s' "$2"
-  fi
-}
-
+#!/usr/bin/env bash
 
 track_info="$(mpc status -f '%title%~%artist%' | sed -E 's/ +/ /g')"
 track_info_lines="$(echo "$track_info" | wc -l | sed 's/ //g')"
@@ -45,14 +15,14 @@ track_playing="$(echo "$track_line2" | cut -d ' ' -f 1)"
 track_time_elapsed="$(echo "$track_line2" | cut -d ' ' -f 3 | cut -d '/' -f 1)"
 track_time_total="$(echo "$track_line2" | cut -d ' ' -f 3 | cut -d '/' -f 2)"
 
-[[ "$track_playing" = '[playing]' ]] && play_status="▶ " || play_status="❚❚"
+[ "$track_playing" = '[playing]' ] && play_status="▶ " || play_status="❚❚"
 
-elapsed="$(to_msec "$track_time_elapsed")"
-total="$(to_msec "$track_time_total")"
+elapsed="$(to-msec "$track_time_elapsed")"
+total="$(to-msec "$track_time_total")"
 remaining="$((total-elapsed))"
-track_time_remaining="$(from_msec $remaining)"
+track_time_remaining="$(from-msec $remaining)"
 
 printf ' %s %s │ %s │ %s' "$play_status" \
                           "$track_time_remaining" \
-                          "$(truncate_str 20 "$track_title")" \
-                          "$(truncate_str 20 "$track_artist")"
+                          "$(truncate-string 20 "$track_title")" \
+                          "$(truncate-string 20 "$track_artist")"

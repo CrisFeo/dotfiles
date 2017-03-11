@@ -1,32 +1,63 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
+## Editors
+####################
 
+vim-open() {
 FZF_COLORS='fg:230,bg:235,hl:106,fg+:230,bg+:235,hl+:106,info:106,prompt:106,spinner:230,pointer:106,marker:166'
-
-# Editors
-function vim-open {
-  (cd "${1:-.}"                                                  && \
+(cd "${1:-.}"                                                    && \
   CHOSEN_FILES=$(ag --nocolor --hidden --ignore "./.git" -g "" |    \
                  fzf --color=$FZF_COLORS --multi --cycle)        && \
   xargs nvim <<< "$CHOSEN_FILES")
 }
+alias v-o='vim-open'
 
-function notepad {
+notepad() {
   nvim -c ':set background=light' \
        -c ':PencilHard' \
        -c ':set nonumber' \
-       -c ':set norelativenumber'
+       -c ':set norelativenumber' \
+       -c ':set simple_config=1'
 }
 
-# Formatting
-function crop-text {
+## Formatting
+####################
+
+crop-text() {
   lines="$(tput lines)"
   cols="$( tput cols)"
   echo -n "$1" | fold -s -w "$cols" | head -n "$lines"
 }
 
+to-msec() {
+  read -r a b c <<< "$(echo "$1" | sed -E 's/:0+/:/' | tr ':' ' ' )"
+  if [ -z "$b" ] && [ -z "$c" ]; then
+     printf '%s' "$((a*1000))"
+  elif [ -z "$c" ]; then
+    printf '%s' "$(((a*60*1000)+(b*1000)))"
+  else
+    printf '%s' "$(((a*60*60*1000)+(b*60*1000)+(c*1000)))"
+  fi
+}
 
-# Watching
+from-msec() {
+  hour=$(($1/(60*60*1000)))
+  min=$((($1%(60*60*1000))/(60*1000)))
+  sec=$((($1%(60*1000))/1000))
+  printf '%i:%02i:%02i' $hour $min $sec | sed -E 's/^0+:0?//'
+}
+
+truncate-string() {
+  if [ "${#2}" -gt "$1" ]; then
+    printf '%s…' "$(cut -c -"$1" <<< "$2")"
+  else
+    printf '%s' "$2"
+  fi
+}
+
+## Watching
+####################
+
 watch-command() {
   (
   interval="$1"
@@ -46,26 +77,8 @@ watch-command() {
   )
 }
 
-
-# Calendars
-agenda() {
-  calendar="$1"
-  if [ "$calendar" == '' ]; then
-    gcalcli list
-  else
-    today="$(date '+%m/%d/%Y')"
-    tomorrow="$(date -v+1d '+%m/%d/%Y')"
-    gcalcli --calendar "$calendar" agenda "$today" "$tomorrow"
-  fi
-}
-
-agenda-cris() {
-  agenda cris@plaid.com
-}
-
-agenda-plaid() {
-  agenda Team
-}
+## Node REPL
+####################
 
 node-repl() {
   NODE_PATH=${1:-}
@@ -84,25 +97,47 @@ node-repl-functional() {
     'const R = require("ramda"); const S = require("sanctuary");'
 }
 
-ls-less() {
-  if [ -d "${@: -1}" ]; then
-    ls "$@"
-  else
-    less "$@"
-  fi
+## Path
+####################
+
+# Retrieve the physical path (with all symlinks resolved) for the provided
+# virtual path in a cross-platform compatible manner. Utilizes `cd` but amends
+# the history such that `cd -` will still work.
+physical-path() {
+  cd "$1" || return
+  physicalPath="$(pwd -P)"
+  cd - 2>/dev/null || return
+  echo "$physicalPath"
 }
 
-# Utils
-alias cd-full='cd "$(pwd -P)"'
-alias format-json='~/.profile_scripts/utilities/format-json'
+# Change to the full path of the provided directory or the current directory if
+# one is not provided.
+# shellcheck disable=SC2120
+cd-full() {
+  cd "$(physical-path "${1:-'.'}")" || return
+}
+
+## Miscellaneous
+####################
+
+# Takes an input path and either paginates it using `less` if its a file or
+# lists contents using `ls` if its a directory.
+ls-less() {
+  if [ -d "$1" ]; then
+    ls "$1"
+  else
+    less "$1"
+  fi
+}
+alias l='ls-less'
+
+# Print a horizontal bar spanning the width of the terminal.
+hline() {
+  # shellcheck disable=SC2046
+  printf "%0.s─" $(seq $(tput cols))
+}
+
 alias generate-tags-go='gotags $(find . -name "*.go" -not -path "./vendor/*") > tags'
 alias mopidy-start='nohup mopidy > /dev/null 2>&1 &'
 alias reload-profile="source ~/.bash_profile"
-alias ped='perl -p -e'
-alias hline='printf "%0.s─" $(seq 1 `tput cols`)'
-alias zzz='pmset sleepnow'
-alias fig='figlet -w `tput cols`'
-alias ip="ifconfig | grep 'inet ' | grep -v 127.0.0.1"
 alias v='nvim'
-alias v-o='vim-open'
-alias l='ls-less'
