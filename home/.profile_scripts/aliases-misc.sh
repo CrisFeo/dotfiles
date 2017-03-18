@@ -12,12 +12,12 @@ FZF_COLORS='fg:230,bg:235,hl:106,fg+:230,bg+:235,hl+:106,info:106,prompt:106,spi
 }
 alias v-o='vim-open'
 
-notepad() {
-  nvim -c ':set background=light' \
-       -c ':PencilHard' \
-       -c ':set nonumber' \
-       -c ':set norelativenumber' \
-       -c ':set simple_config=1'
+vim-basic() {
+  nvim --cmd ':let g:simple_config=1' \
+          -c ':set background=light' \
+          -c ':colorscheme off' \
+          -c ':set nonumber' \
+          -c ':set norelativenumber'
 }
 
 ## Formatting
@@ -106,12 +106,12 @@ node-repl-functional() {
 ####################
 
 # Retrieve the physical path (with all symlinks resolved) for the provided
-# virtual path in a cross-platform compatible manner. Utilizes `cd` but amends
+# virtual path in a cross-platform compatible manner. Utilizes `cd` but ammends
 # the history such that `cd -` will still work.
 physical-path() {
-  cd "$1" || return
+  cd "${1:-.}" 1>/dev/null 2>&1 || return
   physicalPath="$(pwd -P)"
-  cd - 2>/dev/null || return
+  cd - 1>/dev/null 2>&1 || return
   echo "$physicalPath"
 }
 
@@ -119,7 +119,7 @@ physical-path() {
 # one is not provided.
 # shellcheck disable=SC2120
 cd-full() {
-  cd "$(physical-path "${1:-'.'}")" || return
+  cd "$(physical-path "$1")" || return
 }
 
 ## Miscellaneous

@@ -1,0 +1,7 @@
+colorscheme basic
+
+set-option global ui_options ncurses_assistant=cat
+
+set-option global tabstop 2
+set-option global indentwidth 2
+set-option global aligntab false

@@ -40,6 +40,7 @@ if [ "$1" != '--skip-install' ]; then
   brewAdd go
   brewAdd gotags
   brewAdd jq
+  brewAdd kakoune
   brewAdd koekeishiya/formulae/khd
   brewAdd mopidy
   brewAdd mpc
