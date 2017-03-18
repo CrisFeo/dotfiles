@@ -3,9 +3,12 @@ set -e
 
 rm -f install.log && touch install.log
 
+echoError() {
+  printf '\e[31m%s\e[0m\n' "$@" 1>&2
+}
+
 brewInstall() {
-  ret=0; (which brew > /dev/null) || ret=$?
-  if [[ $ret != 0 ]]; then
+  if ! which brew > /dev/null; then
     echo 'Installing homebrew...'
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || : >> install.log 2>&1
     echo 'Complete!'
@@ -13,11 +16,24 @@ brewInstall() {
 }
 
 brewAdd() {
-  ret=0; (brew ls | grep "$1" > /dev/null) || ret=$?
-  if [[ $ret != 0 ]]; then
+  if ! brew ls | grep "$1" > /dev/null; then
     echo "Installing $1..."
-    brew install "$1" >> install.log 2>&1
-    echo 'Complete!'
+    if ! brew install "$@" >> install.log 2>&1; then
+      echoError "Error installing $1"
+    else
+      echo 'Complete!'
+    fi
+  fi
+}
+
+brewCaskAdd() {
+  if ! brew cask ls | grep "$1" > /dev/null; then
+    echo "Installing $1..."
+    if ! brew cask install "$@" >> install.log 2>&1; then
+      echoError "Error installing $1"
+    else
+      echo 'Complete!'
+    fi
   fi
 }
 
@@ -33,6 +49,11 @@ if [ "$1" != '--skip-install' ]; then
   brew upgrade >> install.log 2>&1
   echo 'Complete!'
 
+  echo 'Tapping repositories...'
+  brew tap caskroom/versions >> install.log 2>&1
+  brew tap homebrew/dupes >> install.log 2>&1
+  echo 'Complete!'
+
   brewAdd ag
   brewAdd bash
   brewAdd fzf
@@ -40,7 +61,6 @@ if [ "$1" != '--skip-install' ]; then
   brewAdd go
   brewAdd gotags
   brewAdd jq
-  brewAdd kakoune
   brewAdd koekeishiya/formulae/khd
   brewAdd mopidy
   brewAdd mpc
@@ -51,18 +71,17 @@ if [ "$1" != '--skip-install' ]; then
   brewAdd tmux
   brewAdd watch
 
-  echo 'Installing brew casks...'
-  {
-    brew tap caskroom/versions
-    brew cask install 'karabiner-elements'
-    brew cask install 'iterm2-nightly'
-    brew cask install 'hammerspoon'
-  } >> install.log 2>&1
-  echo 'Complete!'
+  # Kakoune is a bit weird: the main formula is out-of-date and broken
+  brewAdd homebrew/dupes/ncurses
+  brewAdd https://raw.githubusercontent.com/mawww/kakoune/master/contrib/kakoune.rb --HEAD
+
+  brewCaskAdd 'karabiner-elements'
+  brewCaskAdd 'iterm2-nightly'
+  brewCaskAdd 'hammerspoon'
 
 
   # Node dependencies
-  echo 'Installing node dependencies...'
+  echo 'Installing node...'
   {
     # shellcheck source=/dev/null
     source "$HOME/.nvm/nvm.sh"
@@ -89,7 +108,8 @@ echo 'Symlinking dotfiles into user home...'
 {
   FILES_SOURCE=$(find "$PWD/home" -depth 1)
   FILES_DEST=${FILES_SOURCE//$PWD\/home/$HOME}
-  echo "Files: $FILES_SOURCE"
+  echo "Home files to be linked:"
+  printf '+ %s\n' "$FILES_SOURCE"
   cd "$HOME" || exit
   xargs -n 1 rm -rf <<< "$FILES_DEST"
   xargs -n 1 ln -s <<< "$FILES_SOURCE"
@@ -97,21 +117,11 @@ echo 'Symlinking dotfiles into user home...'
 } >> install.log 2>&1
 echo 'Complete!'
 
-# Neovim
-echo 'Symlinking neovim configs to vim configs...'
-{
-  mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"
-  ln -sf "$HOME/.vim" "$XDG_CONFIG_HOME/nvim"
-  cd "$HOME/.vim" || exit
-  ln -sf ../.vimrc ./init.vim
-  cd - || exit
-} >> install.log 2>&1
-echo 'Complete!'
-
-
 echo 'Sourcing profile...'
 {
   # shellcheck disable=SC1091
   source './home/.profile_scripts/profile.sh'
 } >> install.log 2>&1
 echo 'Complete!'
+
+echo 'Dotfile installation completed'
