@@ -81,9 +81,8 @@ endfunction
 
 call s:h("Normal",        {"bg": s:bg, "fg": s:norm})
 call s:h("Cursor",        {"bg": s:blue, "fg": s:norm })
-call s:h("Comment",       {"fg": s:bg_subtle, "gui": "italic"})
+call s:h("Comment",       {"fg": s:bg_subtle, "cterm": "italic", "gui": "italic"})
 
-"call s:h("Constant",      {"fg": s:cyan})
 hi! link Constant         Normal
 hi! link Character        Constant
 hi! link Number           Constant
@@ -91,11 +90,9 @@ hi! link Boolean          Constant
 hi! link Float            Constant
 hi! link String           Constant
 
-"call s:h("Identifier",    {"fg": s:dark_blue})
 hi! link Identifier       Normal
 hi! link Function         Identifier
 
-"call s:h("Statement",     {"fg": s:green})
 hi! link Statement        Normal
 hi! link Conditonal       Statement
 hi! link Repeat           Statement
@@ -104,20 +101,17 @@ hi! link Operator         Statement
 hi! link Keyword          Statement
 hi! link Exception        Statement
 
-"call s:h("PreProc",       {"fg": s:red})
 hi! link PreProc          Normal
 hi! link Include          PreProc
 hi! link Define           PreProc
 hi! link Macro            PreProc
 hi! link PreCondit        PreProc
 
-"call s:h("Type",          {"fg": s:purple})
 hi! link Type             Normal
 hi! link StorageClass     Type
 hi! link Structure        Type
 hi! link Typedef          Type
 
-"call s:h("Special",       {"fg": s:pink})
 hi! link Special          Normal
 hi! link SpecialChar      Special
 hi! link Tag              Special
@@ -182,18 +176,55 @@ call s:h("ColorColumn",   {"bg": s:bg_subtle})
 call s:h("MatchParen",    {"bg": s:bg_subtle, "fg": s:norm})
 call s:h("qfLineNr",      {"fg": s:medium_gray})
 
-call s:h("htmlH1",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH2",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH3",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH4",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH5",        {"bg": s:bg, "fg": s:norm})
-call s:h("htmlH6",        {"bg": s:bg, "fg": s:norm})
+" Set higher contrast colors if desired
+if exists('g:colorful')
+  call s:h("Identifier",    {"fg": s:dark_blue})
+  call s:h("Statement",     {"fg": s:green})
+  call s:h("PreProc",       {"fg": s:red})
+  call s:h("Type",          {"fg": s:purple})
+  call s:h("Special",       {"fg": s:pink})
+  call s:h("Constant",      {"fg": s:cyan})
+endif
 
-" Signify, git-gutter
-hi link SignifySignAdd              LineNr
-hi link SignifySignDelete           LineNr
-hi link SignifySignChange           LineNr
+" git-gutter {{{
 hi link GitGutterAdd                LineNr
 hi link GitGutterDelete             LineNr
 hi link GitGutterChange             LineNr
 hi link GitGutterChangeDelete       LineNr
+" }}}
+
+" html {{{
+call s:h("htmlH1",         {"bg": s:bg, "fg": s:norm})
+call s:h("htmlH2",         {"bg": s:bg, "fg": s:norm})
+call s:h("htmlH3",         {"bg": s:bg, "fg": s:norm})
+call s:h("htmlH4",         {"bg": s:bg, "fg": s:norm})
+call s:h("htmlH5",         {"bg": s:bg, "fg": s:norm})
+call s:h("htmlH6",         {"bg": s:bg, "fg": s:norm})
+call s:h("htmlString",     {"bg": s:bg, "fg": s:norm})
+call s:h("htmlLink",       {"bg": s:bg, "fg": s:norm, "cterm": "italic"})
+" }}}
+
+" markdown {{{
+hi link mkdString        String
+hi link mkdCode          String
+hi link mkdCodeStart     String
+hi link mkdCodeEnd       String
+hi link mkdFootnote      Comment
+hi link mkdBlockquote    Comment
+hi link mkdListItem      Identifier
+hi link mkdRule          Identifier
+hi link mkdLineBreak     Visual
+hi link mkdFootnotes     htmlLink
+hi link mkdLink          htmlLink
+hi link mkdURL           htmlString
+hi link mkdInlineURL     htmlLink
+hi link mkdID            Identifier
+hi link mkdLinkDef       mkdID
+hi link mkdLinkDefTarget mkdURL
+hi link mkdLinkTitle     htmlString
+hi link mkdDelimiter     Delimiter
+
+call s:h("mkdBold",                  {"cterm": "bold", "gui": "bold"})
+call s:h("mkdBoldItalic",            {"cterm": "italic,bold", "gui": "italic,bold"})
+call s:h("mkdItalic",                {"cterm": "italic", "gui": "italic"})
+" }}}

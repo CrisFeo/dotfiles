@@ -4,17 +4,20 @@ call plug#begin('~/.vim/plugged')
   Plug 'L9'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-dispatch'
+  Plug 'kopischke/vim-fetch'
+  Plug 'tpope/vim-vinegar'
+  Plug 'godlygeek/tabular'
   " Utilities
-  Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
   " Themes
   Plug 'morhetz/gruvbox'
   " Syntax/Language support
-  Plug 'tpope/vim-markdown'
+  Plug 'plasticboy/vim-markdown'
   Plug 'pangloss/vim-javascript'
 if !exists('g:simple_config')
   " Utilities
+  Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
   Plug 'airblade/vim-gitgutter'
   Plug 'shougo/vimproc.vim', {'do' : 'make'}
   " Tooling
@@ -83,10 +86,6 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-" vim-markdown
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-let g:markdown_fenced_languages = ['json', 'js=javascript', 'bash=sh']
-
 " Fzf (Fuzzy Finder)
 set rtp+=/usr/local/opt/fzf
 let $FZF_DEFAULT_COMMAND = 'ag --nocolor --hidden --ignore ".git/" -l'
@@ -110,12 +109,15 @@ nmap \ :Ag<CR>
 nmap <C-\> :Files<CR>
 nmap <Bar> :Buffers<CR>
 
-" NERD Tree
-nmap <M-\> :NERDTreeToggle<CR>
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeIgnore=['\.DS_Store$']
+" default netrw binding
+nmap <M-\> :Explore<CR>
 
 if !exists('g:simple_config')
+  " NERD Tree
+  nmap <M-\> :NERDTreeToggle<CR>
+  let g:NERDTreeMinimalUI = 1
+  let g:NERDTreeIgnore=['\.DS_Store$']
+
   " Neomake
   let g:neomake_verbose = 0
   let g:neomake_warning_sign = { 'text': '﹖', 'texthl': 'WarningMsg' }

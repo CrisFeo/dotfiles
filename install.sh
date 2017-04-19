@@ -16,6 +16,7 @@ brewInstall() {
 }
 
 brewAdd() {
+  name="$(brew info --json=v1)"
   if ! brew ls | grep "$1" > /dev/null; then
     echo "Installing $1..."
     if ! brew install "$@" >> install.log 2>&1; then
@@ -61,7 +62,7 @@ if [ "$1" != '--skip-install' ]; then
   brewAdd go
   brewAdd gotags
   brewAdd jq
-  brewAdd koekeishiya/formulae/khd
+  brewAdd khd
   brewAdd mopidy
   brewAdd mpc
   brewAdd ncmpc
@@ -71,14 +72,33 @@ if [ "$1" != '--skip-install' ]; then
   brewAdd tmux
   brewAdd watch
 
-  # Kakoune is a bit weird: the main formula is out-of-date and broken
-  brewAdd homebrew/dupes/ncurses
-  brewAdd https://raw.githubusercontent.com/mawww/kakoune/master/contrib/kakoune.rb --HEAD
+  # Kakoune is a bit weird: the main formula is out-of-date and broken. We
+  # also check the formula name for both of these because we use specific paths
+  # when installing.
+  if ! brew ls | grep 'ncurses' > /dev/null; then
+    brewAdd homebrew/dupes/ncurses --force
+  fi
+  if ! brew ls | grep 'kakoune' > /dev/null; then
+    brewAdd https://raw.githubusercontent.com/mawww/kakoune/master/contrib/kakoune.rb --HEAD
+  fi
 
   brewCaskAdd 'karabiner-elements'
   brewCaskAdd 'iterm2-nightly'
   brewCaskAdd 'hammerspoon'
 
+  # Ruby dependencies
+  brewAdd rbenv
+  brewAdd ruby-build
+  {
+    eval "$(rbenv init -)"
+    rbenv install -s 2.4.0
+    rbenv global 2.4.0
+    gem install bundler
+  } >> install.log 2>&1
+
+  # Python dependencies
+  unset PYTHONPATH # Just in case to make sure install doesn't fail
+  brewAdd python3
 
   # Node dependencies
   echo 'Installing node...'
@@ -93,11 +113,9 @@ if [ "$1" != '--skip-install' ]; then
   # Neovim dependencies
   echo 'Installing neovim dependencies...'
   {
-    unset PYTHONPATH # Just in case to make sure install doesn't fail
-    brewAdd python3
     pip install neovim
     pip3 install neovim
-    sudo gem install neovim
+    gem install neovim
   } >> install.log 2>&1
   echo 'Complete!'
 fi

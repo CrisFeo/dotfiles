@@ -5,6 +5,10 @@ set t_Co=256
 colorscheme off
 syntax on
 
+" Italics support
+set t_ZH="\e[3m"
+set t_ZR="\e[23m"
+
 " UI settings
 set fillchars=vert:\ ,fold:-
 
@@ -29,6 +33,11 @@ set hidden
 set foldmethod=syntax
 set foldnestmax=1
 set foldlevelstart=99
+set conceallevel=2
+
+" netrw
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
 
 " Default leader
 let mapleader = ','
@@ -71,3 +80,8 @@ vmap J }
 vmap K {
 vmap ) $
 vmap ( ^
+
+" vim-markdown
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+let g:vim_markdown_fenced_languages = ['json', 'js=javascript']
+let g:vim_markdown_new_list_item_indent = 2

@@ -59,7 +59,6 @@ truncate-string() {
 ####################
 
 watch-command() {
-  (
   interval="$1"
   cmd="$2"
   lastColumns=""
@@ -79,7 +78,6 @@ watch-command() {
     lastColumns="$columns"
     sleep "$interval"
   done
-  )
 }
 
 ## Node REPL

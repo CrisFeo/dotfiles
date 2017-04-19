@@ -10,6 +10,14 @@ export CLICOLOR=1
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 export FZF_DEFAULT_COMMAND='ag -l -f --hidden'
 
+## Ruby setup
+####################
+
+if which rbenv > /dev/null; then
+  export RBENV_ROOT=/usr/local/var/rbenv
+  eval "$(rbenv init -)"
+fi
+
 ## Tmux env vars
 ####################
 
