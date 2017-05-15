@@ -1,24 +1,27 @@
 # set the maximum delay for a held modifier to trigger a modifer-only keybind.
-khd mod_trigger_timeout 0.15
+khd mod_trigger_timeout 0.13
 
-# remap right-control h/j/k/l -> arrow keys.
+# remap right-control h/j/k/l -> arrow keys. This ends up being caps lock with karabiner rebinding.
 rctrl - h         ![Terminal,iTerm2] : khd -p "- left"
 rctrl - j         ![Terminal,iTerm2] : khd -p "- down"
 rctrl - k         ![Terminal,iTerm2] : khd -p "- up"
 rctrl - l         ![Terminal,iTerm2] : khd -p "- right"
 
-# remap right-control b / w   -> start / end of word.
+# remap right-control b / w -> start / end of word. Right control ends up being
+# caps lock with karabiner rebinding.
 rctrl - b         ![Terminal,iTerm2] : khd -p "alt - left"
 rctrl - w         ![Terminal,iTerm2] : khd -p "alt - right"
 
-# remap a single press of the right control key to escape
+# remap a single press of the right control key to escape. Right control ends
+# up being caps lock with karabiner rebinding.
 rctrl : khd -p "- 0x35"
 
 # remap single-presses of shift keys to the corresponding parentheses
 lshift : khd -p "shift - 9"
 rshift : khd -p "shift - 0"
 
-# Numpad on keyboard
+# Numpad on keyboard. Right control ends up being caps lock with karabiner
+# rebinding.
 rctrl + shift - 0x2b : khd -p "- 0x52"
 rctrl + shift - b    : khd -p "- 0x53"
 rctrl + shift - n    : khd -p "- 0x54"
@@ -30,18 +33,19 @@ rctrl + shift - y    : khd -p "- 0x59"
 rctrl + shift - u    : khd -p "- 0x5b"
 rctrl + shift - i    : khd -p "- 0x5c"
 
-# Resizing window movement
-lctrl - up    : open -g "hammerspoon://fullscreen"
-lctrl - down  : open -g "hammerspoon://center"
-lctrl - left  : open -g "hammerspoon://fullscreen" && \
-                open -g "hammerspoon://left"
-lctrl - right : open -g "hammerspoon://fullscreen" && \
-                open -g "hammerspoon://right"
-lctrl - 0x21  : open -g "hammerspoon://center" && \
-                open -g "hammerspoon://stack"
+# Window focusing
+lctrl - k : open -g "hammerspoon://focus?d=up"
+lctrl - j : open -g "hammerspoon://focus?d=down"
+lctrl - h : open -g "hammerspoon://focus?d=left"
+lctrl - l : open -g "hammerspoon://focus?d=right"
 
-# Directional window movement
-lctrl + shift - up    : open -g "hammerspoon://top"
-lctrl + shift - down  : open -g "hammerspoon://bottom"
-lctrl + shift - left  : open -g "hammerspoon://left"
-lctrl + shift - right : open -g "hammerspoon://right"
+# Window movement - directional
+lctrl + shift - k : open -g "hammerspoon://push?d=up"
+lctrl + shift - j : open -g "hammerspoon://push?d=down"
+lctrl + shift - h : open -g "hammerspoon://push?d=left"
+lctrl + shift - l : open -g "hammerspoon://push?d=right"
+
+# Window movement - resizing
+lctrl + shift - y : open -g "hammerspoon://fullscreen"
+lctrl + shift - u : open -g "hammerspoon://center"
+lctrl + shift - i : open -g "hammerspoon://stack"

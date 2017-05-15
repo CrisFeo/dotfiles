@@ -20,8 +20,30 @@ vim-basic() {
           -c ':set norelativenumber'
 }
 
+## File queries
+####################
+export AG_MATCH_COLOR='0;33'
+export AG_PATH_COLOR='3;90'
+export AG_NUMBER_COLOR='3;90'
+
+ag-lines() {
+  ag '.*' \
+    --follow \
+    --nomultiline \
+    --hidden \
+    --ignore='.git' \
+    --color \
+    --color-match="$AG_MATCH_COLOR" \
+    --color-path="$AG_PATH_COLOR" \
+    --color-line-number="$AG_NUMBER_COLOR"
+}
+
 ## Formatting
 ####################
+
+sed-first-match() {
+  sed -En "s#$1#\1#p"
+}
 
 crop-text() {
   lines="$(tput lines)"
@@ -144,3 +166,4 @@ alias generate-tags-go='gotags $(find . -name "*.go" -not -path "./vendor/*") > 
 alias mopidy-start='nohup mopidy > /dev/null 2>&1 &'
 alias reload-profile="source ~/.bash_profile"
 alias v='nvim'
+alias sfm='sed-first-match'

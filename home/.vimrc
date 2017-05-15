@@ -9,7 +9,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'godlygeek/tabular'
   " Utilities
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  Plug 'junegunn/fzf.vim'
+  Plug 'crisfeo/fzf.vim'
   " Themes
   Plug 'morhetz/gruvbox'
   " Syntax/Language support
@@ -32,6 +32,7 @@ if !exists('g:simple_config')
   Plug 'fatih/vim-go'
   Plug 'OmniSharp/omnisharp-vim'
   Plug 'raichoo/purescript-vim'
+  Plug 'leafgarland/typescript-vim'
 endif
 call plug#end()
 
@@ -79,32 +80,41 @@ set statusline=\ «%f»
 set statusline+=%=
 set statusline+=%M\ ‹%c›\ %1*%{Mode()}%0*
 
+" Allow editing crontab files
+autocmd filetype crontab setlocal nobackup nowritebackup
+
 " Use ag instead of grep
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  let g:ctrlp_use_caching = 0
 endif
 
 " Fzf (Fuzzy Finder)
-set rtp+=/usr/local/opt/fzf
-let $FZF_DEFAULT_COMMAND = 'ag --nocolor --hidden --ignore ".git/" -l'
-let g:fzf_layout = { 'down': '~50%' }
+set rtp+=/usr/local/bin/fzf
 let g:fzf_colors =
-\ { 'fg':      ['fg', '#FF0000'],
-  \ 'bg':      ['bg', '235'],
-  \ 'hl':      ['fg', '106'],
-  \ 'fg+':     ['fg', '230'],
-  \ 'bg+':     ['bg', '235'],
-  \ 'hl+':     ['fg', '106'],
-  \ 'info':    ['fg', '106'],
-  \ 'prompt':  ['fg', '106'],
-  \ 'pointer': ['fg', '106'],
-  \ 'marker':  ['fg', '166'],
-  \ 'spinner': ['fg', '230'],
-  \ 'header':  ['fg', '106'] }
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Search'],
+  \ 'fg+':     ['fg', 'Normal'],
+  \ 'bg+':     ['bg', 'Normal'],
+  \ 'hl+':     ['fg', 'Search'],
+  \ 'info':    ['fg', 'Normal'],
+  \ 'prompt':  ['fg', 'Normal'],
+  \ 'pointer': ['fg', 'String'],
+  \ 'marker':  ['fg', 'String'],
+  \ 'spinner': ['fg', 'Normal'],
+  \ 'header':  ['fg', 'Normal'] }
+autocmd! User FzfStatusLine setlocal statusline=«fzf»
 autocmd VimEnter * command! -nargs=* Ag
-    \ call fzf#vim#ag(<q-args>, '--hidden --ignore ".git/" --color-path "33;1"', fzf#vim#default_layout)
+  \ call fzf#vim#ag(<q-args>,
+    \'--follow
+    \ --nomultiline
+    \ --hidden
+    \ --ignore=".git"
+    \ --color
+    \ --color-match="$AG_MATCH_COLOR"
+    \ --color-path="$AG_PATH_COLOR"
+    \ --color-line-number="$AG_NUMBER_COLOR"'
+    \, fzf#vim#default_layout)
 nmap \ :Ag<CR>
 nmap <C-\> :Files<CR>
 nmap <Bar> :Buffers<CR>
