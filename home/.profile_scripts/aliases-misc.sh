@@ -106,20 +106,17 @@ watch-command() {
 ####################
 
 node-repl() {
-  NODE_PATH=${1:-}
-  IMPORTS=${2:-}
-  (env \
-    NODE_PATH="$NODE_PATH" \
-    NODE_NO_READLINE=1 \
-    RLWRAP_EDITOR='nvim --cmd "let simple_config = 1"' \
-    rlwrap -m'
-  ' -M '.js' -P "$IMPORTS" node)
+  NODE_PATH="$(npm root -g)" \
+  NODE_NO_READLINE=1         \
+  rlwrap -P "$1" node
 }
 
-node-repl-functional() {
-  node-repl \
-    "$(npm root -g)" \
-    'const R = require("ramda"); const S = require("sanctuary");'
+node-repl-load() {
+  node-repl ".load ${1:-index.js}"
+}
+
+node-repl-sanctuary() {
+  node-repl 'const R = require("ramda"); const S = require("sanctuary");'
 }
 
 ## Path

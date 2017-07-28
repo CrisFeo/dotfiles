@@ -71,6 +71,7 @@ if [ "$1" != '--skip-install' ]; then
   brewAdd reattach-to-user-namespace
   brewAdd tmux
   brewAdd watch
+  brewAdd z
 
   # Kakoune is a bit weird: the main formula is out-of-date and broken. We
   # also check the formula name for both of these because we use specific paths
@@ -85,6 +86,7 @@ if [ "$1" != '--skip-install' ]; then
   brewCaskAdd 'karabiner-elements'
   brewCaskAdd 'iterm2-nightly'
   brewCaskAdd 'hammerspoon'
+  brewCaskAdd 'zazu'
 
   # Ruby dependencies
   brewAdd rbenv

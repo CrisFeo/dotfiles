@@ -1,0 +1,36 @@
+{
+  "disableAnalytics": true,
+  "displayOn": "detect",
+  "hotkey": "cmd+space",
+  "plugins": [
+    {
+      "name": "tinytacoteam/zazu-file-finder",
+      "variables": {
+        "directories": {
+          "appPath": [
+            "/Applications"
+          ],
+          "excludeName": [
+            "node_modules"
+          ],
+          "excludePath": [
+            "~/Library"
+          ],
+          "filePath": [
+            "~/Documents"
+          ]
+        }
+      }
+    },
+    "tinytacoteam/zazu-calculator",
+    "tinytacoteam/zazu-mac-1password",
+    "halvves/zazu-giphy",
+    {
+      "name": "tinytacoteam/zazu-clipboard",
+      "variables": {
+        "ClipboardKey": "cmd+shift+v"
+      }
+    }
+  ],
+  "theme": "singuerinc/zazu-clean-dark-theme"
+}

@@ -54,6 +54,10 @@ shopt -s histappend
 bind '"\e[A":history-search-backward'
 bind '"\e[B":history-search-forward'
 
+## z directory changer
+####################
+. /usr/local/etc/profile.d/z.sh
+
 ## Completions
 ####################
 

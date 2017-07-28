@@ -5,6 +5,7 @@
 [user]
 	name = CrisFeo
 	email = feo.cris@gmail.com
+	signingkey = CA85BB93424A3A1D
 [alias]
 	amend = commit --amend
 	br = branch
