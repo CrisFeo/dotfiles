@@ -12,13 +12,14 @@ set t_ZR="\e[23m"
 " UI settings
 set fillchars=vert:\ ,fold:-
 
-" Statusline
-set statusline=\ «%f»
-set statusline+=%=
-set statusline+=%M\ ‹%c›\ %0*
+" Super condensed status line and/or ruler
+set statusline=%=%M\ ‹%l›
+set rulerformat=%=%M\ ‹%l›
 
 " Basic editing
 filetype plugin indent on
+set showmode
+set laststatus=0
 set timeoutlen=100
 set synmaxcol=200
 set shortmess+=I
@@ -26,8 +27,6 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set autoindent
-set number
-set relativenumber
 set autoread
 set hidden
 set foldmethod=syntax
@@ -41,6 +40,16 @@ let g:netrw_liststyle = 3
 
 " Default leader
 let mapleader = ','
+
+" More useful buffer info
+function! BufferInfo()
+  let l:filename = expand('%') ==# '' ? '' : '«'.expand('%').'»'
+  let l:modified = &mod == 1 ? '+' : ''
+  let l:cursor = '‹'.line('.').':'.col('.').'›'
+  let l:percent = '‹'.(line('.') * 100 / line('$')).'%›'
+  echo ' '.l:filename.' '.l:cursor.' '.l:percent
+endfunc
+nmap <C-g> :call BufferInfo()<CR>
 
 " Disable arrow keys
 noremap <Up> <NOP>
@@ -65,7 +74,7 @@ nmap <Leader>/ :b#<CR>
 set nohlsearch
 nmap <Leader>. :set hlsearch! hlsearch?<CR>
 
-" Quickly macro playback for register 'q'
+" Quickly playback macro for register 'q'
 nmap <Space> @q
 
 " More convenient section switching

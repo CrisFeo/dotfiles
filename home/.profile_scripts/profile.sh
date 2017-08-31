@@ -56,7 +56,7 @@ bind '"\e[B":history-search-forward'
 
 ## z directory changer
 ####################
-. /usr/local/etc/profile.d/z.sh
+. '/usr/local/etc/profile.d/z.sh'
 
 ## Completions
 ####################

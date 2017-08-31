@@ -38,6 +38,17 @@ ag-lines() {
     --color-line-number="$AG_NUMBER_COLOR"
 }
 
+z-fzf() {
+  file="$(_z -l 2>&1 | \
+          awk '{print $2}' | \
+          fzf --no-sort --tac --height=10% --min-height=5)"
+  if [ ! -z "$file" ]; then
+    cd "$file" || exit
+  fi
+}
+unalias z
+alias z='z-fzf'
+
 ## Formatting
 ####################
 

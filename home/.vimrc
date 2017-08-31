@@ -49,36 +49,27 @@ let g:gruvbox_contrast_dark='hard'
 colo gruvbox
 
 
-" Pretty statusline
-function! Mode()
-  redraw
+" Super minimal status line
+hi! link StatusLine GruvboxFg4
+function! SetModeColors()
   let l:mode = mode()
-  if     mode ==# 'n'  | exec 'hi! User1 term=NONE ctermbg=white       ctermfg=black gui=NONE guibg=#7c6f64 guifg=#1d2021'  | return '  NORMAL  '
-  elseif mode ==# 'i'  | exec 'hi! User1 term=NONE ctermbg=lightyellow ctermfg=white gui=NONE guibg=#fabd2f guifg=black'    | return '  INSERT  '
-  elseif mode ==# 'R'  | exec 'hi! User1 term=NONE ctermbg=lightyellow ctermfg=white gui=NONE guibg=#fabd2f guifg=black'    | return ' REPLACE  '
-  elseif mode ==# 'v'  | exec 'hi! User1 term=NONE ctermbg=lightred    ctermfg=white gui=NONE guibg=#83a598 guifg=white'    | return '  VISUAL  '
-  elseif mode ==# 'V'  | exec 'hi! User1 term=NONE ctermbg=lightred    ctermfg=white gui=NONE guibg=#83a598 guifg=white'    | return ' VISUAL L '
-  elseif mode ==# '' | exec 'hi! User1 term=NONE ctermbg=lightred    ctermfg=white gui=NONE guibg=#83a598 guifg=white'    | return ' VISUAL B '
-  elseif mode ==# 't'  | exec 'hi! User1 term=NONE ctermbg=lightgreen  ctermfg=white gui=NONE guibg=#b8bb26 guifg=black'    | return ' TERMINAL '
-  else                 | exec 'hi! User1 term=NONE ctermbg=lightgreen  ctermfg=white gui=NONE guibg=#d3869b guifg=black'    | return '     '.mode.'    '
+  if     mode ==# 'n'  | exec 'hi! link Mode StatusLine'
+  elseif mode ==# 'i'  | exec 'hi! link Mode GruvboxYellow'
+  elseif mode ==# 'R'  | exec 'hi! link Mode GruvboxYellow'
+  elseif mode ==# 'v'  | exec 'hi! link Mode GruvboxPurple'
+  elseif mode ==# 'V'  | exec 'hi! link Mode GruvboxPurple'
+  elseif mode ==# '' | exec 'hi! link Mode GruvboxPurple'
+  elseif mode ==# 't'  | exec 'hi! link Mode GruvboxGreen'
+  else                 | exec 'hi! link Mode GruvboxOrange'
   endif
+  return ''
 endfunc
-function! LeftPad(s,amt)
-  return repeat(' ',a:amt - len(a:s)) . a:s
-endfunc
-function! RenderStatusGutter()
-  let l:countPlaces = line('$') % 10 + 1
-  let l:signs = :sign list
-  if empty(signs)
-    return LeftPad(col('.'), 2 + countPlaces).' '
-  else
-    return LeftPad(col('.'), 4 + countPlaces).' '
-  endif
-endfunc
-
-set statusline=\ «%f»
-set statusline+=%=
-set statusline+=%M\ ‹%c›\ %1*%{Mode()}%0*
+set noshowmode
+set laststatus=0
+set rulerformat=%{SetModeColors()}
+set rulerformat+=%#Mode#
+set rulerformat+=%=%M\ ‹%l›
+set rulerformat+=%*
 
 " Allow editing crontab files
 autocmd filetype crontab setlocal nobackup nowritebackup
@@ -128,6 +119,10 @@ if !exists('g:simple_config')
   let g:NERDTreeMinimalUI = 1
   let g:NERDTreeIgnore=['\.DS_Store$']
 
+  " GitGutter
+  let g:gitgutter_signs = 0
+  nmap <leader>; :GitGutterSignsToggle<CR>
+
   " Neomake
   let g:neomake_verbose = 0
   let g:neomake_warning_sign = { 'text': '﹖', 'texthl': 'WarningMsg' }
@@ -155,15 +150,16 @@ if !exists('g:simple_config')
   " vim-go
   let g:go_doc_keywordprg_enabled = 0
   let g:go_fmt_command = "goimports"
+  let g:neomake_go_gometalinter_args = ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--enable=golint']
 
   " You Complete Me
   let g:ycm_complete_in_comments = 1
   let g:ycm_autoclose_preview_window_after_completion = 1
 
-" vim haskell syntax highlighting
-let g:hs_highlight_boolean = 1
-let g:hs_highlight_delimiters = 1
-let g:hs_highlight_types = 1
+  " vim haskell syntax highlighting
+  let g:hs_highlight_boolean = 1
+  let g:hs_highlight_delimiters = 1
+  let g:hs_highlight_types = 1
 
   " ghcmod-vim
   map <silent> tw :GhcModTypeInsert<CR>

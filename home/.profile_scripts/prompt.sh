@@ -37,7 +37,7 @@ prompt-color-fg() {
 
 prompt-render-bubble() {
   prompt-color-fg
-  if [ "$(jobs | grep -v 'Done')" == "" ]; then
+  if [ "$(jobs | grep -E '^\[\d+\]' | grep -v 'Done')" == "" ]; then
     printf '○ '
   else
     printf '◉ '
@@ -73,4 +73,4 @@ prompt-command() {
   PS1=$(printf '\[%s\]» \[%s\]' "$(prompt-color-fg)" "$(prompt-color-reset)")
 }
 
-PROMPT_COMMAND='prompt-command'
+PROMPT_COMMAND="$PROMPT_COMMAND"$'\n''prompt-command;'
