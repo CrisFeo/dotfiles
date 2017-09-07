@@ -17,12 +17,11 @@ call plug#begin('~/.vim/plugged')
   Plug 'pangloss/vim-javascript'
 if !exists('g:simple_config')
   " Utilities
-  Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
   Plug 'airblade/vim-gitgutter'
   Plug 'shougo/vimproc.vim', {'do' : 'make'}
   " Tooling
-  Plug 'Valloric/YouCompleteMe', { 'do': './install.py --gocode-completer --tern-completer --omnisharp-completer' }
   Plug 'neomake/neomake'
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   " Syntax/Language support
   Plug 'eagletmt/ghcmod-vim'
   Plug 'eagletmt/neco-ghc'
@@ -30,6 +29,7 @@ if !exists('g:simple_config')
   Plug 'nbouscal/vim-stylish-haskell'
   Plug 'mxw/vim-jsx'
   Plug 'fatih/vim-go'
+  Plug 'zchee/deoplete-go', { 'do': 'make' }
   Plug 'OmniSharp/omnisharp-vim'
   Plug 'raichoo/purescript-vim'
   Plug 'leafgarland/typescript-vim'
@@ -110,15 +110,7 @@ nmap \ :Ag<CR>
 nmap <C-\> :Files<CR>
 nmap <Bar> :Buffers<CR>
 
-" default netrw binding
-nmap <M-\> :Explore<CR>
-
 if !exists('g:simple_config')
-  " NERD Tree
-  nmap <M-\> :NERDTreeToggle<CR>
-  let g:NERDTreeMinimalUI = 1
-  let g:NERDTreeIgnore=['\.DS_Store$']
-
   " GitGutter
   let g:gitgutter_signs = 0
   nmap <leader>; :GitGutterSignsToggle<CR>
@@ -127,30 +119,25 @@ if !exists('g:simple_config')
   let g:neomake_verbose = 0
   let g:neomake_warning_sign = { 'text': '﹖', 'texthl': 'WarningMsg' }
   let g:neomake_error_sign = { 'text': '﹗', 'texthl': 'ErrorMsg' }
+  let g:neomake_go_gometalinter_args = ['--disable-all', '--enable=golint', '--enable=errcheck', '--enable=megacheck']
   let g:neomake_javascript_enabled_makers = ['eslint']
   let g:neomake_jsx_enabled_makers = ['eslint']
-  function! SetEnabledMakers()
-    let g:neomake_javascript_enabled_makers = []
-    if findfile('.eslintrc', getcwd()) !=# ''
-      let g:neomake_javascript_enabled_makers = add(g:neomake_javascript_enabled_makers, 'eslint')
-    endif
-    if findfile('.jshintrc', getcwd()) !=# ''
-      let g:neomake_javascript_enabled_makers = add(g:neomake_javascript_enabled_makers, 'jshint')
-    endif
-    if g:neomake_javascript_enabled_makers ==# []
-      let g:neomake_javascript_enabled_makers = ['eslint']
-    endif
-    let l:mode = mode()
-    if mode !=# 't'
-      Neomake
-    endif
-  endfunc
-  autocmd! BufWritePost,BufEnter * :call SetEnabledMakers()
+  autocmd! BufWritePost,BufEnter * :Neomake
+
+  " Deoplete
+  let g:deoplete#enable_at_startup = 1
+  call deoplete#custom#source('around', 'rank', 0)
+  set completeopt-=preview
+
+  " Deoplete-go
+  let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+  let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+  let g:deoplete#sources#go#use_cache = 1
+  let g:deoplete#sources#go#json_directory = '~/.cache/deoplete/go/$GOOS_$GOARCH'
 
   " vim-go
   let g:go_doc_keywordprg_enabled = 0
   let g:go_fmt_command = "goimports"
-  let g:neomake_go_gometalinter_args = ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--enable=golint']
 
   " You Complete Me
   let g:ycm_complete_in_comments = 1

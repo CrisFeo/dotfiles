@@ -35,6 +35,7 @@ set foldlevelstart=99
 set conceallevel=2
 
 " netrw
+nnoremap <M-\> :Vexplore<CR>
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 
