@@ -11,6 +11,7 @@ borderColor = {
 }
 
 border = nil
+borderedWindows = hs.window.filter.new()
 focusableWindows = hs.window.filter.new():setCurrentSpace(true)
 
 hs.urlevent.bind("fullscreen", function()
@@ -109,6 +110,6 @@ function drawBorder()
 end
 
 drawBorder()
-focusableWindows:subscribe(hs.window.filter.windowFocused,   function () drawBorder() end)
-focusableWindows:subscribe(hs.window.filter.windowUnfocused, function () drawBorder() end)
-focusableWindows:subscribe(hs.window.filter.windowMoved,     function () drawBorder() end)
+borderedWindows:subscribe(hs.window.filter.windowFocused,   function () drawBorder() end)
+borderedWindows:subscribe(hs.window.filter.windowUnfocused, function () drawBorder() end)
+borderedWindows:subscribe(hs.window.filter.windowMoved,     function () drawBorder() end)

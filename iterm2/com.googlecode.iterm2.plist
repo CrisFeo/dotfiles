@@ -1026,15 +1026,7 @@
 	<key>FsTabDelay</key>
 	<real>1</real>
 	<key>GlobalKeyMap</key>
-	<dict>
-		<key>0x7a-0x140000</key>
-		<dict>
-			<key>Action</key>
-			<integer>12</integer>
-			<key>Text</key>
-			<string>fg\n</string>
-		</dict>
-	</dict>
+	<dict/>
 	<key>HiddenAFRStrokeThickness</key>
 	<real>0.0</real>
 	<key>HiddenAdvancedFontRendering</key>
@@ -1065,6 +1057,8 @@
 	<integer>262401</integer>
 	<key>HotkeyTermAnimationDuration</key>
 	<real>9.9999997473787516e-06</real>
+	<key>HotkeyWindowFloatsAboveOtherWindows</key>
+	<true/>
 	<key>HotkeyWindowIgnoresSpotlight</key>
 	<true/>
 	<key>IRMemory</key>
@@ -1104,7 +1098,7 @@
 	gAKACoAN0xAJChEVGVdOUy5rZXlzoxITFIADgASABaMWFxiABoAHgAiACVpJZGVudGlm
 	aWVyVVdpZHRoVkhpZGRlblEwI0BowAAAAAAACNIhIiMkWiRjbGFzc25hbWVYJGNsYXNz
 	ZXNcTlNEaWN0aW9uYXJ5oiMlWE5TT2JqZWN00xAJCicrGaMSExSAA4AEgAWjLC0YgAuA
-	DIAIgAlRMSNAdCAAAAAAANIhIjM0Xk5TTXV0YWJsZUFycmF5ozM1JVdOU0FycmF5XxAP
+	DIAIgAlRMSNAdKAAAAAAANIhIjM0Xk5TTXV0YWJsZUFycmF5ozM1JVdOU0FycmF5XxAP
 	TlNLZXllZEFyY2hpdmVy0Tg5VUFycmF5gAEACAARABoAIwAtADIANwBGAEwAUQBcAGMA
 	ZgBoAGoAbABzAHsAfwCBAIMAhQCJAIsAjQCPAJEAnACiAKkAqwC0ALUAugDFAM4A2wDe
 	AOcA7gDyAPQA9gD4APwA/gEAAQIBBAEGAQ8BFAEjAScBLwFBAUQBSgAAAAAAAAIBAAAA
@@ -1129,20 +1123,22 @@
 	<string>326 33 445 77 0 0 1280 778 </string>
 	<key>NSWindow Frame Preferences</key>
 	<string>337 401 606 456 0 0 1440 900 </string>
+	<key>NSWindow Frame SUStatusFrame</key>
+	<string>438 336 400 129 0 0 1280 800 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>332 306 620 392 0 0 1280 800 </string>
+	<string>412 381 620 392 0 0 1440 900 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>248 337 770 429 0 0 1280 800 </string>
+	<string>334 235 1016 512 0 0 1440 900 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 293 592 584 0 0 1440 877 </string>
 	<key>NSWindow Frame com.apple.typography_panel_AnonymousProPatchedMerged</key>
 	<string>398 412 260 262 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 1280 800 0 0 1280 800 </string>
+	<string>0 0 1440 900 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>648 26 608 752 0 0 1280 800 </string>
+	<string>728 480 640 400 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>648 412 608 368 0 0 1280 800 </string>
+	<string>728 24 688 416 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
 	<string>648 28 608 752 0 0 1280 800 </string>
 	<key>NSWindow Frame iTerm Window 4</key>
@@ -1543,13 +1539,6 @@
 					<key>Text</key>
 					<string>[1;6A</string>
 				</dict>
-				<key>0xf700-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x1b 0x1b 0x5b 0x41</string>
-				</dict>
 				<key>0xf701-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -1570,13 +1559,6 @@
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[1;6B</string>
-				</dict>
-				<key>0xf701-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x1b 0x1b 0x5b 0x42</string>
 				</dict>
 				<key>0xf702-0x220000</key>
 				<dict>
@@ -1599,13 +1581,6 @@
 					<key>Text</key>
 					<string>[1;6D</string>
 				</dict>
-				<key>0xf702-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>B</string>
-				</dict>
 				<key>0xf703-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -1626,13 +1601,6 @@
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[1;6C</string>
-				</dict>
-				<key>0xf703-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>F</string>
 				</dict>
 				<key>0xf704-0x20000</key>
 				<dict>
@@ -2404,13 +2372,6 @@
 					<key>Text</key>
 					<string>[1;6A</string>
 				</dict>
-				<key>0xf700-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x1b 0x1b 0x5b 0x41</string>
-				</dict>
 				<key>0xf701-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -2431,13 +2392,6 @@
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[1;6B</string>
-				</dict>
-				<key>0xf701-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x1b 0x1b 0x5b 0x42</string>
 				</dict>
 				<key>0xf702-0x220000</key>
 				<dict>
@@ -2460,13 +2414,6 @@
 					<key>Text</key>
 					<string>[1;6D</string>
 				</dict>
-				<key>0xf702-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>B</string>
-				</dict>
 				<key>0xf703-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -2487,13 +2434,6 @@
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[1;6C</string>
-				</dict>
-				<key>0xf703-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>F</string>
 				</dict>
 				<key>0xf704-0x20000</key>
 				<dict>
@@ -3125,7 +3065,7 @@
 			<key>HotKey Window Dock Click Action</key>
 			<integer>0</integer>
 			<key>HotKey Window Floats</key>
-			<false/>
+			<true/>
 			<key>HotKey Window Reopens On Activation</key>
 			<false/>
 			<key>Idle Code</key>
@@ -3218,13 +3158,6 @@
 					<key>Text</key>
 					<string>[1;6A</string>
 				</dict>
-				<key>0xf700-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x1b 0x1b 0x5b 0x41</string>
-				</dict>
 				<key>0xf701-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -3245,13 +3178,6 @@
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[1;6B</string>
-				</dict>
-				<key>0xf701-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x1b 0x1b 0x5b 0x42</string>
 				</dict>
 				<key>0xf702-0x220000</key>
 				<dict>
@@ -3274,13 +3200,6 @@
 					<key>Text</key>
 					<string>[1;6D</string>
 				</dict>
-				<key>0xf702-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>B</string>
-				</dict>
 				<key>0xf703-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -3301,13 +3220,6 @@
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[1;6C</string>
-				</dict>
-				<key>0xf703-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>F</string>
 				</dict>
 				<key>0xf704-0x20000</key>
 				<dict>
@@ -3724,13 +3636,13 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-05-30T19:02:46Z</date>
+	<date>2017-09-13T18:59:17Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<false/>
+	<true/>
 	<key>ShowPaneTitles</key>
 	<true/>
 	<key>SmartPlacement</key>
@@ -3778,7 +3690,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.1.20170514-nightly</string>
+	<string>3.1.20170909-nightly</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>2</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

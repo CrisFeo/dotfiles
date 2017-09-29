@@ -11,7 +11,8 @@
             "/Applications"
           ],
           "excludeName": [
-            "node_modules"
+            "node_modules",
+            "*.scpt"
           ],
           "excludePath": [
             "~/Library"
@@ -24,13 +25,7 @@
     },
     "tinytacoteam/zazu-calculator",
     "tinytacoteam/zazu-mac-1password",
-    "halvves/zazu-giphy",
-    {
-      "name": "tinytacoteam/zazu-clipboard",
-      "variables": {
-        "ClipboardKey": "cmd+shift+v"
-      }
-    }
+    "halvves/zazu-giphy"
   ],
   "theme": "singuerinc/zazu-clean-dark-theme"
 }

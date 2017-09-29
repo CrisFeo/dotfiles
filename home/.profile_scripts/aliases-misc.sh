@@ -13,11 +13,7 @@ FZF_COLORS='fg:230,bg:235,hl:106,fg+:230,bg+:235,hl+:106,info:106,prompt:106,spi
 alias v-o='vim-open'
 
 vim-basic() {
-  nvim --cmd ':let g:simple_config=1' \
-          -c ':set background=light' \
-          -c ':colorscheme off' \
-          -c ':set nonumber' \
-          -c ':set norelativenumber'
+  vim -u ~/.vim/basics.vim
 }
 
 ## File queries

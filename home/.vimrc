@@ -1,162 +1,100 @@
-" Plugins
-call plug#begin('~/.vim/plugged')
-  " Basic
-  Plug 'L9'
-  Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-dispatch'
-  Plug 'kopischke/vim-fetch'
-  Plug 'tpope/vim-vinegar'
-  Plug 'godlygeek/tabular'
-  " Utilities
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  Plug 'crisfeo/fzf.vim'
-  " Themes
-  Plug 'morhetz/gruvbox'
-  " Syntax/Language support
-  Plug 'plasticboy/vim-markdown'
-  Plug 'pangloss/vim-javascript'
-if !exists('g:simple_config')
-  " Utilities
-  Plug 'airblade/vim-gitgutter'
-  Plug 'shougo/vimproc.vim', {'do' : 'make'}
-  " Tooling
-  Plug 'neomake/neomake'
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  " Syntax/Language support
-  Plug 'eagletmt/ghcmod-vim'
-  Plug 'eagletmt/neco-ghc'
-  Plug 'itchyny/vim-haskell-indent'
-  Plug 'nbouscal/vim-stylish-haskell'
-  Plug 'mxw/vim-jsx'
-  Plug 'fatih/vim-go'
-  Plug 'zchee/deoplete-go', { 'do': 'make' }
-  Plug 'OmniSharp/omnisharp-vim'
-  Plug 'raichoo/purescript-vim'
-  Plug 'leafgarland/typescript-vim'
-endif
-call plug#end()
-
-" Basic options
-source ~/.vim/basics.vim
+set nocompatible
 
 " Colors
+set t_Co=256
 syntax on
-set termguicolors
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-set background=dark
-let g:gruvbox_contrast_dark='hard'
-colo gruvbox
+colorscheme basics
 
+" Italics support
+set t_ZH="\e[3m"
+set t_ZR="\e[23m"
 
-" Super minimal status line
-hi! link StatusLine GruvboxFg4
-function! SetModeColors()
-  let l:mode = mode()
-  if     mode ==# 'n'  | exec 'hi! link Mode StatusLine'
-  elseif mode ==# 'i'  | exec 'hi! link Mode GruvboxYellow'
-  elseif mode ==# 'R'  | exec 'hi! link Mode GruvboxYellow'
-  elseif mode ==# 'v'  | exec 'hi! link Mode GruvboxPurple'
-  elseif mode ==# 'V'  | exec 'hi! link Mode GruvboxPurple'
-  elseif mode ==# '' | exec 'hi! link Mode GruvboxPurple'
-  elseif mode ==# 't'  | exec 'hi! link Mode GruvboxGreen'
-  else                 | exec 'hi! link Mode GruvboxOrange'
-  endif
-  return ''
-endfunc
-set noshowmode
+" Basic editing/UI
+filetype plugin indent on
+set fillchars=vert:\ ,fold:-
+set showmode
 set laststatus=0
-set rulerformat=%{SetModeColors()}
-set rulerformat+=%#Mode#
-set rulerformat+=%=%M\ ‹%l›
-set rulerformat+=%*
+set timeoutlen=100
+set synmaxcol=200
+set shortmess+=I
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set autoindent
+set autoread
+set hidden
+set foldmethod=syntax
+set foldnestmax=1
+set foldlevelstart=99
+set conceallevel=2
+set cursorline
 
-" Allow editing crontab files
-autocmd filetype crontab setlocal nobackup nowritebackup
+" Super condensed status/ruler
+set statusline=%=%M\ %l
+set rulerformat=%=%M\ %l
 
-" Use ag instead of grep
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-endif
+" netrw
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
 
-" Fzf (Fuzzy Finder)
-set rtp+=/usr/local/bin/fzf
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Search'],
-  \ 'fg+':     ['fg', 'Normal'],
-  \ 'bg+':     ['bg', 'Normal'],
-  \ 'hl+':     ['fg', 'Search'],
-  \ 'info':    ['fg', 'Normal'],
-  \ 'prompt':  ['fg', 'Normal'],
-  \ 'pointer': ['fg', 'String'],
-  \ 'marker':  ['fg', 'String'],
-  \ 'spinner': ['fg', 'Normal'],
-  \ 'header':  ['fg', 'Normal'] }
-autocmd! User FzfStatusLine setlocal statusline=«fzf»
-autocmd VimEnter * command! -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>,
-    \'--follow
-    \ --nomultiline
-    \ --hidden
-    \ --ignore=".git"
-    \ --color
-    \ --color-match="$AG_MATCH_COLOR"
-    \ --color-path="$AG_PATH_COLOR"
-    \ --color-line-number="$AG_NUMBER_COLOR"'
-    \, fzf#vim#default_layout)
-nmap \ :Ag<CR>
-nmap <C-\> :Files<CR>
-nmap <Bar> :Buffers<CR>
+" Leader key
+let mapleader = ','
 
-if !exists('g:simple_config')
-  " GitGutter
-  let g:gitgutter_signs = 0
-  nmap <leader>; :GitGutterSignsToggle<CR>
+" More useful buffer info
+function! BufferInfo()
+  let l:filename = expand('%') ==# '' ? '' : expand('%')
+  let l:modified = &mod == 1 ? '+' : ''
+  let l:cursor = '('.line('.').':'.col('.').')'
+  let l:percent = (line('.') * 100 / line('$')).'%'
+  echo ' '.l:filename.' '.l:cursor.' '.l:percent
+endfunc
+nmap <C-g> :call BufferInfo()<CR>
 
-  " Neomake
-  let g:neomake_verbose = 0
-  let g:neomake_warning_sign = { 'text': '﹖', 'texthl': 'WarningMsg' }
-  let g:neomake_error_sign = { 'text': '﹗', 'texthl': 'ErrorMsg' }
-  let g:neomake_go_gometalinter_args = ['--disable-all', '--enable=golint', '--enable=errcheck', '--enable=megacheck']
-  let g:neomake_javascript_enabled_makers = ['eslint']
-  let g:neomake_jsx_enabled_makers = ['eslint']
-  autocmd! BufWritePost,BufEnter * :Neomake
+" Quick buffer switching
+nmap <Leader>/ :b#<CR>
 
-  " Deoplete
-  let g:deoplete#enable_at_startup = 1
-  call deoplete#custom#source('around', 'rank', 0)
-  set completeopt-=preview
+" Disable arrow keys
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
 
-  " Deoplete-go
-  let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
-  let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-  let g:deoplete#sources#go#use_cache = 1
-  let g:deoplete#sources#go#json_directory = '~/.cache/deoplete/go/$GOOS_$GOARCH'
+" Remove trailing whitespace on save
+function! TrimWhiteSpace()
+  %s/\s\+$//e
+endfunction
+autocmd BufWritePre * :call TrimWhiteSpace()
+match Todo /\s\+$/
 
-  " vim-go
-  let g:go_doc_keywordprg_enabled = 0
-  let g:go_fmt_command = "goimports"
+" Togglable search higlighting (defaulting to off)
+set nohlsearch
+nmap <Leader>. :set hlsearch! hlsearch?<CR>
 
-  " You Complete Me
-  let g:ycm_complete_in_comments = 1
-  let g:ycm_autoclose_preview_window_after_completion = 1
+" Quickly playback macro for register 'q'
+nmap <Space> @q
 
-  " vim haskell syntax highlighting
-  let g:hs_highlight_boolean = 1
-  let g:hs_highlight_delimiters = 1
-  let g:hs_highlight_types = 1
+" More convenient section switching
+nmap H b
+nmap L e
+nmap J }
+nmap K {
+nmap ) $
+nmap ( ^
 
-  " ghcmod-vim
-  map <silent> tw :GhcModTypeInsert<CR>
-  map <silent> ts :GhcModSplitFunCase<CR>
-  map <silent> tq :GhcModType<CR>
-  map <silent> te :GhcModTypeClear<CR>
+vmap J }
+vmap K {
+vmap ) $
+vmap ( ^
 
-  " neco-ghc
-  let g:haskellmode_completion_ghc = 0
-  autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-  let g:ycm_semantic_triggers = {'haskell' : ['.']}
-
+" Set up signcolumn to be toggleable if it exists
+if exists("&signcolumn")
+  function! SignColumnToggle()
+    if &signcolumn ==# 'no'
+      set signcolumn=yes
+    else
+      set signcolumn=no
+    endif
+  endfunc
+  set signcolumn=no
+  nmap <leader>; :call SignColumnToggle()<CR>
 endif

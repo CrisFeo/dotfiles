@@ -73,4 +73,4 @@ prompt-command() {
   PS1=$(printf '\[%s\]» \[%s\]' "$(prompt-color-fg)" "$(prompt-color-reset)")
 }
 
-PROMPT_COMMAND="$PROMPT_COMMAND"$'\n''prompt-command;'
+PROMPT_COMMAND="prompt-command; $PROMPT_COMMAND"
