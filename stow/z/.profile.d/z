@@ -1,0 +1,16 @@
+#!/bin/bash
+
+. '/usr/local/etc/profile.d/z.sh'
+
+if which fzf > /dev/null; then
+  z-fzf() {
+    file="$(_z -l 2>&1 | \
+            awk '{print $2}' | \
+            fzf --no-sort --tac --height=10% --min-height=5)"
+    if [ ! -z "$file" ]; then
+      cd "$file" || exit
+    fi
+  }
+  unalias z
+  alias z='z-fzf'
+fi

@@ -1,0 +1,45 @@
+#"!/bin/bash
+
+_prompt-wrap() {
+  printf '\[%s\]' "$1" 2> /dev/null
+}
+
+_fg() {
+  V=$(printf '$(tput setaf %u)' "$1" 2> /dev/null)
+  if [ ! -z "$2" ]; then V=$(_prompt-wrap "$V"); fi
+  printf "$V" 2> /dev/null
+}
+
+_bg() {
+  V=$(printf '$(tput setb %u)' "$1" 2> /dev/null)
+  if [ ! -z "$2" ]; then V=$(_prompt-wrap "$V"); fi
+  printf "$V" 2> /dev/null
+}
+
+_bld() {
+  V=$(printf '\[$(tput bold)\]' 2> /dev/null)
+  if [ ! -z "$2" ]; then V=$(_prompt-wrap "$V"); fi
+  printf "$V" 2> /dev/null
+}
+
+_rst() {
+  V=$(printf '\[$(tput sgr0)\]' 2> /dev/null)
+  if [ ! -z "$2" ]; then V=$(_prompt-wrap "$V"); fi
+  printf "$V" 2> /dev/null
+}
+
+prompt-command() {
+  ERR=$(if [ "$?" -ne 0 ];              then echo 1; else echo 7; fi)
+  JOB=$(if [ "$(jobs | wc -l)" -gt 0 ]; then echo 3; else echo 7; fi)
+  if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    ST=$(git status --porcelain 2> /dev/null | wc -l)
+    CLR=$(if [ "$ST" -eq 0 ]; then echo 7; else echo 3; fi)
+    BRA=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+    GIT="$(_fg "$CLR")$BRA "
+  fi
+  PS1="$GIT$(_bld)$(_fg "$ERR")\w$(_rst)\n$(_bld)$(_fg "$JOB")> $(_rst)"
+}
+
+if ! grep 'prompt-command' <<< "$PROMPT_COMMAND"; then
+  PROMPT_COMMAND="prompt-command;$PROMPT_COMMAND"
+fi

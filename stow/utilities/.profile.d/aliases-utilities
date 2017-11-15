@@ -1,0 +1,4 @@
+#!/bin/bash
+
+alias cd-f='cd "$(physical-path .)"'
+alias l='les'

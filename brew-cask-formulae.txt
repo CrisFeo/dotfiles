@@ -1,0 +1,4 @@
+hammerspoon
+iterm2-nightly
+karabiner-elements
+zazu

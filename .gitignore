@@ -3,11 +3,3 @@
 # Vim
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
-# session
-Session.vim
-# temporary
-home/.vim/.netrwhist
-*~
-# plugins
-home/.vim/plugged
-home/.config/nvim/plugged

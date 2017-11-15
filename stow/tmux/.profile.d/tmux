@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
+  export IGNOREEOF=1
+fi

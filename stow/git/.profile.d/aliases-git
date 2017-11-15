@@ -1,0 +1,10 @@
+#!/bin/bash
+
+alias g-a="git add"
+alias g-s="git st"
+alias g-d="git diff"
+alias g-c="git commit"
+alias g-c-a="git commit --amend"
+alias g-p="git push origin HEAD"
+alias g-p-f="git push origin HEAD --force-with-lease"
+alias g-g="git-graph"

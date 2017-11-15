@@ -1,0 +1,20 @@
+[core]
+	editor = vim
+	excludesfile = ~/.gitignore_global
+  pager = less -FXRS -x2
+[user]
+	name = CrisFeo
+	email = feo.cris@gmail.com
+	signingkey = CA85BB93424A3A1D
+[alias]
+	br = branch
+	br-co = checkout -b
+	co = checkout
+	st = status
+	ls = branch --list
+[push]
+	default = simple
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+[url "ssh://git@github.plaid.com/"]
+	insteadOf = https://github.plaid.com/

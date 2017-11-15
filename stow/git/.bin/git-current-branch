@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+if branch="$(git symbolic-ref HEAD 2>/dev/null)"; then
+  sed 's|refs/heads/||' <<< "$branch"
+fi

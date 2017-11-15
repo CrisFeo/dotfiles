@@ -1,0 +1,29 @@
+#!/bin/bash
+set -e
+
+find_opts=(
+  \( -type l -or -type f \)
+  -and
+  \( -name '*.opus' -or -name '*.webm' \)
+)
+
+fzf_opts=(
+  --multi
+  --cycle
+  --reverse
+  --bind 'alt-a:select-all,alt-d:deselect-all'
+)
+
+mplayer_opts=(
+  -msgcolor
+  -msglevel 'all=-1:statusline=5'
+)
+
+path=${1:-$HOME/audio}
+tracks=$(find "$path" ${find_opts[@]} | sed "s#$path/##")
+chosen=$(fzf ${fzf_opts[@]} --query '!all ' <<< "$tracks")
+echo "$chosen"
+IFS=$'\n'
+echo
+mplayer ${mplayer_opts[@]} $(sed -E "s#^#$path/#" <<< "$chosen")
+echo

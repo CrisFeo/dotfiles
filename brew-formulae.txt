@@ -1,0 +1,17 @@
+ag
+bash
+fzf
+git
+go
+jq
+khd
+mplayer
+nvm
+python3
+rbenv
+reattach-to-user-namespace
+ruby-build
+stow
+tmux
+watch
+z

@@ -1,0 +1,36 @@
+#! /bin/bash
+set -e
+
+BREW_URL='https://raw.githubusercontent.com/Homebrew/install/master/install'
+
+# Python3 installation might fail if this is set
+unset PYTHONPATH
+
+rm -f install.log && touch install.log
+
+if [ "$1" != '--skip-install' ]; then {
+  which brew > /dev/null || ruby -e "$(curl -fsSL $BREW_URL)"
+  brew update
+  brew upgrade
+
+  brew tap caskroom/versions
+  brew tap homebrew/dupes
+
+  xargs brew install < brew-formulae.txt
+  xargs brew cask install < brew-cask-formulae.txt
+
+  # Install a recent ruby version
+  eval "$(rbenv init -)"
+  rbenv install -s 2.4.0
+  rbenv global 2.4.0
+  gem install bundler
+
+  # Install an up-to-date node version
+  . "$HOME/.nvm/nvm.sh"
+  nvm install node
+} >> install.log 2>&1; fi
+
+
+echo 'Stowing dotfiles...'
+ls 'stow/' | xargs -n 1 stow -d 'stow/' -t "$HOME" >> install.log 2>&1
+echo 'Complete!'

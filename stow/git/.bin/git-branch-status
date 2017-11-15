@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+branch="$(git status -sb | sed -En 's|^## ([^.]+).*$|\1|p')"
+   pos="$(git status -sb | sed -En 's|^## .*\[(.+) .*\]$|\1|p')"
+   num="$(git status -sb | sed -En 's|^## .*\[[^ ]+ (.+)\]$|\1|p')"
+if [ -z "$pos" ]; then
+  printf '«\033[0;33m%s\e[0m»\n' "$branch"
+else
+  printf '«\033[0;33m%s\e[0m [%s \033[0;34m%s\e[0m]»\n' "$branch" "$pos" "$num"
+fi
