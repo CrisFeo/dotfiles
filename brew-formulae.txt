@@ -2,7 +2,6 @@ ag
 bash
 fzf
 git
-go
 jq
 khd
 mplayer

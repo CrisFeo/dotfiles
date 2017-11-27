@@ -1,6 +1,7 @@
 #!/bin/bash
 
 alias g-a="git add"
+alias g-a-a="git add ."
 alias g-s="git st"
 alias g-d="git diff"
 alias g-c="git commit"

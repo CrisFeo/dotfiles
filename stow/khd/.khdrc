@@ -33,19 +33,27 @@ rctrl + shift - y    : khd -p "- 0x59"
 rctrl + shift - u    : khd -p "- 0x5b"
 rctrl + shift - i    : khd -p "- 0x5c"
 
-# Window focusing
-lctrl - k : open -g "hammerspoon://focus?d=up"
-lctrl - j : open -g "hammerspoon://focus?d=down"
-lctrl - h : open -g "hammerspoon://focus?d=left"
-lctrl - l : open -g "hammerspoon://focus?d=right"
+# Window management mode
+khd mode wm prefix on
+khd mode wm timeout 0.4
+khd mode wm restore default
+rctrl - q : khd -e "mode activate wm"
 
-# Window movement - directional
-lctrl + shift - k : open -g "hammerspoon://push?d=up"
-lctrl + shift - j : open -g "hammerspoon://push?d=down"
-lctrl + shift - h : open -g "hammerspoon://push?d=left"
-lctrl + shift - l : open -g "hammerspoon://push?d=right"
+wm - u : open -g "hammerspoon://undo"
 
-# Window movement - resizing
-lctrl + shift - y : open -g "hammerspoon://fullscreen"
-lctrl + shift - u : open -g "hammerspoon://center"
-lctrl + shift - i : open -g "hammerspoon://stack"
+wm - c: open -g "hammerspoon://center"
+wm - s: open -g "hammerspoon://stack"
+
+wm - f : open -g "hammerspoon://expand?d=both"
+wm - a : open -g "hammerspoon://expand?d=vertical"
+wm - w : open -g "hammerspoon://expand?d=horizontal"
+
+wm - h : open -g "hammerspoon://focus?d=left"
+wm - j : open -g "hammerspoon://focus?d=down"
+wm - k : open -g "hammerspoon://focus?d=up"
+wm - l : open -g "hammerspoon://focus?d=right"
+
+wm + shift - h : open -g "hammerspoon://push?d=left"
+wm + shift - j : open -g "hammerspoon://push?d=down"
+wm + shift - k : open -g "hammerspoon://push?d=up"
+wm + shift - l : open -g "hammerspoon://push?d=right"

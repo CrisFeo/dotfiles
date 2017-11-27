@@ -6,25 +6,25 @@ _prompt-wrap() {
 
 _fg() {
   V=$(printf '$(tput setaf %u)' "$1" 2> /dev/null)
-  if [ ! -z "$2" ]; then V=$(_prompt-wrap "$V"); fi
+  if [ -z "$2" ]; then V=$(_prompt-wrap "$V"); fi
   printf "$V" 2> /dev/null
 }
 
 _bg() {
   V=$(printf '$(tput setb %u)' "$1" 2> /dev/null)
-  if [ ! -z "$2" ]; then V=$(_prompt-wrap "$V"); fi
+  if [ -z "$2" ]; then V=$(_prompt-wrap "$V"); fi
   printf "$V" 2> /dev/null
 }
 
 _bld() {
-  V=$(printf '\[$(tput bold)\]' 2> /dev/null)
-  if [ ! -z "$2" ]; then V=$(_prompt-wrap "$V"); fi
+  V=$(printf '$(tput bold)' 2> /dev/null)
+  if [ -z "$1" ]; then V=$(_prompt-wrap "$V"); fi
   printf "$V" 2> /dev/null
 }
 
 _rst() {
-  V=$(printf '\[$(tput sgr0)\]' 2> /dev/null)
-  if [ ! -z "$2" ]; then V=$(_prompt-wrap "$V"); fi
+  V=$(printf '$(tput sgr0)' 2> /dev/null)
+  if [ -z "$1" ]; then V=$(_prompt-wrap "$V"); fi
   printf "$V" 2> /dev/null
 }
 
@@ -40,6 +40,6 @@ prompt-command() {
   PS1="$GIT$(_bld)$(_fg "$ERR")\w$(_rst)\n$(_bld)$(_fg "$JOB")> $(_rst)"
 }
 
-if ! grep 'prompt-command' <<< "$PROMPT_COMMAND"; then
+if ! grep 'prompt-command' <<< "$PROMPT_COMMAND" > /dev/null; then
   PROMPT_COMMAND="prompt-command;$PROMPT_COMMAND"
 fi

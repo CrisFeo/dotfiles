@@ -9,16 +9,18 @@ Personal dotfiles.
 
 When setting up a new computer perform the following steps:
 
-1. Run `./install.sh` to install all of the configs and required packages.
+1. Run `./dotfiles install stow` to install all required packages and stow
+   configuration.
 
-2. Install all fonts located at `./fonts`.
+2. Install fonts located at `./fonts`.
 
 3. Add the following line to your to your `.bash_profile`:
+
 ```
-source ~/.bash_profile_cfeo
+. "$HOME/.bashrc"
 ```
 
 ## Update
 
-To merge remote changes to your machine's config, simple run `./install.sh`
-again. If any new fonts were added to `./fonts`, install them as well.
+To merge remote changes to your machine's config, simple run the `dotfiles`
+command again.

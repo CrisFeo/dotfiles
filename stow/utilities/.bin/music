@@ -4,7 +4,7 @@ set -e
 find_opts=(
   \( -type l -or -type f \)
   -and
-  \( -name '*.opus' -or -name '*.webm' \)
+  \( -name '*.opus' -or -name '*.webm' -or -name '*.m4a' \)
 )
 
 fzf_opts=(
