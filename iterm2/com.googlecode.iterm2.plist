@@ -1028,7 +1028,36 @@
 	<key>FsTabDelay</key>
 	<real>1</real>
 	<key>GlobalKeyMap</key>
-	<dict/>
+	<dict>
+		<key>0x68-0x80000</key>
+		<dict>
+			<key>Action</key>
+			<integer>9</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
+		<key>0x6a-0x80000</key>
+		<dict>
+			<key>Action</key>
+			<integer>6</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
+		<key>0x6b-0x80000</key>
+		<dict>
+			<key>Action</key>
+			<integer>7</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
+		<key>0x6c-0x80000</key>
+		<dict>
+			<key>Action</key>
+			<integer>8</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
+	</dict>
 	<key>HiddenAFRStrokeThickness</key>
 	<real>0.0</real>
 	<key>HiddenAdvancedFontRendering</key>
@@ -1130,21 +1159,23 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>412 381 620 392 0 0 1440 900 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>413 278 918 381 0 0 1440 900 </string>
+	<string>412 481 918 394 0 0 1440 900 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 293 592 584 0 0 1440 877 </string>
 	<key>NSWindow Frame com.apple.typography_panel_AnonymousProPatchedMerged</key>
 	<string>398 412 260 262 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 500 640 400 0 0 1440 900 </string>
+	<string>20 464 1400 416 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>728 480 640 400 0 0 1440 900 </string>
+	<string>376 26 688 848 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>728 24 688 416 0 0 1440 900 </string>
+	<string>20 24 688 416 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
-	<string>648 28 608 752 0 0 1280 800 </string>
+	<string>730 24 688 416 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 4</key>
-	<string>1129 21 290 229 0 0 1440 877 </string>
+	<string>20 32 1392 848 0 0 1440 900 </string>
+	<key>NSWindow Frame iTerm Window 5</key>
+	<string>302 421 640 400 0 0 1440 900 </string>
 	<key>NeverWarnAboutShortLivedSessions_6DEB2720-55A5-4FD0-898F-1C6FD50EB526</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_6DEB2720-55A5-4FD0-898F-1C6FD50EB526_selection</key>
@@ -1395,7 +1426,7 @@
 				<real>0.11772145330905914</real>
 			</dict>
 			<key>Cursor Type</key>
-			<integer>2</integer>
+			<integer>0</integer>
 			<key>Custom Command</key>
 			<string>Yes</string>
 			<key>Custom Directory</key>
@@ -3045,7 +3076,7 @@
 			<key>Guid</key>
 			<string>A7D01905-8C33-4949-8905-E3A4F7BE9EB6</string>
 			<key>Has Hotkey</key>
-			<true/>
+			<false/>
 			<key>Hide After Opening</key>
 			<false/>
 			<key>Horizontal Spacing</key>
@@ -3580,6 +3611,8 @@
 	<true/>
 	<key>OpenTmuxWindowsIn</key>
 	<integer>0</integer>
+	<key>PMPrintingExpandedStateForPrint2</key>
+	<false/>
 	<key>PassOnControlClick</key>
 	<false/>
 	<key>PasteFromClipboard</key>
@@ -3621,6 +3654,8 @@
 	</dict>
 	<key>PrefsCustomFolder</key>
 	<string>/Users/cfeo/Documents/Personal/dotfiles/iterm2</string>
+	<key>Print In Black And White</key>
+	<true/>
 	<key>ProfilesWindowJoinsActiveSpace</key>
 	<true/>
 	<key>PromptOnQuit</key>
@@ -3642,7 +3677,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-10-23T17:45:13Z</date>
+	<date>2017-12-13T23:20:36Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -3696,7 +3731,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.1.20171008-nightly</string>
+	<string>3.1.20171203-nightly</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>2</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

@@ -3,12 +3,11 @@ view_max_height = 71
 
 auto_butcher           = true
 confirm_butcher        = never
-auto_drop_chunks       = rotten
+auto_drop_chunks =       from = rotten
 auto_eat_chunks        = true
 easy_eat_chunks        = true
 easy_eat_gourmand      = true
 easy_eat_contaminated  = true
-runrest_stop_message += corpse
 
 autofight_stop = 50
 auto_sacrifice = true
@@ -18,7 +17,13 @@ default_manual_training = true
 equip_unequip           = true
 messages_at_top         = false
 
-explore_stop -= stairs
+explore_greedy = true
+explore_stop  = shops
+explore_stop += altars
+explore_stop += portals
+explore_stop += branches
+explore_stop += runed_doors
+explore_stop += explore_stop
 
 friend_brand       = hi:green
 neutral_brand      = hi:lightgrey
@@ -33,3 +38,61 @@ autopickup_starting_ammo = true
 ae := autopickup_exceptions
 ae += <curare-tipped needle
 ae += <rocks
+
+show_more = false
+force_more_message += You feel your flesh
+force_more_message += Strange energies course
+force_more_message += filled with an inner flame
+
+runrest_ignore_message += Your transformation is almost over
+runrest_ignore_message += Your transformation has ended
+runrest_ignore_message += Your horns disappear
+runrest_ignore_message += Your talons disappear
+runrest_ignore_message += Your magical contamination has completely faded away
+runrest_ignore_message += You are feeling hungry
+runrest_ignore_message += This raw flesh tastes terrible
+runrest_ignore_message += Your hands
+runrest_ignore_message += You are no longer poisoned
+runrest_ignore_message += You have got your breath back
+
+{
+in_combat = true
+function casual_explore()
+  if not is_safe() en
+    if not in_combat then
+      -- TODO Buff up!
+    end
+    crawl.do_commands({"CMD_AUTOFIGHT"})
+    in_combat = true
+  else
+    in_combat = false
+    if needs_rest() then
+      crawl.do_commands({"CMD_REST"})
+    else
+      crawl.do_commands({"CMD_EXPLORE"})
+    end
+  end
+end
+function is_safe()
+  for x = -7,7 do
+    for y = -7,7 do
+      m = monster.get_monster_at(x, y)
+      if m and (m:attitude() == 0) then
+        return false
+      end
+    end
+  end
+  return true
+end
+function needs_rest()
+  local mp, max_mp = you.mp()
+  local hp, max_hp = you.hp()
+  return hp < max_hp
+      or mp < max_mp
+      or you.slowed()
+      or you.poisoned()
+      or you.confused()
+      or you.exhausted()
+end
+}
+macros += M \{32} ===casual_explore

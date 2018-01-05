@@ -2,9 +2,17 @@
 set -e
 
 find_opts=(
-  \( -type l -or -type f \)
+  \(
+    -type l -or
+    -type f
+  \)
   -and
-  \( -name '*.opus' -or -name '*.webm' -or -name '*.m4a' \)
+  \(
+    -name '*.opus' -or
+    -name '*.webm' -or
+    -name '*.m4a'  -or
+    -name '*.ogg'
+  \)
 )
 
 fzf_opts=(
@@ -20,10 +28,12 @@ mplayer_opts=(
 )
 
 path=${1:-$HOME/audio}
-tracks=$(find "$path" ${find_opts[@]} | sed "s#$path/##")
-chosen=$(fzf ${fzf_opts[@]} --query '!all ' <<< "$tracks")
-echo "$chosen"
-IFS=$'\n'
-echo
-mplayer ${mplayer_opts[@]} $(sed -E "s#^#$path/#" <<< "$chosen")
-echo
+tracks=$(find "$path" "${find_opts[@]}" | sed "s#$path/##")
+while :; do
+  chosen=$(fzf ${fzf_opts[@]} <<< "$tracks")
+  echo "$chosen"
+  IFS=$'\n'
+  echo
+  mplayer ${mplayer_opts[@]} $(sed -E "s#^#$path/#" <<< "$chosen")
+  echo
+done
