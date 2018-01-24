@@ -1,7 +1,8 @@
 # set the maximum delay for a held modifier to trigger a modifer-only keybind.
-khd mod_trigger_timeout 0.13
+khd mod_trigger_timeout 0.1
 
-# remap right-control h/j/k/l -> arrow keys. This ends up being caps lock with karabiner rebinding.
+# remap right-control h/j/k/l -> arrow keys. This ends up being caps lock with 
+# karabiner rebinding.
 rctrl - h         ![Terminal,iTerm2] : khd -p "- left"
 rctrl - j         ![Terminal,iTerm2] : khd -p "- down"
 rctrl - k         ![Terminal,iTerm2] : khd -p "- up"
@@ -15,6 +16,10 @@ rctrl - w         ![Terminal,iTerm2] : khd -p "alt - right"
 # remap a single press of the right control key to escape. Right control ends
 # up being caps lock with karabiner rebinding.
 rctrl : khd -p "- 0x35"
+
+# remap a single press of the right alt key to be tab. Right alt ends up being
+# tab with karabiner rebinding.
+ralt : khd -p "- 0x30"
 
 # remap single-presses of shift keys to the corresponding parentheses
 lshift : khd -p "shift - 9"
@@ -35,25 +40,42 @@ rctrl + shift - i    : khd -p "- 0x5c"
 
 # Window management mode
 khd mode wm prefix on
-khd mode wm timeout 0.4
+khd mode wm timeout 0.5
 khd mode wm restore default
 rctrl - q : khd -e "mode activate wm"
 
-wm - u : open -g "hammerspoon://undo"
+wm + rctrl - q : khd -e "mode activate default"
+wm + rctrl     : khd -e "mode activate default"
 
-wm - c: open -g "hammerspoon://center"
-wm - s: open -g "hammerspoon://stack"
+wm         - u : open -g "hammerspoon://undo"
+wm + rctrl - u : open -g "hammerspoon://undo"
 
-wm - f : open -g "hammerspoon://expand?d=both"
-wm - a : open -g "hammerspoon://expand?d=vertical"
-wm - w : open -g "hammerspoon://expand?d=horizontal"
+wm         - c: open -g "hammerspoon://center"
+wm + rctrl - c: open -g "hammerspoon://center"
+wm         - s: open -g "hammerspoon://stack"
+wm + rctrl - s: open -g "hammerspoon://stack"
 
-wm - h : open -g "hammerspoon://focus?d=left"
-wm - j : open -g "hammerspoon://focus?d=down"
-wm - k : open -g "hammerspoon://focus?d=up"
-wm - l : open -g "hammerspoon://focus?d=right"
+wm         - f : open -g "hammerspoon://expand?d=both"
+wm + rctrl - f : open -g "hammerspoon://expand?d=both"
+wm         - a : open -g "hammerspoon://expand?d=vertical"
+wm + rctrl - a : open -g "hammerspoon://expand?d=vertical"
+wm         - w : open -g "hammerspoon://expand?d=horizontal"
+wm + rctrl - w : open -g "hammerspoon://expand?d=horizontal"
 
-wm + shift - h : open -g "hammerspoon://push?d=left"
-wm + shift - j : open -g "hammerspoon://push?d=down"
-wm + shift - k : open -g "hammerspoon://push?d=up"
-wm + shift - l : open -g "hammerspoon://push?d=right"
+wm         - h : open -g "hammerspoon://focus?d=left"
+wm + rctrl - h : open -g "hammerspoon://focus?d=left"
+wm         - j : open -g "hammerspoon://focus?d=down"
+wm + rctrl - j : open -g "hammerspoon://focus?d=down"
+wm         - k : open -g "hammerspoon://focus?d=up"
+wm + rctrl - k : open -g "hammerspoon://focus?d=up"
+wm         - l : open -g "hammerspoon://focus?d=right"
+wm + rctrl - l : open -g "hammerspoon://focus?d=right"
+
+wm +         shift - h : open -g "hammerspoon://push?d=left"
+wm + rctrl + shift - h : open -g "hammerspoon://push?d=left"
+wm +         shift - j : open -g "hammerspoon://push?d=down"
+wm + rctrl + shift - j : open -g "hammerspoon://push?d=down"
+wm +         shift - k : open -g "hammerspoon://push?d=up"
+wm + rctrl + shift - k : open -g "hammerspoon://push?d=up"
+wm +         shift - l : open -g "hammerspoon://push?d=right"
+wm + rctrl + shift - l : open -g "hammerspoon://push?d=right"

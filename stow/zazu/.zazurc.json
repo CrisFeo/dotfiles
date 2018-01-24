@@ -18,7 +18,9 @@
             "~/Library"
           ],
           "filePath": [
-            "~/Documents"
+            "~/Documents",
+            "~/Downloads",
+            "~/Dropbox"
           ]
         }
       }

@@ -1018,7 +1018,7 @@
 	<key>DisableFullscreenTransparency</key>
 	<false/>
 	<key>DisableWindowSizeSnap</key>
-	<false/>
+	<true/>
 	<key>EnableDivisionView</key>
 	<false/>
 	<key>EnableRendezvous</key>
@@ -1028,36 +1028,7 @@
 	<key>FsTabDelay</key>
 	<real>1</real>
 	<key>GlobalKeyMap</key>
-	<dict>
-		<key>0x68-0x80000</key>
-		<dict>
-			<key>Action</key>
-			<integer>9</integer>
-			<key>Text</key>
-			<string></string>
-		</dict>
-		<key>0x6a-0x80000</key>
-		<dict>
-			<key>Action</key>
-			<integer>6</integer>
-			<key>Text</key>
-			<string></string>
-		</dict>
-		<key>0x6b-0x80000</key>
-		<dict>
-			<key>Action</key>
-			<integer>7</integer>
-			<key>Text</key>
-			<string></string>
-		</dict>
-		<key>0x6c-0x80000</key>
-		<dict>
-			<key>Action</key>
-			<integer>8</integer>
-			<key>Text</key>
-			<string></string>
-		</dict>
-	</dict>
+	<dict/>
 	<key>HiddenAFRStrokeThickness</key>
 	<real>0.0</real>
 	<key>HiddenAdvancedFontRendering</key>
@@ -1159,23 +1130,23 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>412 381 620 392 0 0 1440 900 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>412 481 918 394 0 0 1440 900 </string>
+	<string>412 424 958 451 0 0 1440 900 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 293 592 584 0 0 1440 877 </string>
 	<key>NSWindow Frame com.apple.typography_panel_AnonymousProPatchedMerged</key>
 	<string>398 412 260 262 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>20 464 1400 416 0 0 1440 900 </string>
+	<string>20 -332 640 400 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>376 26 688 848 0 0 1440 900 </string>
+	<string>978 20 442 860 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>20 24 688 416 0 0 1440 900 </string>
+	<string>20 86 690 794 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
-	<string>730 24 688 416 0 0 1440 900 </string>
+	<string>890 20 530 860 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 4</key>
-	<string>20 32 1392 848 0 0 1440 900 </string>
+	<string>730 24 688 416 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 5</key>
-	<string>302 421 640 400 0 0 1440 900 </string>
+	<string>376 26 688 848 0 0 1440 900 </string>
 	<key>NeverWarnAboutShortLivedSessions_6DEB2720-55A5-4FD0-898F-1C6FD50EB526</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_6DEB2720-55A5-4FD0-898F-1C6FD50EB526_selection</key>
@@ -3601,6 +3572,8 @@
 	<real>479663573.69272703</real>
 	<key>NoSyncTimeOfLastPromoDownload</key>
 	<real>483471711.968849</real>
+	<key>NoSyncTipsDisabled</key>
+	<true/>
 	<key>OnlyWhenMoreTabs</key>
 	<true/>
 	<key>OpenArrangementAtStartup</key>
@@ -3677,13 +3650,13 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-12-13T23:20:36Z</date>
+	<date>2018-01-09T21:14:47Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<true/>
+	<false/>
 	<key>ShowPaneTitles</key>
 	<true/>
 	<key>SmartPlacement</key>
@@ -3731,7 +3704,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.1.20171203-nightly</string>
+	<string>3.1.20180103-nightly</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>2</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
