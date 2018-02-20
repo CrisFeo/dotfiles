@@ -10,7 +10,6 @@ installDependencies() {
   brew upgrade
 
   brew tap caskroom/versions
-  brew tap homebrew/dupes
 
   # Python3 installation might fail if this is set
   unset PYTHONPATH

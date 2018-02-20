@@ -1,9 +1,17 @@
 #!/bin/bash
 set -e
 
-git log \
-  --graph \
-  --abbrev-commit \
-  --all \
-  --decorate \
+opts=(
+  --graph
+  --abbrev-commit
+  --decorate
   --format=format:'%C(blue)%h - %C(green)(%ar)%C(yellow)%d%C(white)%n%w(76,10,10)%s'
+)
+
+if [ "$#" -eq 0 ]; then
+	git log "${opts[@]}" --all
+else
+	git log "${opts[@]}" "$@"
+fi
+
+

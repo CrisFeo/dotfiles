@@ -8,7 +8,6 @@ mplayer
 nvm
 python3
 rbenv
-reattach-to-user-namespace
 ruby-build
 stow
 tmux

@@ -1,0 +1,31 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+/* 1. Open `about:support` in Firefox and click "Show in Finder" or whatever your OS flavor text is
+ * 2. Create `./chrome/userChrome.css` at the resultant location
+ * 3. Copy this css file in there and restart Firefox
+ * 4. Open the Firefox "Customize" menu and set the following:
+ *   - Title Bar: Off
+ *   - Drag Space: Off
+ *   - Density: Compact
+ */
+
+#TabsToolbar {
+  --tab-min-height: 0;
+  min-height: 0 !important;
+}
+
+.tabbrowser-tab {
+  height: 29px;
+}
+
+.tabbrowser-tab:only-of-type {
+  display: none;
+}
+
+#forward-button, #back-button {
+  display: none;
+}
+
+#urlbar-container {
+  margin-left: 74px;
+}

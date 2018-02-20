@@ -16,6 +16,10 @@ set-option global modelinefmt '%sh{
 }'
 
 def fzf-buffer -docstring 'jump to buffer using fzf' -allow-override %{%sh{
+  if [ -z "$TMUX" ]; then
+    echo "echo -markup '{Error}This command is only available in a tmux session'"
+    exit
+  fi
 	tmp=$(mktemp -d -t fzf-temp-XXXXXXXX)
   in="$tmp/in"
   out="$tmp/out"
@@ -30,6 +34,10 @@ def fzf-buffer -docstring 'jump to buffer using fzf' -allow-override %{%sh{
 }}
 
 def fzf-file -docstring 'jump to file using fzf' -allow-override %{%sh{
+  if [ -z "$TMUX" ]; then
+    echo "echo -markup '{Error}This command is only available in a tmux session'"
+    exit
+  fi
 	tmp=$(mktemp -d -t fzf-temp-XXXXXXXX)
   in="$tmp/in"
   out="$tmp/out"
@@ -44,6 +52,10 @@ def fzf-file -docstring 'jump to file using fzf' -allow-override %{%sh{
 }}
 
 def fzf-line -docstring 'jump to line using fzf' -allow-override %{%sh{
+  if [ -z "$TMUX" ]; then
+    echo "echo -markup '{Error}This command is only available in a tmux session'"
+    exit
+  fi
 	tmp=$(mktemp -d -t fzf-temp-XXXXXXXX)
   in="$tmp/in"
   out="$tmp/out"
@@ -59,7 +71,13 @@ def fzf-line -docstring 'jump to line using fzf' -allow-override %{%sh{
   fi
 }}
 
-map global user b -docstring 'jump to buffer' :fzf-buffer<ret>
-map global user f -docstring 'jump to file' :fzf-file<ret>
-map global user l -docstring 'jump to line' :fzf-line<ret>
+def jump-symbol -docstring 'jump to symbol definition' -allow-override %{%sh{
+  JMP='go-jump' # Only one language supported so far!
+  printf 'eval -client %s %s\n' "$kak_client" "$JMP" | kak -p "$kak_session"
+}}
+
+map global user b -docstring 'jump to buffer using fzf + tmux' :fzf-buffer<ret>
+map global user f -docstring 'jump to file using fzf + tmux' :fzf-file<ret>
+map global user l -docstring 'jump to line using fzf + tmux' :fzf-line<ret>
+map global user s -docstring 'jump to symbol under cursor' :jump-symbol<ret>
 

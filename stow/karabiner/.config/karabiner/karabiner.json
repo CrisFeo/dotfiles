@@ -1,0 +1,61 @@
+{
+  "global": {
+    "check_for_updates_on_startup": true,
+    "show_in_menu_bar": true,
+    "show_profile_name_in_menu_bar": false
+  },
+  "profiles": [
+    {
+      "complex_modifications": {
+        "parameters": {
+          "basic.to_delayed_action_delay_milliseconds": 500,
+          "basic.to_if_alone_timeout_milliseconds": 1000,
+          "basic.to_if_held_down_threshold_milliseconds": 500
+        },
+        "rules": [
+          {
+            "description": "Tab to right alt except in Blender",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "tab"
+                },
+                "to": [
+                  {
+                    "key_code": "right_option"
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "org.blenderfoundation.blender"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "devices": [],
+      "name": "Default profile",
+      "selected": true,
+      "simple_modifications": [
+        {
+          "from": {
+            "key_code": "caps_lock"
+          },
+          "to": {
+            "key_code": "right_control"
+          }
+        }
+      ],
+      "virtual_hid_keyboard": {
+        "caps_lock_delay_milliseconds": 0,
+        "keyboard_type": "ansi"
+      }
+    }
+  ]
+}
