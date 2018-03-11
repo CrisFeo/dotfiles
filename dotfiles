@@ -26,6 +26,11 @@ installDependencies() {
   # Install an up-to-date node version
   . "$HOME/.nvm/nvm.sh"
   nvm install node
+
+	# Kakoune is not in the brew registry right now
+	# so needs to be installed separately
+	brew install --HEAD \
+		https://raw.githubusercontent.com/mawww/kakoune/master/contrib/kakoune.rb
 }
 
 stowConfiguration() {
