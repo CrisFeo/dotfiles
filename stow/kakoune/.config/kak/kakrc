@@ -81,3 +81,5 @@ map global user f -docstring 'jump to file using fzf + tmux' :fzf-file<ret>
 map global user l -docstring 'jump to line using fzf + tmux' :fzf-line<ret>
 map global user s -docstring 'jump to symbol under cursor' :jump-symbol<ret>
 
+hook -group go global BufWritePre .*\.go %{ go-format -use-goimports }
+
