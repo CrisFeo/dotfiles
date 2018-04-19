@@ -7,7 +7,7 @@
   yellow='rgb:ffd75f'
   red='rgb:af0000'
 
-  base0='rgb:1c1c1c'
+  base0='rgb:000000'
   base1='rgb:4e4e4e'
   base2='rgb:8a8a8a'
   base3='rgb:bcbcbc'

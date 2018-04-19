@@ -14,8 +14,8 @@ fi
 
 container=$1
 shift
-pattern="$(printf '. as $i | try (fromjson|%s) catch $i' "$1")"
+
+query="$1"
 shift
 
-
-docker logs "$@" "$container" | jq -R -r "$pattern"
+docker logs "$@" "$container" | json-logs "$query"

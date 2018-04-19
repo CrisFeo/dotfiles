@@ -1,0 +1,23 @@
+#!/bin/bash
+set -e
+
+h='json-logs [PATTERN] [ARGS...]\n\n'
+h+='Pretty-print stdin consisting of mixed JSON and plain-text lines, '
+h+='piping any valid JSON lines through the provided jq pattern. Additional '
+h+='arguments are passed to jq in addition to "-R" and "-r".\n\n'
+h+='Note: Depends on the "jq" utility\n'
+
+if [ $0 == '-h' ]; then
+  printf "$h"
+	exit 1
+fi
+
+query='.'
+if [ "$#" -gt 0 ]; then
+  query="$1"
+  shift
+fi
+
+pattern="$(printf '. as $i | try (fromjson|%s) catch $i' "$query")"
+
+jq -R -r "$@" "$pattern"

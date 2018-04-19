@@ -1,31 +1,23 @@
 #"!/bin/bash
 
-_prompt-wrap() {
-  printf '\[%s\]' "$1" 2> /dev/null
-}
-
 _fg() {
-  V=$(printf '$(tput setaf %u)' "$1" 2> /dev/null)
-  if [ -z "$2" ]; then V=$(_prompt-wrap "$V"); fi
-  printf "$V" 2> /dev/null
+  printf '\[$(tput setaf %u)\]' "$1" 2> /dev/null
 }
 
 _bg() {
-  V=$(printf '$(tput setb %u)' "$1" 2> /dev/null)
-  if [ -z "$2" ]; then V=$(_prompt-wrap "$V"); fi
-  printf "$V" 2> /dev/null
+  printf '\[$(tput setb %u)\]' "$1" 2> /dev/null
 }
 
 _bld() {
-  V=$(printf '$(tput bold)' 2> /dev/null)
-  if [ -z "$1" ]; then V=$(_prompt-wrap "$V"); fi
-  printf "$V" 2> /dev/null
+  printf '\[$(tput bold)\]' 2> /dev/null
+}
+
+_ita() {
+  printf '\[$(tput sitm)\]' 2> /dev/null
 }
 
 _rst() {
-  V=$(printf '$(tput sgr0)' 2> /dev/null)
-  if [ -z "$1" ]; then V=$(_prompt-wrap "$V"); fi
-  printf "$V" 2> /dev/null
+  printf '\[$(tput sgr0)\]' 2> /dev/null
 }
 
 prompt-command() {
@@ -37,7 +29,7 @@ prompt-command() {
     BRA=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
     GIT="$(_fg "$CLR")$BRA "
   fi
-  PS1="$GIT$(_bld)$(_fg "$ERR")\w$(_rst)\n$(_bld)$(_fg "$JOB")> $(_rst)"
+  PS1="$GIT$(_fg "$ERR")\w$(_rst)\n$(_fg "$JOB")> $(_rst)"
 }
 
 if ! grep 'prompt-command' <<< "$PROMPT_COMMAND" > /dev/null; then
