@@ -6,6 +6,8 @@ set-option global tabstop 2
 set-option global indentwidth 2
 set-option global aligntab false
 
+map global insert <tab> '<a-;><gt>'
+
 set-option global modelinefmt '%sh{
 	modified=$([ $kak_modified = "true" ] && echo "+ ")
 	left="$kak_bufname"
@@ -81,3 +83,6 @@ map global user f -docstring 'jump to file using fzf + tmux' :fzf-file<ret>
 map global user l -docstring 'jump to line using fzf + tmux' :fzf-line<ret>
 map global user s -docstring 'jump to symbol under cursor' :jump-symbol<ret>
 
+hook -group go global BufWritePre .*\.go %{ go-format -use-goimports }
+
+hook -group js global WinCreate .*\.jsx %{ set buffer filetype javascript }

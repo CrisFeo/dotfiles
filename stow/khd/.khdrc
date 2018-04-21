@@ -13,13 +13,19 @@ rctrl - l         ![Terminal,iTerm2] : khd -p "- right"
 rctrl - b         ![Terminal,iTerm2] : khd -p "alt - left"
 rctrl - w         ![Terminal,iTerm2] : khd -p "alt - right"
 
-# remap a single press of the right control key to escape. Right control ends
-# up being caps lock with karabiner rebinding.
-rctrl : khd -p "- 0x35"
-
 # remap a single press of the right alt key to be tab. Right alt ends up being
-# tab with karabiner rebinding.
+# tab with karabiner rebinding. Also include modifier combos.
 ralt : khd -p "- 0x30"
+ralt + ctrl : khd -p "ctrl - 0x30"
+ralt + shift : khd -p "shift - 0x30"
+ralt + ctrl + shift : khd -p "ctrl + shift - 0x30"
+
+# remap a single press of the right control key to escape. Right control ends
+# up being caps lock with karabiner rebinding. Also include modifer combos.
+rctrl : khd -p "- 0x35"
+rctrl + alt : khd -p "alt - 0x35"
+rctrl + shift : khd -p "shift - 0x35"
+rctrl + alt + shift : khd -p "alt + shift - 0x35"
 
 # remap single-presses of shift keys to the corresponding parentheses
 lshift : khd -p "shift - 9"

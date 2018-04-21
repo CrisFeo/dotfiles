@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+h='docker-logs <CONTAINER> <PATTERN> [ARGS...]\n\n'
+h+='Pretty-print docker logs consisting of mixed JSON and plain-text lines, '
+h+='piping the valid JSON lines through the provided jq pattern. Additional '
+h+='arguments are passed to the "docker logs" command.\n\n'
+h+='Note: Depends on the "jq" utility\n'
+
+if [ "$#" -lt 2 ]; then
+  printf "$h"
+	exit 1
+fi
+
+container=$1
+shift
+
+query="$1"
+shift
+
+docker logs "$@" "$container" | json-logs "$query"

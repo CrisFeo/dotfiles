@@ -27,7 +27,13 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "tab"
+                                    "key_code": "tab",
+                                    "modifiers": {
+                                      "optional": [
+                                        "control",
+                                        "option"
+                                      ]
+                                    }
                                 },
                                 "to": [
                                     {

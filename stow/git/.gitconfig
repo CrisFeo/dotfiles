@@ -1,5 +1,5 @@
 [core]
-	editor = vim
+	editor = kak
 	excludesfile = ~/.gitignore_global
   pager = less -FXRS -x2
 [user]

@@ -1,0 +1,43 @@
+#! /bin/bash
+# shellcheck disable=SC1091
+set -e
+
+h='request <url> <body> [args...]\n\n'
+h+='Make a JSON POST request against an api URL with the specified body. '
+h+='Additional arguments are passed to printf to fill out the body template '
+h+='string. Pretty prints the response if valid JSON.\n\n'
+h+='Note: Depends on the "jq" utility\n'
+
+if [ "$#" -lt 2 ]; then
+  printf "$h"
+	exit 1
+fi
+
+endpoint="$1"
+shift
+data="$(printf $@)"
+
+if ! jq '.' <<< "$data" > /dev/null 2>&1; then
+  echo 'Request body could not be parsed as JSON' 1>&2
+  echo "$data" 1>&2
+  exit 1
+fi
+response=$(curl -s -w "\n%{http_code}" \
+  -XPOST "$endpoint"           \
+  -H'Content-Type:application/json'    \
+  -H'Accepts:application/json'         \
+  -d "$data")
+body=$(sed '$d' <<< "$response")
+code=$(tail -n 1 <<< "$response")
+if [ -t 1 ]; then
+  echo "▶▶▶ $API_URL$endpoint";
+  echo "$data"
+  echo "◀◀◀ $code"
+  if ! jq '.' <<< "$body" 2> /dev/null; then
+    echo 'Response body could not be parsed as JSON' 1>&2
+    echo "$body" 1>&2
+    exit 1
+  fi
+else
+  echo "$body"
+fi
