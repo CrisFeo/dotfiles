@@ -22,9 +22,13 @@ fzf_opts=(
   --bind 'alt-a:select-all,alt-d:deselect-all'
 )
 
-mplayer_opts=(
-  -msgcolor
-  -msglevel 'all=-1:statusline=5'
+mpv_statusline='${filename} '
+mpv_statusline+='\e[0;33m${time-pos}\e[0m'
+mpv_statusline+='/'
+mpv_statusline+='\e[0;33m${duration}\e[0m'
+mpv_opts=(
+  --msg-level 'all=no,statusline=status'
+  --term-status-msg="$mpv_statusline"
 )
 
 path=${1:-$HOME/audio}
@@ -34,6 +38,6 @@ while :; do
   echo "$chosen"
   IFS=$'\n'
   echo
-  mplayer ${mplayer_opts[@]} $(sed -E "s#^#$path/#" <<< "$chosen")
+  mpv ${mpv_opts[@]} $(sed -E "s#^#$path/#" <<< "$chosen")
   echo
 done

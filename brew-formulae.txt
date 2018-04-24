@@ -4,7 +4,7 @@ fzf
 git
 jq
 khd
-mplayer
+mpv
 nvm
 python3
 rbenv
