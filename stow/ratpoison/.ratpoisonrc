@@ -1,0 +1,42 @@
+escape C-q
+
+set bargravity north
+set bgcolor floralwhite
+set fgcolor darkslategray
+set border 0
+set font -*-tamzen-medium-*-*-*-16-*-*-*-*-*-*-*
+set maxsizegravity center
+set padding 0 0 0 0
+set waitcursor 0
+set winfmt [%n]%t
+set wingravity center
+set winliststyle row
+set winname class
+
+exec xsetroot -solid black -cursor_name left_ptr
+
+# Unbind 'kill' cause its really easy to press accidentally
+unbind k
+
+bind H exchangeleft
+bind J exchangedown
+bind K exchangeup
+bind L exchangeright
+
+bind o only
+
+bind a title
+bind C-a title
+
+bind A time
+bind C-A time
+
+
+bind s hsplit
+bind C-s hsplit
+
+bind S split
+bind C-S split
+
+bind c   exec /opt/X11/bin/xterm
+bind C-c exec /opt/X11/bin/xterm
