@@ -1,14 +1,19 @@
+source "%val{config}/csharp.kak"
+source "%val{config}/fzf.kak"
+source "%val{config}/go.kak"
+source "%val{config}/javascript.kak"
+
 colorscheme simple
 
-set-option global ui_options ncurses_assistant=cat
+set global ui_options ncurses_assistant=cat
 
-set-option global tabstop 2
-set-option global indentwidth 2
-set-option global aligntab false
+set global tabstop 2
+set global indentwidth 2
+set global aligntab false
 
 map global insert <tab> '<a-;><gt>'
 
-set-option global modelinefmt '%sh{
+set global modelinefmt '%sh{
 	modified=$([ $kak_modified = "true" ] && echo "+ ")
 	left="$kak_bufname"
 	right="$modified$kak_cursor_line:$kak_cursor_char_column "
@@ -17,65 +22,15 @@ set-option global modelinefmt '%sh{
 	printf "%s" "$right"
 }'
 
-def fzf-buffer -docstring 'jump to buffer using fzf' -allow-override %{%sh{
-  if [ -z "$TMUX" ]; then
-    echo "echo -markup '{Error}This command is only available in a tmux session'"
-    exit
-  fi
-	tmp=$(mktemp -d -t fzf-temp-XXXXXXXX)
-  in="$tmp/in"
-  out="$tmp/out"
-	mkfifo "$in" "$out"
-	(printf '%s\n' "$kak_buflist" | tr : '\n' > $in) > /dev/null 2>&1 < /dev/null &
-  (tmux new-window "fzf < $in > $out") > /dev/null 2>&1 < /dev/null &
-  RESULT=$(cat "$out")
-  if [ -n "$RESULT" ]; then
-    CMD=$(printf 'eval -client %s buffer %s\n' "$kak_client" "$RESULT")
-    kak -p "$kak_session" <<< "$CMD"
-  fi
-}}
-
-def fzf-file -docstring 'jump to file using fzf' -allow-override %{%sh{
-  if [ -z "$TMUX" ]; then
-    echo "echo -markup '{Error}This command is only available in a tmux session'"
-    exit
-  fi
-	tmp=$(mktemp -d -t fzf-temp-XXXXXXXX)
-  in="$tmp/in"
-  out="$tmp/out"
-	mkfifo "$in" "$out"
-  (ag --nogroup --nocolor --hidden --ignore '.git' --files-with-matches '' > $in) > /dev/null 2>&1 < /dev/null &
-  (tmux new-window "fzf < $in > $out") > /dev/null 2>&1 < /dev/null &
-  RESULT=$(cat "$out")
-  if [ -n "$RESULT" ]; then
-    CMD=$(printf 'eval -client %s edit %s\n' "$kak_client" "$RESULT")
-    kak -p "$kak_session" <<< "$CMD"
-  fi
-}}
-
-def fzf-line -docstring 'jump to line using fzf' -allow-override %{%sh{
-  if [ -z "$TMUX" ]; then
-    echo "echo -markup '{Error}This command is only available in a tmux session'"
-    exit
-  fi
-	tmp=$(mktemp -d -t fzf-temp-XXXXXXXX)
-  in="$tmp/in"
-  out="$tmp/out"
-	mkfifo "$in" "$out"
-  (ag --nogroup --nocolor --hidden --ignore '.git' '^.*$' > $in) > /dev/null 2>&1 < /dev/null &
-  (tmux new-window "fzf < $in > $out") > /dev/null 2>&1 < /dev/null &
-  RESULT=$(cat "$out")
-  if [ -n "$RESULT" ]; then
-  	F=$(cut -d ':' -f 1 <<< "$RESULT")
-  	L=$(cut -d ':' -f 2 <<< "$RESULT")
-    CMD=$(printf 'eval -client %s edit %s %s\n' "$kak_client" "$F" "$L")
-    kak -p "$kak_session" <<< "$CMD"
-  fi
-}}
-
 def jump-symbol -docstring 'jump to symbol definition' -allow-override %{%sh{
-  JMP='go-jump' # Only one language supported so far!
-  printf 'eval -client %s %s\n' "$kak_client" "$JMP" | kak -p "$kak_session"
+  case "$kak_opt_filetype" in
+    go) JMP='go-jump';;
+  esac
+  if [ ! -z "$JMP" ]; then
+    printf 'eval -client %s %s\n' "$kak_client" "$JMP" | kak -p "$kak_session"
+  else
+    echo "echo -markup '{Error}No jump command for this filetype'"
+  fi
 }}
 
 map global user b -docstring 'jump to buffer using fzf + tmux' :fzf-buffer<ret>
@@ -83,6 +38,3 @@ map global user f -docstring 'jump to file using fzf + tmux' :fzf-file<ret>
 map global user l -docstring 'jump to line using fzf + tmux' :fzf-line<ret>
 map global user s -docstring 'jump to symbol under cursor' :jump-symbol<ret>
 
-hook -group go global BufWritePre .*\.go %{ go-format -use-goimports }
-
-hook -group js global WinCreate .*\.jsx %{ set buffer filetype javascript }
