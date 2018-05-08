@@ -25,7 +25,7 @@
     face operator ${base3}
     face attribute ${base3}
     face comment ${base2}
-    face meta ${base3}
+    face meta ${base2}
     face builtin ${base4}+b
 
     # For markup

@@ -2,6 +2,7 @@ source "%val{config}/csharp.kak"
 source "%val{config}/fzf.kak"
 source "%val{config}/go.kak"
 source "%val{config}/javascript.kak"
+source "%val{config}/git.kak"
 
 colorscheme simple
 
