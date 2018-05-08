@@ -128,6 +128,58 @@ def omnisharp-disable-autocomplete -docstring "Disable omnisharp completion" %{
   unalias window complete omnisharp-complete
 }
 
+def omnisharp-jump -docstring "Jump to th C# symbol definition under the cursor using omnisharp" %{
+  eval -no-hooks -draft %{
+    decl -hidden str buffer_contents
+    exec \%
+    set buffer buffer_contents "%val{selection}"
+  }
+  nop %sh{(
+    kak_eval() {
+      printf %s\\n "eval -client '$kak_client' %{$1}" \
+      | kak -p $kak_session
+    }
+    # Formulate the request to Omnisharp
+    request=$(
+      jq -n \
+        --arg file   "$kak_buffile" \
+        --arg line   "$kak_cursor_line" \
+        --arg column "$kak_cursor_column" \
+        --arg buffer "$kak_opt_buffer_contents" \
+        '{
+          Filename: $file,
+          Line: $line | tonumber,
+          Column: $column | tonumber,
+          Buffer: $buffer,
+        }'
+    )
+    kak_eval "echo -debug 'Omnisharp request: $request'"
+    # Send the request and evaluate the response
+    response=$(curl -s -w '\n%{http_code}' \
+      -XPOST 'localhost:2000/gotodefinition' \
+      -H 'Content-Type:application/json' \
+      -d "$request")
+    body=$(sed '$d' <<< "$response")
+    code=$(tail -n 1 <<< "$response")
+    kak_eval "echo -debug 'Omnisharp response: $response'"
+    # If the response was successful parse the body to retrieve the target file
+    # and line number then jump to it.
+    if [ $code -eq 200 ]; then
+      destination=$(
+      jq --raw-output '
+        [.FileName, .Line, .Column]
+        | map(@json)
+        | join(" ")' \
+      <<< "$body")
+      if ! [ -z "destination" ]; then
+        kak_eval "edit $destination"
+      fi
+    else
+      kak_eval "echo -markup '{Error}Could not find symbol'"
+    fi
+  ) > /dev/null 2>&1 < /dev/null &}
+}
+
 def omnisharp-server -docstring "Start the Omnisharp server in the current directory" %{%sh{
   is_server_running() {
     code="$(curl \

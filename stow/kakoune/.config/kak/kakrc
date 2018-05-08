@@ -25,6 +25,7 @@ set global modelinefmt '%sh{
 
 def jump-symbol -docstring 'jump to symbol definition' -allow-override %{%sh{
   case "$kak_opt_filetype" in
+    csharp) JMP='omnisharp-jump';;
     go) JMP='go-jump';;
   esac
   if [ ! -z "$JMP" ]; then
