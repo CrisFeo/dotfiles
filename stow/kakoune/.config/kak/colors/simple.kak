@@ -45,6 +45,8 @@
     face SecondarySelection ${base0},${base2}
     face PrimaryCursor ${base0},${base4}
     face SecondaryCursor ${base0},${base3}
+    face PrimaryCursorEol ${base0},${accent}
+    face SecondaryCursorEol ${base0},${base3}
     face LineNumbers ${base0},${base3}
     face LineNumberCursor ${base0},${base3}+b
     face MenuForeground ${base0},${base2}
