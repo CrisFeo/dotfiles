@@ -36,11 +36,13 @@ hook -group csharp global BufCreate .*\.cs$ %{
 hook -group csharp global WinSetOption filetype=csharp %{
   omnisharp-enable-autocomplete
   addhl window ref csharp
+  alias window jump omnisharp-jump
 }
 
 hook -group csharp global WinSetOption filetype=(?!csharp).* %{
   omnisharp-disable-autocomplete
-  rmhl window ref csharp
+  rmhl window/csharp
+  alias window jump omnisharp-jump
 }
 
 decl -hidden str omnisharp_complete_tmp_dir
@@ -160,20 +162,16 @@ def omnisharp-jump -docstring "Jump to th C# symbol definition under the cursor 
       -H 'Content-Type:application/json' \
       -d "$request")
     body=$(sed '$d' <<< "$response")
-    code=$(tail -n 1 <<< "$response")
     kak_eval "echo -debug 'Omnisharp response: $response'"
     # If the response was successful parse the body to retrieve the target file
     # and line number then jump to it.
-    if [ $code -eq 200 ]; then
-      destination=$(
-      jq --raw-output '
-        [.FileName, .Line, .Column]
-        | map(@json)
-        | join(" ")' \
-      <<< "$body")
-      if ! [ -z "destination" ]; then
-        kak_eval "edit $destination"
-      fi
+    if [ ! -z "$body" ] && jq -e '.FileName' <<< "$body" &> /dev/null; then
+      kak_eval "edit $(
+        jq --raw-output '
+          [.FileName, .Line, .Column]
+          | map(@json)
+          | join(" ")' \
+      <<< "$body")"
     else
       kak_eval "echo -markup '{Error}Could not find symbol'"
     fi

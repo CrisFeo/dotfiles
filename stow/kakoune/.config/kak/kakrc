@@ -1,8 +1,8 @@
 source "%val{config}/csharp.kak"
 source "%val{config}/fzf.kak"
+source "%val{config}/git.kak"
 source "%val{config}/go.kak"
 source "%val{config}/javascript.kak"
-source "%val{config}/git.kak"
 
 colorscheme simple
 
@@ -23,20 +23,12 @@ set global modelinefmt '%sh{
 	printf "%s" "$right"
 }'
 
-def jump-symbol -docstring 'jump to symbol definition' -allow-override %{%sh{
-  case "$kak_opt_filetype" in
-    csharp) JMP='omnisharp-jump';;
-    go) JMP='go-jump';;
-  esac
-  if [ ! -z "$JMP" ]; then
-    printf 'eval -client %s %s\n' "$kak_client" "$JMP" | kak -p "$kak_session"
-  else
-    echo "echo -markup '{Error}No jump command for this filetype'"
-  fi
-}}
-
 map global user b -docstring 'jump to buffer using fzf + tmux' :fzf-buffer<ret>
 map global user f -docstring 'jump to file using fzf + tmux' :fzf-file<ret>
 map global user l -docstring 'jump to line using fzf + tmux' :fzf-line<ret>
-map global user s -docstring 'jump to symbol under cursor' :jump-symbol<ret>
+alias global jump nop
+map global user s -docstring 'jump to symbol under cursor' :jump<ret>
 
+def env -docstring 'load the local .kakenv file if present' %{%sh{
+  [ -f .kakenv ] && echo 'source .kakenv'
+}}

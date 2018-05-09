@@ -11,5 +11,5 @@ hook -group csharp global WinSetOption filetype=git-commit %{
 }
 
 hook -group csharp global WinSetOption filetype=(?!git-commit).* %{
-  rmhl window ref git-commit
+  rmhl window/git-commit
 }
