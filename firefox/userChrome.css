@@ -14,6 +14,10 @@
   min-height: 0 !important;
 }
 
+#tabbrowser-tabs {
+  --tab-min-height: 0 !important;
+}
+
 .tabbrowser-tab {
   height: 29px;
 }

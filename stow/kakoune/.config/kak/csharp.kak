@@ -33,16 +33,64 @@ hook -group csharp global BufCreate .*\.cs$ %{
   set buffer filetype csharp
 }
 
+hook -group go global BufWritePost .*\.cs$ %{
+  omnisharp-format
+}
+
 hook -group csharp global WinSetOption filetype=csharp %{
   omnisharp-enable-autocomplete
   addhl window ref csharp
   alias window jump omnisharp-jump
+  hook window InsertChar \n -group csharp-indent csharp-indent-on-new-line
 }
 
 hook -group csharp global WinSetOption filetype=(?!csharp).* %{
   omnisharp-disable-autocomplete
   rmhl window/csharp
   alias window jump omnisharp-jump
+  remove-hooks window csharp-indent
+}
+
+def -hidden csharp-indent-on-new-line %<
+  eval -draft -itersel %<
+    # preserve previous line indent
+    try %{ exec -draft ';K<a-&>' }
+    # indent after lines ending with { or (
+    try %< exec -draft 'k<a-x><a-k>[{(]\h*$<ret>j<a-gt>' >
+    # cleanup trailing white spaces on the previous line
+    try %{ exec -draft 'k<a-x>s\h+$<ret>d' }
+    # copy // comments prefix
+    try %{ exec -draft ';<c-s>k<a-x> s ^\h*\K/{2,} <ret> y<c-o><c-o>P<esc>' }
+  >
+>
+
+def omnisharp-format %{%sh{
+  # Formulate the request to Omnisharp
+  request=$(
+    jq -n \
+      --arg file   "$kak_buffile" \
+      --arg buffer "$(cat "$kak_buffile")" \
+      '{
+        Filename: $file,
+        Buffer: $buffer,
+      }'
+  )
+  echo "echo -debug 'Omnisharp request: $request'"
+  # Send the request and evaluate the response
+  response=$(curl -s \
+    -XPOST 'localhost:2000/codeformat' \
+    -H 'Content-Type:application/json' \
+    -d "$request")
+  echo "echo -debug 'Omnisharp response: $response'"
+  # If the response was successful parse the body to retrieve the formatted
+  # buffer and replace the file contents.
+  if [ ! -z "$response" ] && jq -e '.Buffer' <<< "$response" &> /dev/null; then
+    jq --raw-output '.Buffer' <<< "$response" > "$kak_buffile"
+    echo "edit!"
+  else
+    echo "echo -markup '{Error}Could not format buffer'"
+  fi
+  }
 }
 
 decl -hidden str omnisharp_complete_tmp_dir
@@ -50,11 +98,13 @@ decl -hidden completions omnisharp_completions
 
 def omnisharp-complete -docstring "Complete the current selection with omnisharp" %{
   eval -no-hooks -draft %{
-    decl -hidden str current_word
+    decl -hidden str current_word_content
+    decl -hidden str current_word_start
     decl -hidden str buffer_contents
-    exec B<a-i>w
-    set buffer current_word "%val{selection}"
-    exec \%
+    exec ';<a-h>S\.<ret><space>_'
+    set buffer current_word_content "%val{selection}"
+    set buffer current_word_start "%val{cursor_column}"
+    exec '%'
     set buffer buffer_contents "%val{selection}"
   }
   nop %sh{(
@@ -69,7 +119,7 @@ def omnisharp-complete -docstring "Complete the current selection with omnisharp
         --arg line   "$kak_cursor_line" \
         --arg column "$kak_cursor_column" \
         --arg buffer "$kak_opt_buffer_contents" \
-        --arg word   "$kak_opt_current_word" \
+        --arg word   "$kak_opt_current_word_content" \
         '{
           Filename: $file,
           Line: $line | tonumber,
@@ -101,19 +151,20 @@ def omnisharp-complete -docstring "Complete the current selection with omnisharp
           | join(":")' \
         <<< "$body"
       )
+      word_length=$(wc -m <<< "$kak_opt_current_word_content" | sed -E 's#^ +##')
       completions=$(
-        printf '%d.%d@%d:%s' \
+        printf '%d.%d+%d@%d:%s' \
           "$kak_cursor_line" \
-          "$kak_cursor_column" \
+          "$kak_opt_current_word_start" \
+          "$[$word_length-1]" \
           "$kak_timestamp" \
           "$candidates"
       )
       kak_eval "echo -debug 'Completions: $completions'"
-      kak_eval "set buffer=$kak_bufname omnisharp_completions '$completions'"
+      kak_eval "set buffer=$kak_bufname omnisharp_completions %{$completions}"
     fi
   ) > /dev/null 2>&1 < /dev/null &}
 }
-
 
 def omnisharp-enable-autocomplete -docstring "Add omnisharp completion candidates to the completer" %{
   set window completers "option=omnisharp_completions:%opt{completers}"
