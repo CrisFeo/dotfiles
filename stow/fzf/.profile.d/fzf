@@ -10,9 +10,13 @@ FZF_NO_COLORS+='pointer:-1,'
 FZF_NO_COLORS+='marker:-1,'
 FZF_NO_COLORS+='spinner:-1,'
 FZF_NO_COLORS+='header:-1'
-
 export FZF_DEFAULT_COLORS="$FZF_NO_COLORS,pointer:2,marker:2,prompt:2,hl:3,hl+:3"
+
+FZF_DEFAULT_BINDS=''
+FZF_DEFAULT_BINDS+='ctrl-f:jump-accept,'
+FZF_DEFAULT_BINDS+='alt-f:jump'
+
 export FZF_DEFAULT_COMMAND='ag -l -f --hidden --ignore=".git"'
-export FZF_DEFAULT_OPTS="--ansi --no-bold --color=$FZF_DEFAULT_COLORS"
+export FZF_DEFAULT_OPTS="--ansi --no-bold --bind=$FZF_DEFAULT_BINDS --color=$FZF_DEFAULT_COLORS"
 
 [ -f "$HOME/.fzf.bash" ] && . "$HOME/.fzf.bash"
