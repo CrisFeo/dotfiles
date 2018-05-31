@@ -1,4 +1,4 @@
-def fzf-buffer -docstring 'jump to buffer using fzf' -allow-override %{%sh{
+def jump-buffer -docstring 'jump to buffer using fzf' -allow-override %{%sh{
   if [ -z "$TMUX" ]; then
     echo "echo -markup '{Error}This command is only available in a tmux session'"
     exit
@@ -16,7 +16,7 @@ def fzf-buffer -docstring 'jump to buffer using fzf' -allow-override %{%sh{
   fi
 }}
 
-def fzf-file -docstring 'jump to file using fzf' -allow-override %{%sh{
+def jump-file -docstring 'jump to file using fzf' -allow-override %{%sh{
   if [ -z "$TMUX" ]; then
     echo "echo -markup '{Error}This command is only available in a tmux session'"
     exit
@@ -34,7 +34,7 @@ def fzf-file -docstring 'jump to file using fzf' -allow-override %{%sh{
   fi
 }}
 
-def fzf-line -docstring 'jump to line using fzf' -allow-override %{%sh{
+def jump-line -docstring 'jump to line using fzf' -allow-override %{%sh{
   if [ -z "$TMUX" ]; then
     echo "echo -markup '{Error}This command is only available in a tmux session'"
     exit

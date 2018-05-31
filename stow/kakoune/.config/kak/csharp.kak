@@ -41,7 +41,7 @@ hook -group go global BufWritePost .*\.cs$ %{
 hook -group csharp global WinSetOption filetype=csharp %{
   omnisharp-enable-autocomplete
   addhl window ref csharp
-  alias window jump omnisharp-jump
+  alias window jump-symbol omnisharp-jump
   hook window InsertChar \n -group csharp-indent csharp-indent-on-new-line
 }
 

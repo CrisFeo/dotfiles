@@ -5,16 +5,38 @@ source "%val{config}/git.kak"
 source "%val{config}/go.kak"
 source "%val{config}/javascript.kak"
 
-def wrap-comment -docstring "Wrap a commented section to ~80 characters" %{
-  exec '<a-s>s^\s+(//|#)<ret>s\S+<ret>Lydx<a-m>|fmt -77<ret><a-s>giP'
+def wrap-comment \
+-docstring "Wrap a commented section to ~80 characters" \
+%{
+  exec '<a-s>s^\s*(//|#)<ret>s\S+<ret>Lydx<a-m>|fmt -77<ret><a-s>giPgh<space>'
 }
 
-def env -docstring 'load the local .kakenv file if present' %{%sh{
+def env \
+-docstring 'load the local .kakenv file if present' \
+%{%sh{
   [ -f .kakenv ] && echo 'source .kakenv'
 }}
 
-map global user b -docstring 'jump to buffer using fzf + tmux' :fzf-buffer<ret>
-map global user f -docstring 'jump to file using fzf + tmux' :fzf-file<ret>
-map global user l -docstring 'jump to line using fzf + tmux' :fzf-line<ret>
-alias global jump nop
-map global user s -docstring 'jump to symbol under cursor' :jump<ret>
+def terminal \
+-docstring 'open terminal in the current buffer directory using tmux' \
+%{%sh{
+  if [ -z "$TMUX" ]; then
+    echo "echo -markup '{Error}Command only available in a tmux session'"
+    exit
+  fi
+  dir="$(dirname "$kak_buffile")"
+  if [ "$dir" == "." ]; then
+    dir="$(pwd)"
+  fi
+  (tmux new-window -c "$dir") > /dev/null 2>&1 < /dev/null &
+}}
+
+# The :jump command is dynamically aliased depending on the filetype of the
+# current buffer. We alias it to :nop here so we can map it as a user hotkey.
+alias global jump-symbol nop
+
+map global user b -docstring 'jump to buffer' :jump-buffer<ret>
+map global user f -docstring 'jump to file'   :jump-file<ret>
+map global user l -docstring 'jump to line'   :jump-line<ret>
+map global user s -docstring 'jump to symbol' :jump-symbol<ret>
+map global user t -docstring 'open terminal'  :terminal<ret>

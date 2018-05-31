@@ -1,5 +1,6 @@
 #!/bin/sh
 kak -n -ro -e '
   source "%val{config}/basics.kak";
+  set global modelinefmt "%val{bufname}"
   map global normal q :quit<ret>;
 ' "$@"

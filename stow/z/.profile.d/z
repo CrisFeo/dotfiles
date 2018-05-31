@@ -6,7 +6,7 @@ if which fzf > /dev/null; then
   z-fzf() {
     file="$(_z -l 2>&1 | \
             sed -E 's#^[0-9.]+ +(/.+)$#\1#' | \
-            fzf --no-sort --tac --height=10% --min-height=5)"
+            fzf -q "$1" --no-sort --tac --height=10% --min-height=5)"
     if [ ! -z "$file" ]; then
       cd "$file" || exit
     fi

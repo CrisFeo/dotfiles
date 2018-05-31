@@ -2,6 +2,7 @@
 col -bx | kak -n -ro -e '
   source "%val{config}/basics.kak";
   source "%val{runtime}/rc/core/man.kak";
+  set global modelinefmt ""
   set buffer filetype man;
   map global normal q :quit<ret>;
 '
