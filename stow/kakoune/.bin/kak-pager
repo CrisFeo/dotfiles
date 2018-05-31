@@ -1,3 +1,5 @@
 #!/bin/sh
-col -b |
-kak -e "map global normal q :quit<ret>; $@"
+kak -n -ro -e '
+  source "%val{config}/basics.kak";
+  map global normal q :quit<ret>;
+' "$@"

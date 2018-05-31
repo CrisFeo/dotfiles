@@ -6,6 +6,7 @@ addhl shared regions -default code csharp \
 addhl shared/csharp/comment fill comment
 addhl shared/csharp/string fill string
 addhl shared/csharp/attribute fill meta
+# Complex regex for valid c-style number values (stolen from other highlighters)
 addhl shared/csharp/code regex %{\b-?(0x[0-9a-fA-F]+|\d+)[fdiu]?|'((\\.)?|[^'\\])'} 0:value
 %sh{
   keywords="break continue do for foreach goto return while else if switch case default try catch finally throw when async await using"
@@ -67,25 +68,20 @@ def -hidden csharp-indent-on-new-line %<
 def omnisharp-format %{%sh{
   # Formulate the request to Omnisharp
   request=$(
-    jq -n \
-      --arg file   "$kak_buffile" \
-      --arg buffer "$(cat "$kak_buffile")" \
-      '{
-        Filename: $file,
-        Buffer: $buffer,
-      }'
+    jq --raw-input --slurp --arg 'file' "$kak_buffile" '{
+      Filename: $file,
+      Buffer: .,
+    }' < "$kak_buffile"
   )
-  echo "echo -debug 'Omnisharp request: $request'"
   # Send the request and evaluate the response
   response=$(curl -s \
     -XPOST 'localhost:2000/codeformat' \
     -H 'Content-Type:application/json' \
     -d "$request")
-  echo "echo -debug 'Omnisharp response: $response'"
   # If the response was successful parse the body to retrieve the formatted
   # buffer and replace the file contents.
   if [ ! -z "$response" ] && jq -e '.Buffer' <<< "$response" &> /dev/null; then
-    jq --raw-output '.Buffer' <<< "$response" > "$kak_buffile"
+    jq --join-output '.Buffer' <<< "$response" > "$kak_buffile"
     echo "edit!"
   else
     echo "echo -markup '{Error}Could not format buffer'"
