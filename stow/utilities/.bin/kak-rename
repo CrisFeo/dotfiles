@@ -1,0 +1,11 @@
+#! /bin/bash
+set -e
+
+RENAME_FILE='.rename'
+
+rm -f "$RENAME_FILE"
+kak -e 'exec !ls<ret>xd\%<a-s>ypjo<esc><space>' "$RENAME_FILE"
+if [ -f "$RENAME_FILE" ]; then
+  mass-rename < "$RENAME_FILE"
+fi
+

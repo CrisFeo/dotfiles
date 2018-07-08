@@ -1,4 +1,4 @@
-#"!/bin/bash
+#!/bin/bash
 
 _fg() {
   printf '\[$(tput setaf %u)\]' "$1" 2> /dev/null
@@ -28,6 +28,8 @@ prompt-command() {
     CLR=$(if [ "$ST" -eq 0 ]; then echo 7; else echo 3; fi)
     BRA=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
     GIT="$(_fg "$CLR")$BRA "
+  else
+    GIT=""
   fi
   PS1="$GIT$(_fg "$ERR")\w$(_rst)\n$(_fg "$JOB")> $(_rst)"
 }

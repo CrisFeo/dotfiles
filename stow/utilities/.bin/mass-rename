@@ -1,0 +1,23 @@
+#! /bin/bash
+set -e
+
+while IFS=$'\n' read OLD; do
+	if [ ! -f "$OLD" ]; then
+		printf 'Expected extant filename but found %s\n' "$OLD"
+  	exit 1
+	fi
+	IFS=$'\n' read NEW
+	if [ -z "$NEW" ]; then
+		printf 'Expected new filename but found %s\n' "$NEW"
+  	exit 1
+	fi
+	if [ "$OLD" != "$NEW" ]; then
+  	printf '%s ===> %s\n' "$OLD" "$NEW"
+  	mv "$OLD" "$NEW"
+  fi
+	IFS=$'\n' read BLANK
+	if [ -n "$BLANK" ]; then
+		printf 'Expected blank line but found %s\n' "$BLANK"
+  	exit 1
+	fi
+done

@@ -23,9 +23,9 @@ def jump-file-target \
     if [[ "$kak_selection" =~ ':' ]]; then
       F=$(cut -d ':' -f 1 <<< "$kak_selection")
       L=$(cut -d ':' -f 2 <<< "$kak_selection")
-      printf 'edit -existing %s %s\n' "$F" "$L"
+      printf 'edit -existing "%s" "%s"\n' "$F" "$L"
     else
-      printf 'edit -existing %s\n' "$kak_selection"
+      printf 'edit -existing "%s"\n' "$kak_selection"
     fi
   }
 }
@@ -44,7 +44,7 @@ def jump-buffer -docstring 'jump to buffer using fzf' -allow-override %{%sh{
   RESULT=$(cat "$out")
   lines=$(wc -l  <<< "$RESULT" | awk '{print $1}')
   if [[ "$lines" -eq 1 ]]; then
-    CMD=$(printf 'buffer %s\n' "$RESULT")
+    CMD=$(printf 'buffer "%s"\n' "$RESULT")
     kak -p "$kak_session" <<< "eval -client $kak_client $CMD"
   elif [[ "$lines" -gt 1 ]]; then
     list="$tmp/list"
@@ -68,7 +68,7 @@ def jump-file -docstring 'jump to file using fzf' -allow-override %{%sh{
   RESULT=$(cat "$out")
   lines=$(wc -l  <<< "$RESULT" | awk '{print $1}')
   if [[ "$lines" -eq 1 ]]; then
-    CMD=$(printf 'edit %s\n' "$RESULT")
+    CMD=$(printf 'edit "%q"\n' "$RESULT")
     kak -p "$kak_session" <<< "eval -client $kak_client $CMD"
   elif [[ "$lines" -gt 1 ]]; then
     list="$tmp/list"
@@ -94,7 +94,7 @@ def jump-line -docstring 'jump to line using fzf' -allow-override %{%sh{
   if [[ "$lines" -eq 1 ]]; then
     F=$(cut -d ':' -f 1 <<< "$RESULT")
     L=$(cut -d ':' -f 2 <<< "$RESULT")
-    CMD=$(printf 'edit %s %s\n' "$F" "$L")
+    CMD=$(printf 'edit "%q" "%q"\n' "$F" "$L")
     kak -p "$kak_session" <<< "eval -client $kak_client $CMD"
   elif [[ "$lines" -gt 1 ]]; then
     list="$tmp/list"

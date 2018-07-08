@@ -6,4 +6,8 @@ if [ "$#" -lt 1 ]; then
 fi
 
 cd "${2:-$HOME/audio}" 1>/dev/null 2>&1 || exit 1
-youtube-dl -x "https://www.youtube.com/watch?v=$1"
+youtube-dl \
+	--add-metadata \
+	--extract-audio \
+	--output '%(title)s [%(id)s].%(ext)s' \
+	"https://www.youtube.com/watch?v=$1"

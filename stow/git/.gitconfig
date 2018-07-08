@@ -18,13 +18,13 @@
 	insteadOf = https://github.com/
 [url "ssh://git@github.plaid.com/"]
 	insteadOf = https://github.plaid.com/
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
 [merge]
   tool = unityyamlmerge
 [mergetool "unityyamlmerge"]
   trustExitCode = false
   cmd = UnityYAMLMerge merge -p "$BASE" "$REMOTE" "$LOCAL" "$MERGED"
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
