@@ -2,7 +2,7 @@ def add-jump-targets \
 -docstring 'open a new scratch buffer listing jump targets' \
 -params 2 \
 -file-completion \
-%{%sh{
+%{ eval %sh{
   if [[ "$kak_buflist" =~ '*jump*' ]]; then
     echo 'edit -scratch *jump*'
     echo 'exec gjo<ret><esc>'
@@ -19,7 +19,7 @@ def jump-file-target \
 -docstring 'jump to the file target under the cursor' \
 %{
   exec '<space>;xHs^[^#].*$<ret>'
-  %sh{
+  eval %sh{
     if [[ "$kak_selection" =~ ':' ]]; then
       F=$(cut -d ':' -f 1 <<< "$kak_selection")
       L=$(cut -d ':' -f 2 <<< "$kak_selection")
@@ -30,7 +30,7 @@ def jump-file-target \
   }
 }
 
-def jump-buffer -docstring 'jump to buffer using fzf' -allow-override %{%sh{
+def jump-buffer -docstring 'jump to buffer using fzf' %{ eval %sh{
   if [ -z "$TMUX" ]; then
     echo "echo -markup '{Error}This command is only available in a tmux session'"
     exit
@@ -39,22 +39,21 @@ def jump-buffer -docstring 'jump to buffer using fzf' -allow-override %{%sh{
   in="$tmp/in"
   out="$tmp/out"
   mkfifo "$in" "$out"
-  (printf '%s\n' "$kak_buflist" | tr : '\n' > $in) > /dev/null 2>&1 < /dev/null &
+  (printf '%s\n' $kak_buflist | sed -e "s/^'//" -e "s/'$//" > $in) > /dev/null 2>&1 < /dev/null &
   (tmux new-window "fzf --multi < $in > $out") > /dev/null 2>&1 < /dev/null &
   RESULT=$(cat "$out")
+  if [[ ! -n "$RESULT" ]]; then exit; fi
   lines=$(wc -l  <<< "$RESULT" | awk '{print $1}')
   if [[ "$lines" -eq 1 ]]; then
-    CMD=$(printf 'buffer "%s"\n' "$RESULT")
-    kak -p "$kak_session" <<< "eval -client $kak_client $CMD"
+    printf 'buffer "%s"\n' "$RESULT"
   elif [[ "$lines" -gt 1 ]]; then
     list="$tmp/list"
     printf '%s' "$RESULT" > "$list"
-    CMD=$(printf 'add-jump-targets "Buffers" %s\n' "$list")
-    kak -p "$kak_session" <<< "eval -client $kak_client $CMD"
+    printf 'add-jump-targets "Buffers" %s\n' "$list"
   fi
 }}
 
-def jump-file -docstring 'jump to file using fzf' -allow-override %{%sh{
+def jump-file -docstring 'jump to file using fzf' %{ eval %sh{
   if [ -z "$TMUX" ]; then
     echo "echo -markup '{Error}This command is only available in a tmux session'"
     exit
@@ -66,19 +65,18 @@ def jump-file -docstring 'jump to file using fzf' -allow-override %{%sh{
   (ag --nogroup --nocolor --hidden --ignore '.git' --files-with-matches '' > $in) > /dev/null 2>&1 < /dev/null &
   (tmux new-window "fzf --multi < $in > $out") > /dev/null 2>&1 < /dev/null &
   RESULT=$(cat "$out")
+  if [[ ! -n "$RESULT" ]]; then exit; fi
   lines=$(wc -l  <<< "$RESULT" | awk '{print $1}')
   if [[ "$lines" -eq 1 ]]; then
-    CMD=$(printf 'edit "%q"\n' "$RESULT")
-    kak -p "$kak_session" <<< "eval -client $kak_client $CMD"
+    printf 'edit "%s"\n' "$RESULT"
   elif [[ "$lines" -gt 1 ]]; then
     list="$tmp/list"
     printf '%s' "$RESULT" > "$list"
-    CMD=$(printf 'add-jump-targets Files %s\n' "$list")
-    kak -p "$kak_session" <<< "eval -client $kak_client $CMD"
+    printf 'add-jump-targets Files %s\n' "$list"
   fi
 }}
 
-def jump-line -docstring 'jump to line using fzf' -allow-override %{%sh{
+def jump-line -docstring 'jump to line using fzf' %{ eval %sh{
   if [ -z "$TMUX" ]; then
     echo "echo -markup '{Error}This command is only available in a tmux session'"
     exit
@@ -90,16 +88,15 @@ def jump-line -docstring 'jump to line using fzf' -allow-override %{%sh{
   (ag --nogroup --nocolor --hidden --ignore '.git' '^.*$' > $in) > /dev/null 2>&1 < /dev/null &
   (tmux new-window "fzf --multi < $in > $out") > /dev/null 2>&1 < /dev/null &
   RESULT=$(cat "$out")
+  if [[ ! -n "$RESULT" ]]; then exit; fi
   lines=$(wc -l  <<< "$RESULT" | awk '{print $1}')
   if [[ "$lines" -eq 1 ]]; then
     F=$(cut -d ':' -f 1 <<< "$RESULT")
     L=$(cut -d ':' -f 2 <<< "$RESULT")
-    CMD=$(printf 'edit "%q" "%q"\n' "$F" "$L")
-    kak -p "$kak_session" <<< "eval -client $kak_client $CMD"
+    printf 'edit "%s" "%s"\n' "$F" "$L"
   elif [[ "$lines" -gt 1 ]]; then
     list="$tmp/list"
     printf '%s' "$RESULT" > "$list"
-    CMD=$(printf 'add-jump-targets Lines %s\n' "$list")
-    kak -p "$kak_session" <<< "eval -client $kak_client $CMD"
+    printf 'add-jump-targets Lines %s\n' "$list"
   fi
 }}

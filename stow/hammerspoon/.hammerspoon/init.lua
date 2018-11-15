@@ -1,9 +1,15 @@
+spaces = require("hs._asm.undocumented.spaces")
+
 -- WINDOW LAYOUT
 padding = 20
 titlebarHeight = 0 -- 20
 
 lastId = nil
 lastFrame = nil
+
+hs.urlevent.bind("spaces-test", function()
+  spaces.createSpace()
+end)
 
 hs.urlevent.bind("center", function()
   local win = hs.window.focusedWindow()

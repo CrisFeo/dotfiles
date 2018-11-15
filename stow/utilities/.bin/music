@@ -34,7 +34,7 @@ mpv_opts=(
 )
 
 path=${1:-$HOME/audio}
-tracks=$(find "$path" "${find_opts[@]}" | sed "s#$path/##")
+tracks=$(find "$path" "${find_opts[@]}" | sort | sed "s#$path/##")
 while :; do
   chosen=$(fzf ${fzf_opts[@]} <<< "$tracks")
 	clear
