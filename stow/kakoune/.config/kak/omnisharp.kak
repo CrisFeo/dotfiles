@@ -23,7 +23,7 @@ def omnisharp-enable-autocomplete -docstring "Add omnisharp completion candidate
 }
 
 def omnisharp-disable-autocomplete -docstring "Remove omnisharp completion candidates" %{
-  set window completers %sh{ printf %s\\n "$kak_opt_completers" | sed "s/'option=omnisharp_completions'//g" }
+  set window completers %sh{ printf %s\\n "'${kak_opt_completers}'" | sed -e 's/option=omnisharp_completions//g' }
   remove-hooks window omnisharp-autocomplete
   unalias window complete omnisharp-complete
 }

@@ -42,3 +42,4 @@ map global user f -docstring 'jump to file'       :jump-file<ret>
 map global user l -docstring 'jump to line'       :jump-line<ret>
 map global user d -docstring 'jump to definition' :jump-definition<ret>
 map global user t -docstring 'open terminal'      :terminal<ret>
+map global user . -docstring 'open *jump* buffer' :b\ *jump*<ret>

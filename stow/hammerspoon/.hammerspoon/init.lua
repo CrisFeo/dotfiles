@@ -1,15 +1,9 @@
-spaces = require("hs._asm.undocumented.spaces")
-
 -- WINDOW LAYOUT
 padding = 20
 titlebarHeight = 0 -- 20
 
 lastId = nil
 lastFrame = nil
-
-hs.urlevent.bind("spaces-test", function()
-  spaces.createSpace()
-end)
 
 hs.urlevent.bind("center", function()
   local win = hs.window.focusedWindow()
@@ -21,6 +15,7 @@ hs.urlevent.bind("center", function()
   f.x = (max.w - f.w) / 2
   f.y = ((max.h - f.h) / 2) + titlebarHeight
   win:setFrameInScreenBounds(f, 0)
+  drawBorder()
 end)
 
 hs.urlevent.bind("stack", function()
@@ -30,6 +25,7 @@ hs.urlevent.bind("stack", function()
   for _, other in ipairs(others) do
     other:setFrameInScreenBounds(f, 0)
   end
+  drawBorder()
 end)
 
 hs.urlevent.bind("push", function(name, params)
@@ -58,6 +54,7 @@ hs.urlevent.bind("push", function(name, params)
   }
   shapes[params["d"]]()
   win:setFrameInScreenBounds(f, 0)
+  drawBorder()
 end)
 
 hs.urlevent.bind("expand", function(name, params)
@@ -84,6 +81,7 @@ hs.urlevent.bind("expand", function(name, params)
   }
   shapes[params["d"]]()
   win:setFrameInScreenBounds(f, 0)
+  drawBorder()
 end)
 
 hs.urlevent.bind("undo", function()
@@ -97,6 +95,7 @@ hs.urlevent.bind("undo", function()
   local curFrame = win:frame()
   win:setFrameInScreenBounds(lastFrame, 0)
   lastFrame = curFrame
+  drawBorder()
 end)
 
 -- WINDOW SWITCHING
@@ -111,19 +110,28 @@ hs.urlevent.bind("focus", function(name, params)
   }
   action = "focusWindow"..actions[params["d"]]
   focusableWindows[action](focusableWindows, nil, true, false)
+  drawBorder()
 end)
+
 
 -- WINDOW BORDER
 borderWidth = 8
 borderRadius = 2
-borderColor = {
+borderColorOff = {
   ["red"]=0.98,
   ["green"]=0.78,
   ["blue"]=0.29,
   ["alpha"]=1.0
 }
+borderColorOn = {
+  ["red"]=0.98,
+  ["green"]=0.25,
+  ["blue"]=0.15,
+  ["alpha"]=1.0
+}
 
 border = nil
+borderColor = borderColorOff
 borderedWindows = hs.window.filter.new()
 
 function drawBorder()
@@ -147,22 +155,17 @@ function drawBorder()
   border:show()
 end
 
+hs.urlevent.bind("border", function(name, params)
+	if params["m"]=="on" then
+  	borderColor = borderColorOn
+  else
+  	borderColor = borderColorOff
+	end
+	drawBorder()
+end)
+
 borderedWindows:subscribe({
   hs.window.filter.windowFocused,
   hs.window.filter.windowUnfocused,
   hs.window.filter.windowMoved
 }, drawBorder, true)
-
--- HOT RELOAD
-function reloadConfig(files)
-  for _,file in pairs(files) do
-    if file:sub(-4) == ".lua" then
-      hs.reload()
-      return
-    end
-  end
-end
-
-hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
-
-

@@ -35,6 +35,31 @@ eval %sh{
   "
 }
 
+# Indentation
+###################
+
+define-command -hidden csharp-indent-on-new-line %~
+  evaluate-commands -draft -itersel %=
+    # preserve previous line indent
+    try %{ execute-keys -draft \;K<a-&> }
+    # indent after lines ending with { or (
+    try %[ execute-keys -draft k<a-x> <a-k> [{(]\h*$ <ret> j<a-gt> ]
+    # cleanup trailing white spaces on the previous line
+    try %{ execute-keys -draft k<a-x> s \h+$ <ret>d }
+    # indent after a switch's case/default statements
+    try %[ execute-keys -draft k<a-x> <a-k> ^\h*(case|default).*:$ <ret> j<a-gt> ]
+    # indent after if|else|while|for
+    try %[ execute-keys -draft \;<a-F>)MB <a-k> \A(if|else|while|for)\h*\(.*\)\h*\n\h*\n?\z <ret> s \A|.\z <ret> 1<a-&>1<a-space><a-gt> ]
+  =
+~
+
+define-command -hidden csharp-indent-on-char %<
+  evaluate-commands -draft -itersel %<
+    # align closer token to its opener when alone on a line
+    try %/ execute-keys -draft <a-h> <a-k> ^\h+[\]}]$ <ret> m s \A|.\z <ret> 1<a-&> /
+  >
+>
+
 # Hooks
 ###################
 
@@ -47,9 +72,8 @@ hook -group csharp-highlight global WinSetOption filetype=(?!csharp).* %{
 }
 
 hook global WinSetOption filetype=csharp %{
-  # Just use the indent rules from Javascript cause those are sane for c#
-  hook window InsertChar .* -group csharp-indent javascript-indent-on-char
-  hook window InsertChar \n -group csharp-indent javascript-indent-on-new-line
+  hook window InsertChar \n -group csharp-indent csharp-indent-on-new-line
+  hook window InsertChar .* -group csharp-indent csharp-indent-on-char
 }
 
 hook global WinSetOption filetype=(?!csharp).* %{
