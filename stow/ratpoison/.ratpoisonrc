@@ -38,5 +38,5 @@ bind C-s hsplit
 bind S split
 bind C-S split
 
-bind c   exec /opt/X11/bin/xterm
-bind C-c exec /opt/X11/bin/xterm
+bind c   exec xterm
+bind C-c exec xterm

@@ -1,27 +1,31 @@
-const fs = require('fs');
-const childProcess = require('child_process');
+const cp = require('child_process');
+const {
+  ensureFifo,
+  readFifo,
+  writeFifo,
+  byLine
+} = require('./utilities');
 
 
-const tryParse = data => {
-  try {
-    return JSON.parse(data);
-  } catch(e) {
-    return undefined;
+const getHostDir = msg => {
+  const hostDir = process.env['kak_opt_omnisharp_host_tmp_dir'];
+  if (hostDir == null || hostDir === '') {
+    process.stdout.write(msg);
+    process.exit(1);
   }
+  return hostDir;
 };
 
-const onJsonLine = (stream, cb) => {
-  let data = '';
-  stream.setEncoding('utf8');
-  stream.on('data', chunk => {
+const outputLoop = (hostDir, child) => {
+  ensureFifo(hostDir + '/out');
+  byLine(child.stdout, line => {
     try {
-      for (var i = 0; i< chunk.length; i++) {
-        if (chunk[i] == '\n') {
-          cb(tryParse(data));
-          data = '';
-        } else {
-          data += chunk[i];
-        }
+      const data = JSON.parse(line);
+      if (data['Request_seq'] === 455) {
+        process.stdout.write('== OUT ==\n'+ line + '\n');
+        writeFifo(hostDir + '/out', line);
+      } else {
+        process.stdout.write('== CHILD ==\n'+ line + '\n');
       }
     } catch (e) {
       process.stderr.write(e.toString());
@@ -29,43 +33,31 @@ const onJsonLine = (stream, cb) => {
   });
 };
 
-const host = () => {
-  const child = childProcess.execFile('omnisharp', process.argv.slice(2));
-  onJsonLine(process.stdin, msg => {
-    if (msg == null) return;
-    msg['seq'] = 455;
-    child.stdin.write(JSON.stringify(msg)+'\n');
+const inputLoop = (hostDir, child) => {
+  readFifo(hostDir + '/in', raw => {
+    process.stdout.write('== IN ==\n'+ JSON.stringify(raw) + '\n');
+    const request = { ...raw, seq: 455 };
+    child.stdin.write(JSON.stringify(request) + '\n');
+    inputLoop(hostDir, child);
   });
-  onJsonLine(child.stdout, msg => {
-    if (msg == null) return;
-    var seq = msg['Request_seq'];
-    if (seq != null && seq === 455) {
-      process.stdout.write(JSON.stringify(msg)+'\n');
-    }
+};
+
+module.exports = (data, cb) => {
+  const hostDir = getHostDir('echo -markup "{Error}omnisharp host not running"');
+  readFifo(hostDir + '/out', cb);
+  writeFifo(hostDir + '/in', data);
+};
+
+if (require.main === module) {
+  const hostDir = getHostDir('omnisharp host dir not set');
+  const child = cp.spawn('omnisharp', process.argv.slice(2), {
+    stdio: [ 'pipe', 'pipe', process.stderr ]
   });
-  child.stderr.pipe(process.stderr);
   child.on('close', code => process.exit(code));
   process.on('SIGINT', () => process.exit(0));
   process.on('SIGTERM', () => process.exit(0));
   process.on('exit', () => child.kill());
-  return child;
-};
+  outputLoop(hostDir, child);
+  inputLoop(hostDir, child);
+}
 
-const request = (hostDir, body, cb) => {
-  if (hostDir == null || hostDir === '') {
-    process.stdout.write('echo -markup "{Error}omnisharp host not running"');
-    process.exit(0);
-  }
-  const rs = fs.createReadStream(hostDir + '/out', 'utf8');
-  onJsonLine(rs, response => {
-    rs.destroy();
-    cb(response);
-  });
-  const ws = fs.createWriteStream(hostDir + '/in', 'utf8')
-  ws.write(JSON.stringify(body) + '\n');
-  ws.end();
-};
-
-module.exports = request;
-
-if (require.main === module) host();
