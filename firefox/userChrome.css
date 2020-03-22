@@ -9,35 +9,51 @@
  *   - Density: Compact
  */
 
-#TabsToolbar {
-  --tab-min-height: 0;
-  min-height: 0 !important;
-}
-
-.titlebar-buttonbox-container {
-  position: absolute;
-}
-
-#TabsToolbar-customization-target {
-  margin-left: 40px;
-}
-
-#tabbrowser-tabs {
-  --tab-min-height: 0 !important;
-}
-
-.tabbrowser-tab {
-  height: 29px;
-}
-
-.tabbrowser-tab:only-of-type {
-  display: none;
+#nav-bar {
+  background: transparent !important;
+  margin-right: 70vw !important;
+  margin-top: -32px !important;
 }
 
 #forward-button, #back-button {
-  display: none;
+  display: none !important;
 }
 
-#urlbar-container {
-  margin-left: 74px;
+#page-action-buttons {
+  display: none !important;
 }
+
+#urlbar-go-button {
+  display: none !important;
+}
+
+#PanelUI-menu-button,
+.titlebar-spacer {
+  display: none !important;
+}
+
+#TabsToolbar {
+  margin-left: 30vw !important;
+}
+
+.tabbrowser-tab:only-of-type {
+  display: none !important;
+}
+
+#tabs-newtab-button {
+  display: none !important;
+}
+
+#new-tab-button {
+  display: none !important;
+}
+
+#alltabs-button {
+  display: none !important;
+}
+
+.scrollbutton-up,
+.scrollbutton-down {
+  display: none !important;
+}
+
